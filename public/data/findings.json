@@ -12,9 +12,9 @@
     "publicOriginalContributions": 2,
     "underCoordination": 8,
     "validatedDistinctFindings": 13,
-    "independentValidations": 4,
+    "independentValidations": 5,
     "researchQueue": 3,
-    "investigatedPackages": 17
+    "investigatedPackages": 18
   },
   "publicEntries": [
     {
@@ -146,6 +146,28 @@
         {
           "label": "Upstream fix 4ceeaa7",
           "url": "https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/smb.git/commit/?id=4ceeaa7b1a1a022ee329c4068339b3f44c1514a2"
+        }
+      ]
+    },
+    {
+      "id": "validation-libsndfile-opus-granule",
+      "recordId": "VALIDATION-OPUS-2019",
+      "title": "Malformed Opus granule returns uninitialized heap bytes",
+      "project": "libsndfile",
+      "status": "independent-validation",
+      "date": "2026-10-17",
+      "summary": "A decreasing end-of-stream granule position made the Opus reader expose more frames than the packet decoder produced. The extra samples came from a fresh, uninitialized allocation. Runtime validation confirmed the behavior on current source, but a 2019 code-review discussion had already identified the same branch, malformed-input condition, and data-exposure consequence.",
+      "evidence": {
+        "primitive": "Uninitialized heap contents copied through sf_readf_float",
+        "validation": "Valgrind allocation origin, 20/20 native marker recovery, regular-file replay, and matched controls",
+        "boundary": "Exact public prior art; no original-finder or CVE claim"
+      },
+      "credit": "Arthur Taylor identified the defect and disclosure consequence in the 2019 review; Ratnaker Gautam independently validated current-source reachability",
+      "tags": ["Ogg", "Opus", "uninitialized memory", "duplicate retired"],
+      "links": [
+        {
+          "label": "Original review discussion",
+          "url": "https://github.com/libsndfile/libsndfile/pull/463#discussion_r271205542"
         }
       ]
     }
