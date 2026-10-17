@@ -1,0 +1,175 @@
+{
+  "updated": "2026-10-17",
+  "profile": {
+    "name": "Ratnaker Gautam",
+    "role": "Vulnerability researcher",
+    "affiliation": "KU Leuven",
+    "github": "https://github.com/RATNAKER555",
+    "gitlab": "https://gitlab.kuleuven.be/u0190734"
+  },
+  "summary": {
+    "assignedCves": 0,
+    "publicOriginalContributions": 2,
+    "underCoordination": 8,
+    "validatedDistinctFindings": 12,
+    "independentValidations": 4,
+    "researchQueue": 2,
+    "investigatedPackages": 16
+  },
+  "publicEntries": [
+    {
+      "id": "public-lws-h2-disclosure",
+      "recordId": "RG-2026-12",
+      "title": "HTTP/2 client stale-heap disclosure",
+      "project": "libwebsockets",
+      "status": "publicly-disclosed",
+      "date": "2026-10-16",
+      "summary": "A fragmented response on an unsent client stream could alter shared header metadata before the invalid state was rejected. A later request read beyond its allocated-header buffer and transmitted stale client-process heap bytes to the peer. Upstream published the state-ordering fix with Reported-by credit.",
+      "evidence": {
+        "primitive": "CWE-125 out-of-bounds read; CWE-200 disclosure",
+        "validation": "ASan boundary report plus separate-process 5/5 trigger and 5/5 control",
+        "boundary": "Cleartext HTTP/2 prior knowledge; no write primitive or code execution shown"
+      },
+      "credit": "Original report by Ratnaker Gautam; upstream commit contains Reported-by credit",
+      "tags": ["HTTP/2", "HPACK", "confidentiality", "fixed upstream"],
+      "links": [
+        {
+          "label": "Upstream fix f93a7df",
+          "url": "https://github.com/warmcat/libwebsockets/commit/f93a7df942a66b02f15187c057ed2c0f006e4bca"
+        }
+      ]
+    },
+    {
+      "id": "public-ffmpeg-rtpmap-leak",
+      "recordId": "RG-2026-09",
+      "title": "Repeated SDP rtpmap handler-context leak",
+      "project": "FFmpeg",
+      "status": "engineering-bug",
+      "date": "2026-10-17",
+      "summary": "Repeated mappings for one RTP stream replaced an allocated dynamic protocol context without releasing the previous one. The submitted patch closes and frees the current context before installing its replacement.",
+      "evidence": {
+        "primitive": "Attacker-amplifiable allocation leak",
+        "validation": "LSan, public API loops, loopback RTSP, controls, and 209 enabled FATE tests",
+        "boundary": "Resource exhaustion; no memory corruption or code execution observed"
+      },
+      "credit": "Original public patch authored and signed off by Ratnaker Gautam; maintainer review pending",
+      "tags": ["RTSP", "SDP", "memory leak", "patch submitted"],
+      "links": [
+        {
+          "label": "FFmpeg pull request 25160",
+          "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/25160"
+        }
+      ]
+    },
+    {
+      "id": "validation-ffmpeg-rfc4175",
+      "recordId": "VALIDATION-02",
+      "title": "RFC4175 incomplete-frame heap disclosure",
+      "project": "FFmpeg",
+      "status": "independent-validation",
+      "date": "2026-10-16",
+      "summary": "The campaign reproduced an incomplete-frame disclosure, then retired it after matching the behavior to an earlier public upstream fix. It is retained as validation work and excluded from original-finder totals.",
+      "evidence": {
+        "primitive": "Uninitialized heap data in decoded frame output",
+        "validation": "Sanitizer and output-level reproduction matched to the public fix",
+        "boundary": "Prior public discovery; no original finder or CVE claim"
+      },
+      "credit": "Upstream fix credits Joshua Rogers and identifies AISLE-2026-0111-00477",
+      "tags": ["RFC4175", "confidentiality", "duplicate retired"],
+      "links": [
+        {
+          "label": "Upstream fix 3d6a441",
+          "url": "https://github.com/FFmpeg/FFmpeg/commit/3d6a441fd35e5891b0470af8c1bf216965116f31"
+        }
+      ]
+    },
+    {
+      "id": "validation-lws-cookie-uaf",
+      "recordId": "VALIDATION-03",
+      "title": "Cookie-cache lifetime violation",
+      "project": "libwebsockets",
+      "status": "independent-validation",
+      "date": "2026-10-16",
+      "summary": "The campaign independently reproduced the cache-result lifetime defect and its cross-origin behavioral consequence. Public history showed that the same defect had already been fixed, so the candidate was retired as an exact duplicate.",
+      "evidence": {
+        "primitive": "Heap use after free with stale cache result reuse",
+        "validation": "Sanitizer reproduction and production-path behavior matched to prior fix",
+        "boundary": "Prior public fix; retained only as independent validation"
+      },
+      "credit": "The upstream fix predates this campaign's disclosure review",
+      "tags": ["use after free", "HTTP client", "duplicate retired"],
+      "links": [
+        {
+          "label": "Upstream fix 329124ad",
+          "url": "https://github.com/warmcat/libwebsockets/commit/329124ad56b6841839d2c507966b5e9e30bc818b"
+        }
+      ]
+    },
+    {
+      "id": "validation-mupdf-linearization",
+      "recordId": "VALIDATION-06",
+      "title": "Invalid progressive linearization page count",
+      "project": "MuPDF",
+      "status": "independent-validation",
+      "date": "2026-10-16",
+      "summary": "The progressive-loading campaign reproduced the invalid page-count failure and then matched it to public Artifex Bug 709789 and its upstream correction. The result was removed from the new-report queue.",
+      "evidence": {
+        "primitive": "Invalid memory access during progressive PDF loading",
+        "validation": "Reproduction matched against public bug and fixing commit",
+        "boundary": "Prior public report; no original finder or CVE claim"
+      },
+      "credit": "Publicly tracked by Artifex as Bug 709789",
+      "tags": ["PDF", "progressive loading", "duplicate retired"],
+      "links": [
+        {
+          "label": "Upstream fix 21653743",
+          "url": "https://github.com/ArtifexSoftware/mupdf/commit/21653743b2117ccb7d333dc901e7705995aeca8f"
+        }
+      ]
+    },
+    {
+      "id": "validation-ksmbd-aapl-overflow",
+      "recordId": "VALIDATION-15",
+      "title": "AAPL CREATE response heap overflow",
+      "project": "Linux ksmbd",
+      "status": "independent-validation",
+      "date": "2026-10-17",
+      "summary": "An authenticated network replay independently reproduced a CREATE-response size error that crossed a kernel slab-object boundary. The maintainer identified an existing public fix, so this record documents validation rather than original discovery.",
+      "evidence": {
+        "primitive": "Authenticated remote kernel heap out-of-bounds write",
+        "validation": "KASAN network replay, maximal control, and patched-kernel replay",
+        "boundary": "Exact public duplicate; denial of service and corruption proved, no code execution"
+      },
+      "credit": "Original public patch by Jérémy Jean; Ratnaker Gautam independently reproduced and reported it",
+      "tags": ["SMB3", "kernel", "out-of-bounds write", "duplicate retired"],
+      "links": [
+        {
+          "label": "Upstream fix 4ceeaa7",
+          "url": "https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/smb.git/commit/?id=4ceeaa7b1a1a022ee329c4068339b3f44c1514a2"
+        }
+      ]
+    }
+  ],
+  "privateEntries": [
+    {
+      "id": "coordination-aggregate",
+      "title": "Active maintainer coordination",
+      "project": "Private",
+      "status": "under-coordination",
+      "date": "2026-10-17",
+      "count": 8,
+      "summary": "Submitted records with evidence and correspondence retained offline. Names, technical details, identifiers, and timelines remain withheld until each disclosure is public.",
+      "tags": ["details withheld", "offline evidence", "credit pending"]
+    },
+    {
+      "id": "queue-aggregate",
+      "title": "Research and reporting queue",
+      "project": "Multiple projects",
+      "status": "queued",
+      "date": "2026-10-17",
+      "count": 2,
+      "summary": "Validated candidates still below the publication gate. They remain private while practical impact, current-source status, and novelty are reviewed.",
+      "tags": ["impact review", "novelty review", "not yet claimed"]
+    }
+  ]
+}

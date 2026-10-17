@@ -1,0 +1,9 @@
+.DS_Store
+content/private.json
+private/
+*.local
+preview.log
+dist/
+site-build.tar.gz
+__pycache__/
+*.py[cod]

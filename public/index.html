@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Ratnaker Gautam's disclosure-safe vulnerability research ledger: public findings, coordinated reports, CVEs, fixes, and independent validations." />
+    <meta name="color-scheme" content="dark light" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Ratnaker Gautam · Vulnerability Research" />
+    <meta property="og:description" content="Source-led fuzzing, reproducible impact, and coordinated disclosure." />
+    <meta name="twitter:card" content="summary" />
+    <title>Ratnaker Gautam · Vulnerability Research</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#research">Skip to research ledger</a>
+    <div class="noise" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Ratnaker Gautam home">
+        <span class="wordmark-mark" aria-hidden="true">RG<span>/</span>VX</span>
+        <span class="wordmark-copy"><strong>Ratnaker Gautam</strong><small>Vulnerability Research</small></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#research">Ledger</a>
+        <a href="#private-record">Coordination</a>
+        <a href="#method">Method</a>
+      </nav>
+      <div class="header-links" aria-label="Research profiles">
+        <a id="header-github" href="https://github.com/RATNAKER555" target="_blank" rel="noreferrer noopener">GH ↗</a>
+        <a id="header-gitlab" href="https://gitlab.kuleuven.be/u0190734" target="_blank" rel="noreferrer noopener">GL ↗</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="availability"><span></span> PUBLIC RESEARCH LEDGER · 2026</div>
+          <p class="eyebrow">Native software · protocol state · memory safety</p>
+          <h1 id="hero-title">Finding the bugs between states.</h1>
+          <p class="lede">
+            I audit widely used native software, build stateful fuzzing harnesses
+            around attack paths that existing targets miss, and turn crashes into
+            reproducible evidence maintainers can act on.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#research">Explore the findings <span>↓</span></a>
+            <a class="button ghost" href="#method">See the pipeline</a>
+          </div>
+          <ul class="hero-proof" aria-label="Research principles">
+            <li><span>01</span> Current-source verification</li>
+            <li><span>02</span> Native impact demonstrations</li>
+            <li><span>03</span> Credit-aware disclosure</li>
+          </ul>
+        </div>
+
+        <div class="hero-console" aria-label="Research pipeline status">
+          <div class="console-bar">
+            <span>campaign://research-ledger</span>
+            <div aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div class="console-body">
+            <p><em>$</em> ./pipeline --mode source-led</p>
+            <div class="pipeline-stage"><span>01</span><strong>AUDIT</strong><small>ownership · bounds · state</small><b class="ok">mapped</b></div>
+            <div class="pipeline-stage"><span>02</span><strong>REACH</strong><small>public API · protocol sequence</small><b class="ok">covered</b></div>
+            <div class="pipeline-stage"><span>03</span><strong>PROVE</strong><small>sanitizer · native · controls</small><b class="ok">gated</b></div>
+            <div class="pipeline-stage"><span>04</span><strong>DISCLOSE</strong><small>duplicate check · fix · credit</small><b class="live">active</b></div>
+            <div class="console-output">
+              <span>policy</span>
+              <strong>PUBLIC DETAILS ONLY AFTER DISCLOSURE</strong>
+            </div>
+          </div>
+          <div class="console-corner" aria-hidden="true">0xRG</div>
+        </div>
+      </section>
+
+      <section class="metric-strip" aria-label="Research record summary">
+        <article><span class="metric-index">A</span><strong id="metric-cves">0</strong><p>assigned CVEs</p><small>verified public IDs</small></article>
+        <article><span class="metric-index">B</span><strong id="metric-public">—</strong><p>public contributions</p><small>original reports or patches</small></article>
+        <article><span class="metric-index">C</span><strong id="metric-coordinating">—</strong><p>under coordination</p><small>reported, details withheld</small></article>
+        <article><span class="metric-index">D</span><strong id="metric-validated">—</strong><p>distinct findings</p><small>after duplicate review</small></article>
+        <article><span class="metric-index">E</span><strong id="metric-validations">—</strong><p>independent validations</p><small>excluded from finder credit</small></article>
+      </section>
+
+      <section class="ledger-section" id="research" aria-labelledby="research-title">
+        <div class="section-kicker"><span>01</span><p>Public research record</p></div>
+        <div class="section-heading">
+          <div>
+            <h2 id="research-title">Evidence, status,<br />and attribution.</h2>
+          </div>
+          <div class="section-intro">
+            <p>Every detailed entry below has a public upstream reference. CVEs, disclosed findings, engineering fixes, and rediscoveries remain separate.</p>
+            <p class="last-reviewed">Ledger reviewed <time id="last-updated">—</time></p>
+          </div>
+        </div>
+
+        <div class="ledger-toolbar">
+          <div class="filters" role="group" aria-label="Filter public research entries">
+            <button class="filter active" data-filter="all" aria-pressed="true">All public</button>
+            <button class="filter" data-filter="cve-assigned" aria-pressed="false">CVEs</button>
+            <button class="filter" data-filter="publicly-disclosed" aria-pressed="false">Disclosed</button>
+            <button class="filter" data-filter="engineering-bug" aria-pressed="false">Public patches</button>
+            <button class="filter" data-filter="independent-validation" aria-pressed="false">Validations</button>
+          </div>
+          <label class="search-box">
+            <span>Search</span>
+            <input id="entry-search" type="search" placeholder="project, CWE, primitive…" autocomplete="off" />
+          </label>
+        </div>
+
+        <div class="record-layout">
+          <aside class="ledger-aside" aria-label="Ledger status overview">
+            <div class="aside-block">
+              <p class="aside-title">Public mix</p>
+              <div id="status-bars" class="status-bars"></div>
+            </div>
+            <div class="aside-block integrity-note">
+              <span aria-hidden="true">✓</span>
+              <p><strong>Disclosure gate active</strong>Private project names, triggers, source locations, and issue identifiers never enter this build.</p>
+            </div>
+          </aside>
+          <div>
+            <div id="entries" class="entries" aria-live="polite"></div>
+            <div id="empty-state" class="empty-state" hidden>
+              <span>QUERY / 00</span>
+              <h3>No public record matches.</h3>
+              <p>CVE entries will appear only after an identifier is assigned and publicly verifiable.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="private-section" id="private-record" aria-labelledby="private-title">
+        <div class="private-topline">
+          <div class="section-kicker light"><span>02</span><p>Coordinated disclosure</p></div>
+          <p class="classification"><i></i> REDACTED PUBLIC VIEW</p>
+        </div>
+        <div class="private-heading">
+          <h2 id="private-title">Work in progress,<br /><span>without the leak.</span></h2>
+          <p>
+            Active reports are represented here only by aggregate state. The
+            private ledger retains the real projects, evidence, correspondence,
+            and deadlines outside all public build artifacts.
+          </p>
+        </div>
+        <div id="private-entries" class="private-grid"></div>
+        <div class="redaction-rule" aria-hidden="true"><span></span><span></span><span></span></div>
+      </section>
+
+      <section class="method-section" id="method" aria-labelledby="method-title">
+        <div class="section-kicker"><span>03</span><p>Research system</p></div>
+        <div class="method-layout">
+          <div class="method-lead">
+            <h2 id="method-title">A crash is the start of the argument.</h2>
+            <p>
+              Findings enter the portfolio only after reachability, current-version,
+              native-impact, control, duplicate, and attribution checks.
+            </p>
+          </div>
+          <ol class="method-steps">
+            <li><span>01</span><div><h3>Read before fuzzing</h3><p>Map untrusted input to ownership, bounds, and lifecycle invariants. Compare the path against upstream harness coverage.</p></div><b>source audit</b></li>
+            <li><span>02</span><div><h3>Model valid state</h3><p>Retain authentication, protocol ordering, object graphs, and public API sequences long enough to reach deep code.</p></div><b>stateful harness</b></li>
+            <li><span>03</span><div><h3>Prove a real consequence</h3><p>Pair sanitizer diagnostics with native builds, matched controls, repeated trials, and application-visible effects.</p></div><b>impact gate</b></li>
+            <li><span>04</span><div><h3>Check novelty and credit</h3><p>Search current source, history, advisories, and trackers. Retire exact duplicates without claiming original discovery.</p></div><b>novelty gate</b></li>
+            <li><span>05</span><div><h3>Coordinate the fix</h3><p>Send minimal claims, portable reproduction, version evidence, and a tested fix direction through the project’s chosen route.</p></div><b>disclosure</b></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="principles-section" aria-labelledby="principles-title">
+        <div>
+          <p class="eyebrow">Research integrity</p>
+          <h2 id="principles-title">Strong claims need stronger evidence.</h2>
+        </div>
+        <div class="principle-grid">
+          <article><span>01</span><h3>No CVE inflation</h3><p>A CVE counter changes only when a public record exists. Requests and acknowledgements are tracked separately.</p></article>
+          <article><span>02</span><h3>No duplicate credit</h3><p>Independent rediscoveries stay visible as validation work and name the original public fix or finder.</p></article>
+          <article><span>03</span><h3>No speculative RCE</h3><p>Memory corruption, disclosure, denial of service, and code execution are reported as distinct evidence levels.</p></article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-mark">RG<span>/</span>VX</div>
+      <div><strong id="footer-name">Ratnaker Gautam</strong><p>Vulnerability research · KU Leuven</p></div>
+      <div class="footer-links">
+        <a href="data/findings.json">Public dataset ↗</a>
+        <a id="footer-github" href="https://github.com/RATNAKER555" target="_blank" rel="noreferrer noopener">GitHub ↗</a>
+        <a id="footer-gitlab" href="https://gitlab.kuleuven.be/u0190734" target="_blank" rel="noreferrer noopener">KU Leuven GitLab ↗</a>
+      </div>
+      <p class="footer-meta">Disclosure-reviewed dataset · <span id="year">2026</span></p>
+    </footer>
+
+    <noscript><p class="noscript">JavaScript is required to render the research ledger.</p></noscript>
+  </body>
+</html>
