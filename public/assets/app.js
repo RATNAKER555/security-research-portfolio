@@ -50,7 +50,7 @@ function appendTerm(list, term, description) {
 }
 
 function makePublicEntry(entry, index) {
-  const article = el("article", "entry reveal");
+  const article = el("article", "entry");
   article.dataset.status = entry.status;
 
   const number = el("span", "entry-number", String(index + 1).padStart(2, "0"));
@@ -104,7 +104,7 @@ function makePublicEntry(entry, index) {
 }
 
 function makePrivateEntry(entry) {
-  const card = el("article", "private-card reveal");
+  const card = el("article", "private-card");
   const top = el("div", "private-card-top");
   top.append(
     el("span", "", STATUS_LABELS[entry.status]),
