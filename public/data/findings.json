@@ -11,10 +11,10 @@
     "assignedCves": 0,
     "publicOriginalContributions": 2,
     "underCoordination": 8,
-    "validatedDistinctFindings": 12,
+    "validatedDistinctFindings": 13,
     "independentValidations": 4,
-    "researchQueue": 2,
-    "investigatedPackages": 16
+    "researchQueue": 3,
+    "investigatedPackages": 17
   },
   "publicEntries": [
     {
@@ -167,7 +167,7 @@
       "project": "Multiple projects",
       "status": "queued",
       "date": "2026-10-17",
-      "count": 2,
+      "count": 3,
       "summary": "Validated candidates still below the publication gate. They remain private while practical impact, current-source status, and novelty are reviewed.",
       "tags": ["impact review", "novelty review", "not yet claimed"]
     }
