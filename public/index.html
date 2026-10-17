@@ -62,24 +62,22 @@
           </ul>
         </div>
 
-        <div class="hero-console" aria-label="Research pipeline status">
-          <div class="console-bar">
-            <span>campaign://research-ledger</span>
-            <div aria-hidden="true"><i></i><i></i><i></i></div>
+        <figure class="evidence-figure" aria-labelledby="evidence-caption">
+          <figcaption id="evidence-caption">
+            <span>FIG. 01</span>
+            <p>Admission path for a finding</p>
+          </figcaption>
+          <ol class="evidence-chain">
+            <li><span>A</span><div><strong>Invariant</strong><small>ownership · bounds · state</small></div><b>mapped</b></li>
+            <li><span>B</span><div><strong>Reachability</strong><small>public API · valid protocol sequence</small></div><b>reproduced</b></li>
+            <li><span>C</span><div><strong>Consequence</strong><small>sanitizer · native build · matched control</small></div><b>measured</b></li>
+            <li><span>D</span><div><strong>Attribution</strong><small>history · advisories · current source</small></div><b>checked</b></li>
+          </ol>
+          <div class="evidence-rule">
+            <span>Admission rule</span>
+            <p>A claim advances only with retained artefacts. Project details stay offline until disclosure permits publication.</p>
           </div>
-          <div class="console-body">
-            <p><em>$</em> ./pipeline --mode source-led</p>
-            <div class="pipeline-stage"><span>01</span><strong>AUDIT</strong><small>ownership · bounds · state</small><b class="ok">mapped</b></div>
-            <div class="pipeline-stage"><span>02</span><strong>REACH</strong><small>public API · protocol sequence</small><b class="ok">covered</b></div>
-            <div class="pipeline-stage"><span>03</span><strong>PROVE</strong><small>sanitizer · native · controls</small><b class="ok">gated</b></div>
-            <div class="pipeline-stage"><span>04</span><strong>DISCLOSE</strong><small>duplicate check · fix · credit</small><b class="live">active</b></div>
-            <div class="console-output">
-              <span>policy</span>
-              <strong>PUBLIC DETAILS ONLY AFTER DISCLOSURE</strong>
-            </div>
-          </div>
-          <div class="console-corner" aria-hidden="true">0xRG</div>
-        </div>
+        </figure>
       </section>
 
       <section class="metric-strip" aria-label="Research record summary">
