@@ -301,9 +301,10 @@ function setMetrics(summary) {
 }
 
 function setTaxonomy(taxonomy) {
-  document.querySelector("#taxonomy-release").textContent =
-    taxonomy.name + " " + taxonomy.version;
+  const release = document.querySelector("#taxonomy-release");
   const published = document.querySelector("#taxonomy-published");
+  if (!release || !published) return;
+  release.textContent = taxonomy.name + " " + taxonomy.version;
   published.dateTime = taxonomy.published;
   published.textContent = formatDate(taxonomy.published);
 }

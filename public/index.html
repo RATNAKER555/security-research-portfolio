@@ -32,8 +32,6 @@
       <nav aria-label="Primary navigation">
         <a href="#research">Research</a>
         <a href="#tracking">Tracking</a>
-        <a href="#programme">Programme</a>
-        <a href="#method">Method</a>
       </nav>
       <div class="header-links" aria-label="Research profiles">
         <a id="header-github" href="https://github.com/RATNAKER555" target="_blank" rel="noreferrer noopener">GH ↗</a>
@@ -54,7 +52,6 @@
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#research">Research record <span>↓</span></a>
-            <a class="button ghost" href="#programme">Research programme</a>
           </div>
           <ul class="hero-proof" aria-label="Research principles">
             <li><span>01</span> Reproducible experiments</li>
@@ -225,82 +222,6 @@
         <div id="private-entries" class="private-grid"></div>
       </section>
 
-      <section class="programme-section" id="programme" aria-labelledby="programme-title">
-        <div class="section-kicker"><span>04</span><p>Research programme</p></div>
-        <div class="programme-heading">
-          <h2 id="programme-title">Software, protocols, and products.</h2>
-          <p>
-            The programme studies security across abstraction layers: from
-            implementation defects in native code to protocol state and observable
-            behaviour on deployed connected products.
-          </p>
-        </div>
-        <div class="programme-grid">
-          <article>
-            <span>I</span>
-            <h3>Native software</h3>
-            <p>Source-led analysis and fuzzing of libraries, parsers, clients, and kernel subsystems, with current-version reproduction and matched controls.</p>
-          </article>
-          <article>
-            <span>II</span>
-            <h3>Protocol platforms</h3>
-            <p>Stateful and over-the-air testing of authentication, commissioning, session, and cross-layer behaviour. Thread and Matter are current doctoral research settings.</p>
-          </article>
-          <article>
-            <span>III</span>
-            <h3>Connected products</h3>
-            <p>Controlled black-box evaluation on physical products, linking protocol-level stimuli to repeatable device and application-level observations.</p>
-          </article>
-        </div>
-        <p class="programme-note"><strong>Scope note.</strong> Programme descriptions identify research directions. They do not imply a vulnerability result; findings enter the public record only after validation, attribution review, and disclosure.</p>
-      </section>
-
-      <section class="method-section" id="method" aria-labelledby="method-title">
-        <div class="section-kicker"><span>05</span><p>Research method</p></div>
-        <div class="method-layout">
-          <div class="method-lead">
-            <h2 id="method-title">From system model to reproducible evidence.</h2>
-            <p>
-              The same evidence discipline is used for source-level, networked,
-              and physical-device experiments.
-            </p>
-          </div>
-          <ol class="method-steps">
-            <li><span>01</span><div><h3>Define the system</h3><p>Map interfaces, trust boundaries, ownership, protocol states, and observable outcomes before constructing experiments.</p></div><b>model</b></li>
-            <li><span>02</span><div><h3>Reach the relevant state</h3><p>Preserve valid API, authentication, commissioning, and protocol sequences while varying the conditions under study.</p></div><b>experiment</b></li>
-            <li><span>03</span><div><h3>Measure the consequence</h3><p>Use instrumentation, native builds, repeated trials, and matched controls to separate defects from harness artefacts.</p></div><b>evidence</b></li>
-            <li><span>04</span><div><h3>Establish novelty</h3><p>Compare current source, history, advisories, issue trackers, and related literature before assigning discovery credit.</p></div><b>context</b></li>
-            <li><span>05</span><div><h3>Coordinate remediation</h3><p>Report the observed behaviour, conditions, reproducible evidence, and tested fix direction through the project’s chosen route.</p></div><b>disclosure</b></li>
-          </ol>
-        </div>
-        <aside class="taxonomy-method" aria-labelledby="taxonomy-title">
-          <div class="taxonomy-heading">
-            <div>
-              <p>Taxonomy protocol</p>
-              <h3 id="taxonomy-title">Evidence-led CWE classification.</h3>
-            </div>
-            <span><b id="taxonomy-release">CWE —</b><small>published <time id="taxonomy-published">—</time></small></span>
-          </div>
-          <div class="taxonomy-grid">
-            <div><strong>Primary</strong><p>The earliest demonstrated root cause is mapped to the most specific MITRE entry supported by the public source and retained experiment.</p></div>
-            <div><strong>Consequence</strong><p>A second CWE appears only when a downstream weakness was observed independently; confidentiality and availability effects remain impact statements.</p></div>
-            <div><strong>Uncertainty</strong><p>When the evidence cannot support a specific mapping, the record says <em>pending classification</em>. Private aggregate records are not classified publicly.</p></div>
-          </div>
-          <p class="taxonomy-provenance">IDs, official titles, and mapping eligibility are checked during every build against a locally pinned subset of the MITRE CWE catalog. The source archive, version, publication date, and SHA-256 are retained with the validator. <a href="https://cwe.mitre.org/documents/cwe_usage/guidance.html" target="_blank" rel="noreferrer noopener">MITRE root-cause mapping guidance ↗</a></p>
-        </aside>
-      </section>
-
-      <section class="principles-section" aria-labelledby="principles-title">
-        <div>
-          <p class="eyebrow">Research standards</p>
-          <h2 id="principles-title">Reproducibility, attribution, and scope.</h2>
-        </div>
-        <div class="principle-grid">
-          <article><span>01</span><h3>Reproducible evidence</h3><p>Records identify the tested version, experimental boundary, controls, and observable result.</p></article>
-          <article><span>02</span><h3>Traceable attribution</h3><p>Independent rediscoveries remain validation studies and cite the earlier public report or fix.</p></article>
-          <article><span>03</span><h3>Calibrated claims</h3><p>Each entry states what was observed, the conditions under which it occurred, and what remains uncertain.</p></article>
-        </div>
-      </section>
     </main>
 
     <footer>
