@@ -1,14 +1,14 @@
 # Security research ledger
 
-Ratnaker Gautam's disclosure-safe vulnerability research portfolio. The site
-uses a compact, machine-readable ledger to distinguish original public work,
-assigned CVEs, coordinated reports, queued research, and independent
-validations of prior public findings.
+Ratnaker Gautam's research record in software, protocol, and connected-product
+security. The site combines a public evidence ledger with a concise description
+of the wider doctoral research programme, including stateful and over-the-air
+testing of Thread and Matter systems.
 
-The presentation is deliberately closer to an academic lab record than a
-promotional portfolio. Every detailed finding includes a public primary
-source, an observed primitive, the validation method, an explicit claim
-boundary, and an attribution statement.
+The presentation follows an academic lab-record model. Every detailed finding
+includes a public primary source, the observed behaviour, the validation
+method, the tested scope, and an attribution statement. Programme descriptions
+identify research directions and remain separate from evidence-backed results.
 
 ## Local validation
 

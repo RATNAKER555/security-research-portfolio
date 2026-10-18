@@ -263,7 +263,7 @@ def main() -> None:
     validate_summary(payload.get("summary"), public_entries, private_entries)
     print(
         "PASS: "
-        f"{len(public_entries)} public records and {len(private_entries)} redacted aggregates "
+        f"{len(public_entries)} public records and {len(private_entries)} aggregate workflow records "
         f"validated from {DATA}"
     )
 

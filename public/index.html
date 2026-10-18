@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Ratnaker Gautam's disclosure-safe vulnerability research ledger: public findings, coordinated reports, CVEs, fixes, and independent validations." />
+    <meta name="description" content="Ratnaker Gautam's research record in software, protocol, and connected-product security." />
     <meta name="color-scheme" content="dark light" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Ratnaker Gautam · Vulnerability Research" />
-    <meta property="og:description" content="Source-led fuzzing, reproducible impact, and coordinated disclosure." />
+    <meta property="og:title" content="Ratnaker Gautam · Security Research" />
+    <meta property="og:description" content="Empirical security research across software, protocols, and connected products." />
     <meta property="og:image" content="https://u0190734.pages.gitlab.kuleuven.be/security-research-portfolio/assets/og-card.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Ratnaker Gautam vulnerability research ledger" />
+    <meta property="og:image:alt" content="Ratnaker Gautam empirical systems security research record" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://u0190734.pages.gitlab.kuleuven.be/security-research-portfolio/assets/og-card.png" />
-    <title>Ratnaker Gautam · Vulnerability Research</title>
+    <title>Ratnaker Gautam · Security Research</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="stylesheet" href="assets/styles.css" />
@@ -26,12 +26,12 @@
 
     <header class="site-header">
       <a class="wordmark" href="#top" aria-label="Ratnaker Gautam home">
-        <span class="wordmark-mark" aria-hidden="true">RG<span>/</span>VX</span>
-        <span class="wordmark-copy"><strong>Ratnaker Gautam</strong><small>Vulnerability Research</small></span>
+        <span class="wordmark-mark" aria-hidden="true">RG</span>
+        <span class="wordmark-copy"><strong>Ratnaker Gautam</strong><small>Systems Security Research</small></span>
       </a>
       <nav aria-label="Primary navigation">
-        <a href="#research">Ledger</a>
-        <a href="#private-record">Coordination</a>
+        <a href="#research">Research</a>
+        <a href="#programme">Programme</a>
         <a href="#method">Method</a>
       </nav>
       <div class="header-links" aria-label="Research profiles">
@@ -43,59 +43,59 @@
     <main id="top">
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <div class="availability"><span></span> PUBLIC RESEARCH LEDGER · 2026</div>
-          <p class="eyebrow">Native software · protocol state · memory safety</p>
-          <h1 id="hero-title">Finding the bugs between states.</h1>
+          <div class="availability"><span></span> RESEARCH RECORD · 2026</div>
+          <p class="eyebrow">Software systems · network protocols · connected products</p>
+          <h1 id="hero-title">Empirical security research across system boundaries.</h1>
           <p class="lede">
-            I audit widely used native software, build stateful fuzzing harnesses
-            around attack paths that existing targets miss, and turn crashes into
-            reproducible evidence maintainers can act on.
+            I study how implementation, protocol, and product states interact.
+            My work combines source analysis, stateful and over-the-air fuzzing,
+            controlled experiments, and coordinated disclosure.
           </p>
           <div class="hero-actions">
-            <a class="button primary" href="#research">Explore the findings <span>↓</span></a>
-            <a class="button ghost" href="#method">See the pipeline</a>
+            <a class="button primary" href="#research">Research record <span>↓</span></a>
+            <a class="button ghost" href="#programme">Research programme</a>
           </div>
           <ul class="hero-proof" aria-label="Research principles">
-            <li><span>01</span> Current-source verification</li>
-            <li><span>02</span> Native impact demonstrations</li>
-            <li><span>03</span> Credit-aware disclosure</li>
+            <li><span>01</span> Reproducible experiments</li>
+            <li><span>02</span> Explicit scope and uncertainty</li>
+            <li><span>03</span> Traceable attribution</li>
           </ul>
         </div>
 
         <figure class="evidence-figure" aria-labelledby="evidence-caption">
           <figcaption id="evidence-caption">
             <span>FIG. 01</span>
-            <p>Admission path for a finding</p>
+            <p>Evidence chain for a research claim</p>
           </figcaption>
           <ol class="evidence-chain">
-            <li><span>A</span><div><strong>Invariant</strong><small>ownership · bounds · state</small></div><b>mapped</b></li>
-            <li><span>B</span><div><strong>Reachability</strong><small>public API · valid protocol sequence</small></div><b>reproduced</b></li>
-            <li><span>C</span><div><strong>Consequence</strong><small>sanitizer · native build · matched control</small></div><b>measured</b></li>
-            <li><span>D</span><div><strong>Attribution</strong><small>history · advisories · current source</small></div><b>checked</b></li>
+            <li><span>A</span><div><strong>System model</strong><small>interfaces · states · trust boundaries</small></div><b>defined</b></li>
+            <li><span>B</span><div><strong>Reachability</strong><small>public API · protocol sequence · device path</small></div><b>reproduced</b></li>
+            <li><span>C</span><div><strong>Measurement</strong><small>instrumentation · native build · matched control</small></div><b>observed</b></li>
+            <li><span>D</span><div><strong>Context</strong><small>current source · prior art · disclosure status</small></div><b>established</b></li>
           </ol>
           <div class="evidence-rule">
-            <span>Admission rule</span>
-            <p>A claim advances only with retained artefacts. Project details stay offline until disclosure permits publication.</p>
+            <span>Record rule</span>
+            <p>Detailed claims require retained artefacts and a public source. Ongoing work appears only in aggregate until disclosure permits publication.</p>
           </div>
         </figure>
       </section>
 
       <section class="metric-strip" aria-label="Research record summary">
-        <article><span class="metric-index">A</span><strong id="metric-cves">0</strong><p>assigned CVEs</p><small>verified public IDs</small></article>
-        <article><span class="metric-index">B</span><strong id="metric-public">—</strong><p>public contributions</p><small>original reports or patches</small></article>
-        <article><span class="metric-index">C</span><strong id="metric-coordinating">—</strong><p>under coordination</p><small>reported, details withheld</small></article>
-        <article><span class="metric-index">D</span><strong id="metric-validated">—</strong><p>distinct findings</p><small>after duplicate review</small></article>
-        <article><span class="metric-index">E</span><strong id="metric-validations">—</strong><p>independent validations</p><small>excluded from finder credit</small></article>
+        <article><span class="metric-index">A</span><strong id="metric-public">—</strong><p>public records</p><small>original reports or patches</small></article>
+        <article><span class="metric-index">B</span><strong id="metric-coordinating">—</strong><p>active disclosures</p><small>with maintainers</small></article>
+        <article><span class="metric-index">C</span><strong id="metric-validated">—</strong><p>validated findings</p><small>after prior-art review</small></article>
+        <article><span class="metric-index">D</span><strong id="metric-validations">—</strong><p>validation studies</p><small>prior public findings</small></article>
+        <article><span class="metric-index">E</span><strong id="metric-cves">0</strong><p>assigned CVEs</p><small>publicly verifiable</small></article>
       </section>
 
       <section class="ledger-section" id="research" aria-labelledby="research-title">
-        <div class="section-kicker"><span>01</span><p>Public research record</p></div>
+        <div class="section-kicker"><span>01</span><p>Research record</p></div>
         <div class="section-heading">
           <div>
-            <h2 id="research-title">Evidence, status,<br />and attribution.</h2>
+            <h2 id="research-title">Public findings and validation studies.</h2>
           </div>
           <div class="section-intro">
-            <p>Every detailed entry below has a public upstream reference. CVEs, disclosed findings, engineering fixes, and rediscoveries remain separate.</p>
+            <p>Each detailed entry has a public primary source. Original findings, engineering fixes, assigned identifiers, and independent validations remain separate.</p>
             <p class="last-reviewed">Ledger reviewed <time id="last-updated">—</time></p>
           </div>
         </div>
@@ -117,20 +117,20 @@
         <div class="record-layout">
           <aside class="ledger-aside" aria-label="Ledger status overview">
             <div class="aside-block">
-              <p class="aside-title">Public mix</p>
+              <p class="aside-title">Record composition</p>
               <div id="status-bars" class="status-bars"></div>
             </div>
             <div class="aside-block integrity-note">
               <span aria-hidden="true">✓</span>
-              <p><strong>Disclosure gate active</strong>Private project names, triggers, source locations, and issue identifiers never enter this build.</p>
+              <p><strong>Publication boundary</strong>Unpublished technical details remain outside the public build and are added only when coordinated disclosure permits.</p>
             </div>
           </aside>
           <div>
             <div id="entries" class="entries" aria-live="polite"></div>
             <div id="empty-state" class="empty-state" hidden>
               <span>QUERY / 00</span>
-              <h3>No public record matches.</h3>
-              <p>CVE entries will appear only after an identifier is assigned and publicly verifiable.</p>
+              <h3>No record matches this query.</h3>
+              <p>Adjust the filter or search terms to return to the full public record.</p>
             </div>
           </div>
         </div>
@@ -138,57 +138,86 @@
 
       <section class="private-section" id="private-record" aria-labelledby="private-title">
         <div class="private-topline">
-          <div class="section-kicker light"><span>02</span><p>Coordinated disclosure</p></div>
-          <p class="classification"><i></i> REDACTED PUBLIC VIEW</p>
+          <div class="section-kicker light"><span>02</span><p>Ongoing work</p></div>
+          <p class="classification"><i></i> AGGREGATE COUNTS</p>
         </div>
         <div class="private-heading">
-          <h2 id="private-title">Work in progress,<br /><span>without the leak.</span></h2>
+          <h2 id="private-title">Research and disclosure in progress.</h2>
           <p>
-            Active reports are represented here only by aggregate state. The
-            private ledger retains the real projects, evidence, correspondence,
-            and deadlines outside all public build artifacts.
+            Counts document active work without identifying projects before
+            maintainers complete disclosure. Technical evidence and correspondence
+            remain in the offline research record.
           </p>
         </div>
         <div id="private-entries" class="private-grid"></div>
-        <div class="redaction-rule" aria-hidden="true"><span></span><span></span><span></span></div>
+      </section>
+
+      <section class="programme-section" id="programme" aria-labelledby="programme-title">
+        <div class="section-kicker"><span>03</span><p>Research programme</p></div>
+        <div class="programme-heading">
+          <h2 id="programme-title">Software, protocols, and products.</h2>
+          <p>
+            The programme studies security across abstraction layers: from
+            implementation defects in native code to protocol state and observable
+            behaviour on deployed connected products.
+          </p>
+        </div>
+        <div class="programme-grid">
+          <article>
+            <span>I</span>
+            <h3>Native software</h3>
+            <p>Source-led analysis and fuzzing of libraries, parsers, clients, and kernel subsystems, with current-version reproduction and matched controls.</p>
+          </article>
+          <article>
+            <span>II</span>
+            <h3>Protocol platforms</h3>
+            <p>Stateful and over-the-air testing of authentication, commissioning, session, and cross-layer behaviour. Thread and Matter are current doctoral research settings.</p>
+          </article>
+          <article>
+            <span>III</span>
+            <h3>Connected products</h3>
+            <p>Controlled black-box evaluation on physical products, linking protocol-level stimuli to repeatable device and application-level observations.</p>
+          </article>
+        </div>
+        <p class="programme-note"><strong>Scope note.</strong> Programme descriptions identify research directions. They do not imply a vulnerability result; findings enter the public record only after validation, attribution review, and disclosure.</p>
       </section>
 
       <section class="method-section" id="method" aria-labelledby="method-title">
-        <div class="section-kicker"><span>03</span><p>Research system</p></div>
+        <div class="section-kicker"><span>04</span><p>Research method</p></div>
         <div class="method-layout">
           <div class="method-lead">
-            <h2 id="method-title">A crash is the start of the argument.</h2>
+            <h2 id="method-title">From system model to reproducible evidence.</h2>
             <p>
-              Findings enter the portfolio only after reachability, current-version,
-              native-impact, control, duplicate, and attribution checks.
+              The same evidence discipline is used for source-level, networked,
+              and physical-device experiments.
             </p>
           </div>
           <ol class="method-steps">
-            <li><span>01</span><div><h3>Read before fuzzing</h3><p>Map untrusted input to ownership, bounds, and lifecycle invariants. Compare the path against upstream harness coverage.</p></div><b>source audit</b></li>
-            <li><span>02</span><div><h3>Model valid state</h3><p>Retain authentication, protocol ordering, object graphs, and public API sequences long enough to reach deep code.</p></div><b>stateful harness</b></li>
-            <li><span>03</span><div><h3>Prove a real consequence</h3><p>Pair sanitizer diagnostics with native builds, matched controls, repeated trials, and application-visible effects.</p></div><b>impact gate</b></li>
-            <li><span>04</span><div><h3>Check novelty and credit</h3><p>Search current source, history, advisories, and trackers. Retire exact duplicates without claiming original discovery.</p></div><b>novelty gate</b></li>
-            <li><span>05</span><div><h3>Coordinate the fix</h3><p>Send minimal claims, portable reproduction, version evidence, and a tested fix direction through the project’s chosen route.</p></div><b>disclosure</b></li>
+            <li><span>01</span><div><h3>Define the system</h3><p>Map interfaces, trust boundaries, ownership, protocol states, and observable outcomes before constructing experiments.</p></div><b>model</b></li>
+            <li><span>02</span><div><h3>Reach the relevant state</h3><p>Preserve valid API, authentication, commissioning, and protocol sequences while varying the conditions under study.</p></div><b>experiment</b></li>
+            <li><span>03</span><div><h3>Measure the consequence</h3><p>Use instrumentation, native builds, repeated trials, and matched controls to separate defects from harness artefacts.</p></div><b>evidence</b></li>
+            <li><span>04</span><div><h3>Establish novelty</h3><p>Compare current source, history, advisories, issue trackers, and related literature before assigning discovery credit.</p></div><b>context</b></li>
+            <li><span>05</span><div><h3>Coordinate remediation</h3><p>Report the observed behaviour, conditions, reproducible evidence, and tested fix direction through the project’s chosen route.</p></div><b>disclosure</b></li>
           </ol>
         </div>
       </section>
 
       <section class="principles-section" aria-labelledby="principles-title">
         <div>
-          <p class="eyebrow">Research integrity</p>
-          <h2 id="principles-title">Strong claims need stronger evidence.</h2>
+          <p class="eyebrow">Research standards</p>
+          <h2 id="principles-title">Reproducibility, attribution, and scope.</h2>
         </div>
         <div class="principle-grid">
-          <article><span>01</span><h3>No CVE inflation</h3><p>A CVE counter changes only when a public record exists. Requests and acknowledgements are tracked separately.</p></article>
-          <article><span>02</span><h3>No duplicate credit</h3><p>Independent rediscoveries stay visible as validation work and name the original public fix or finder.</p></article>
-          <article><span>03</span><h3>No speculative RCE</h3><p>Memory corruption, disclosure, denial of service, and code execution are reported as distinct evidence levels.</p></article>
+          <article><span>01</span><h3>Reproducible evidence</h3><p>Records identify the tested version, experimental boundary, controls, and observable result.</p></article>
+          <article><span>02</span><h3>Traceable attribution</h3><p>Independent rediscoveries remain validation studies and cite the earlier public report or fix.</p></article>
+          <article><span>03</span><h3>Calibrated claims</h3><p>Each entry states what was observed, the conditions under which it occurred, and what remains uncertain.</p></article>
         </div>
       </section>
     </main>
 
     <footer>
-      <div class="footer-mark">RG<span>/</span>VX</div>
-      <div><strong id="footer-name">Ratnaker Gautam</strong><p>Vulnerability research · KU Leuven</p></div>
+      <div class="footer-mark">RG</div>
+      <div><strong id="footer-name">Ratnaker Gautam</strong><p>Software, protocol, and product security · KU Leuven</p></div>
       <div class="footer-links">
         <a href="data/findings.json">Public dataset ↗</a>
         <a id="footer-github" href="https://github.com/RATNAKER555" target="_blank" rel="noreferrer noopener">GitHub ↗</a>

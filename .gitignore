@@ -7,3 +7,5 @@ dist/
 site-build.tar.gz
 __pycache__/
 *.py[cod]
+
+.openai/

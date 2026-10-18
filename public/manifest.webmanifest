@@ -1,10 +1,10 @@
 {
-  "name": "Ratnaker Gautam · Vulnerability Research",
-  "short_name": "RG / VX",
+  "name": "Ratnaker Gautam · Security Research",
+  "short_name": "RG Research",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#081210",
-  "theme_color": "#081210",
+  "background_color": "#f7f5ef",
+  "theme_color": "#172033",
   "icons": [
     {"src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml"}
   ]

@@ -1,6 +1,6 @@
 # Publishing the reviewed ledger
 
-All three deployments must originate from the same validated commit. Do not
+Every public deployment must originate from the same validated commit. Do not
 copy private evidence into this repository while preparing a release.
 
 ## Pre-publication review

@@ -5,8 +5,8 @@ const STATUS_LABELS = Object.freeze({
   "publicly-disclosed": "Disclosed finding",
   "engineering-bug": "Public patch",
   "independent-validation": "Independent validation",
-  "under-coordination": "Under coordination",
-  queued: "Research queue"
+  "under-coordination": "Maintainer coordination",
+  queued: "Candidate review"
 });
 
 const STATUS_BAR_LABELS = Object.freeze({
@@ -76,7 +76,7 @@ function makePublicEntry(entry, index) {
   const evidence = el("dl", "entry-evidence");
   appendTerm(evidence, "Observed primitive", entry.evidence.primitive);
   appendTerm(evidence, "Validation", entry.evidence.validation);
-  appendTerm(evidence, "Claim boundary", entry.evidence.boundary);
+  appendTerm(evidence, "Scope", entry.evidence.boundary);
 
   const credit = el("p", "entry-credit");
   credit.append(

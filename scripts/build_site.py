@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and create the static deployment tree used by Sites."""
+"""Validate and create the static deployment tree for Pages hosting."""
 
 from __future__ import annotations
 

@@ -21,7 +21,7 @@ vulnerability.
 to a prior public report or fix. It identifies the prior source, stays outside
 original-finder totals, and never implies CVE credit.
 
-## Redacted categories
+## Aggregate categories
 
 **Under coordination** is an aggregate count of reports already sent to
 maintainers.
@@ -47,12 +47,19 @@ Each public record states three separate things:
 1. **Observed primitive**: the memory or resource behavior actually measured.
 2. **Validation**: the sanitizer, native replay, control, public API, or test
    evidence supporting the claim.
-3. **Claim boundary**: the strongest implication that the evidence does not
-   cross.
+3. **Scope**: the conditions under which the result was observed and the
+   limits of the experiment.
 
-Memory corruption is not automatically code execution. A crash is not
-automatically denial of service in a deployed application. Remote reachability
-depends on the application's exposure and preconditions.
+Scope statements should describe the tested system and measured effect. Avoid
+generic lists of outcomes that were not part of the experiment.
+
+## Research-programme descriptions
+
+The site may identify broad, established research directions such as native
+software analysis, Thread and Matter protocol testing, or connected-product
+evaluation. These descriptions must be framed as programme scope. They must
+not imply that an experiment, vulnerability, product finding, or publication
+exists before the supporting result is public.
 
 ## Publication gate
 
