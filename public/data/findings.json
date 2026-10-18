@@ -10,11 +10,11 @@
   "summary": {
     "assignedCves": 0,
     "publicOriginalContributions": 3,
-    "underCoordination": 12,
-    "originalFindings": 19,
+    "underCoordination": 13,
+    "originalFindings": 20,
     "independentValidations": 5,
     "researchQueue": 4,
-    "trackedResearchRecords": 24
+    "trackedResearchRecords": 25
   },
   "publicEntries": [
     {
@@ -324,7 +324,7 @@
       "project": "Private",
       "status": "under-coordination",
       "date": "2026-10-18",
-      "count": 12,
+      "count": 13,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
