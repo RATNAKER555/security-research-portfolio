@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-18T15:11:12Z",
+  "dataDate": "2026-10-18",
+  "mode": "live",
+  "summary": {
+    "tracked": 3,
+    "active": 3,
+    "followUpDue": 0,
+    "creditConfirmed": 3,
+    "cves": 0,
+    "checkErrors": 0,
+    "newCreditDiscoveries": 0
+  },
+  "records": [
+    {
+      "id": "RG-2026-12",
+      "findingId": "public-lws-h2-disclosure",
+      "project": "libwebsockets",
+      "title": "HTTP/2 client stale-heap disclosure",
+      "reportedOn": "2026-10-16",
+      "lastPublicActivityOn": "2026-10-16",
+      "followUpOn": "2026-10-23",
+      "nextAction": "Monitor the public record for an advisory or CVE assignment.",
+      "sourceUrl": "https://github.com/warmcat/libwebsockets/commit/f93a7df942a66b02f15187c057ed2c0f006e4bca",
+      "stage": "fixed-upstream",
+      "commit": "f93a7df942a66b02f15187c057ed2c0f006e4bca",
+      "relatedSources": [
+        {
+          "commit": "8d98cbc52c3073f85e900ca0bbdcf3c63072c878",
+          "url": "https://github.com/warmcat/libwebsockets/commit/8d98cbc52c3073f85e900ca0bbdcf3c63072c878",
+          "creditState": "confirmed",
+          "creditEvidence": "Reported-by: Ratnaker Gautam",
+          "checkedOn": "2026-10-17"
+        }
+      ],
+      "checkState": "verified",
+      "checkDetail": "Public commit metadata fetched from GitHub",
+      "creditState": "confirmed",
+      "creditEvidence": "Reported-by: Ratnaker Gautam",
+      "upstreamState": "fixed-upstream",
+      "locations": [
+        "main",
+        "main-dev"
+      ],
+      "cves": [],
+      "cveCheckState": "verified",
+      "followUpState": "due-soon"
+    },
+    {
+      "id": "RG-2026-09",
+      "findingId": "public-ffmpeg-rtpmap-leak",
+      "project": "FFmpeg",
+      "title": "Repeated SDP rtpmap handler-context leak",
+      "reportedOn": "2026-10-17",
+      "lastPublicActivityOn": "2026-10-17",
+      "followUpOn": "2026-10-24",
+      "nextAction": "Review maintainer feedback and revise the patch if requested.",
+      "sourceUrl": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/25160",
+      "stage": "patch-review",
+      "commit": "6b321c719023b1c3e512bdb6a833cf6d036e1eaf",
+      "relatedSources": [],
+      "checkState": "verified",
+      "checkDetail": "Pull request and head commit fetched from FFmpeg Forgejo",
+      "creditState": "confirmed",
+      "creditEvidence": "Author: Ratnaker Gautam; Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+      "upstreamState": "patch-review",
+      "locations": [
+        "pull request 25160"
+      ],
+      "cves": [],
+      "cveCheckState": "verified",
+      "followUpState": "due-soon"
+    },
+    {
+      "id": "RG-2026-14",
+      "findingId": "public-ksmbd-secdesc-offset-wrap",
+      "project": "Linux ksmbd",
+      "title": "Security descriptor offset wrap on 32-bit kernels",
+      "reportedOn": "2026-10-17",
+      "lastPublicActivityOn": "2026-10-17",
+      "followUpOn": "2026-10-25",
+      "nextAction": "Monitor promotion to for-next, mainline, stable branches, and public CVE handling.",
+      "sourceUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3f392e333b8b7bc95dff156463fe374ac8e043f6",
+      "stage": "fix-queued",
+      "commit": "3f392e333b8b7bc95dff156463fe374ac8e043f6",
+      "relatedSources": [],
+      "checkState": "verified",
+      "checkDetail": "Commit and recent branch history checked (ksmbd-for-next:500, for-next:500, master:500)",
+      "creditState": "confirmed",
+      "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+      "upstreamState": "fix-queued",
+      "locations": [
+        "ksmbd-for-next"
+      ],
+      "cves": [],
+      "cveCheckState": "verified",
+      "followUpState": "due-soon"
+    }
+  ],
+  "discoveries": [],
+  "discoveryErrors": []
+}

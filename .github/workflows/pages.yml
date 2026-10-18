@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: "23 05 * * *"
 
 permissions:
   contents: read
@@ -26,7 +28,15 @@ jobs:
         with:
           python-version: "3.x"
       - name: Validate disclosure-safe data
-        run: python3 scripts/validate_public_data.py
+        run: |
+          python3 -m unittest discover -s tests -v
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            python3 scripts/monitor_public_credit.py --check-cves
+          else
+            python3 scripts/monitor_public_credit.py
+          fi
+          python3 scripts/validate_public_data.py
+          python3 scripts/validate_public_tracker.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

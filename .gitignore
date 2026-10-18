@@ -4,6 +4,7 @@ private/
 *.local
 preview.log
 dist/
+dist-private/
 site-build.tar.gz
 __pycache__/
 *.py[cod]

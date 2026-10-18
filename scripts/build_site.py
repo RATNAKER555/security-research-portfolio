@@ -15,11 +15,12 @@ DIST = ROOT / "dist"
 
 
 def main() -> None:
-    subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "validate_public_data.py")],
-        cwd=ROOT,
-        check=True,
-    )
+    for validator in ("validate_public_data.py", "validate_public_tracker.py"):
+        subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / validator)],
+            cwd=ROOT,
+            check=True,
+        )
     if DIST.exists():
         shutil.rmtree(DIST)
     shutil.copytree(PUBLIC, DIST)

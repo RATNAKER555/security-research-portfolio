@@ -9,12 +9,12 @@
   },
   "summary": {
     "assignedCves": 0,
-    "publicOriginalContributions": 2,
-    "underCoordination": 8,
-    "validatedDistinctFindings": 16,
+    "publicOriginalContributions": 3,
+    "underCoordination": 11,
+    "validatedDistinctFindings": 20,
     "independentValidations": 5,
     "researchQueue": 6,
-    "investigatedPackages": 21
+    "investigatedPackages": 25
   },
   "publicEntries": [
     {
@@ -24,13 +24,13 @@
       "project": "libwebsockets",
       "status": "publicly-disclosed",
       "date": "2026-10-16",
-      "summary": "A fragmented response on an unsent client stream could alter shared header metadata before the invalid state was rejected. A later request read beyond its allocated-header buffer and transmitted stale client-process heap bytes to the peer. Upstream published the state-ordering fix with Reported-by credit.",
+      "summary": "A response could reuse fragment metadata from the client request, and a premature fragmented response could leave that metadata pointing beyond initialized header storage. Upstream published complementary fragment-accounting and early state-rejection fixes, both with Reported-by credit.",
       "evidence": {
         "primitive": "Out-of-bounds read with stale client-heap disclosure",
         "validation": "ASan boundary report plus separate-process 5/5 trigger and 5/5 control",
         "boundary": "Tested on the cleartext HTTP/2 prior-knowledge client path; demonstrated effect is stale client-heap disclosure"
       },
-      "credit": "Original report by Ratnaker Gautam; upstream commit contains Reported-by credit",
+      "credit": "Original report by Ratnaker Gautam; both upstream fixing commits contain Reported-by credit",
       "tags": [
         "HTTP/2",
         "HPACK",
@@ -38,6 +38,10 @@
         "fixed upstream"
       ],
       "links": [
+        {
+          "label": "Upstream fix 8d98cbc",
+          "url": "https://github.com/warmcat/libwebsockets/commit/8d98cbc52c3073f85e900ca0bbdcf3c63072c878"
+        },
         {
           "label": "Upstream fix f93a7df",
           "url": "https://github.com/warmcat/libwebsockets/commit/f93a7df942a66b02f15187c057ed2c0f006e4bca"
@@ -55,7 +59,43 @@
             "name": "Out-of-bounds Read"
           }
         ],
-        "basis": "The protocol-state rejection occurred after header decoding; moving it before decoding corrects the observed behavior order. The later read beyond allocated header storage was reproduced separately."
+        "basis": "Response decoding reused the request header fragment slot before the relevant state was rejected. Correcting fragment-slot accounting and rejecting premature response headers before decoding removes the observed ordering defect and later out-of-bounds read."
+      }
+    },
+    {
+      "id": "public-ksmbd-secdesc-offset-wrap",
+      "recordId": "RG-2026-14",
+      "title": "Security descriptor offset wrap on 32-bit kernels",
+      "project": "Linux ksmbd",
+      "status": "publicly-disclosed",
+      "date": "2026-10-18",
+      "summary": "An authenticated SMB2 SET_INFO request could supply security-descriptor offsets beyond the descriptor. On 32-bit builds, forming pointers before validating those offsets could wrap them outside the descriptor and fault the kernel. The public fix validates each nonzero offset numerically before pointer arithmetic.",
+      "evidence": {
+        "primitive": "Out-of-range memory access after 32-bit offset wrap",
+        "validation": "Authenticated network replay on i686, valid control, and patched-kernel replay",
+        "boundary": "Authenticated SMB client against a 32-bit ksmbd server; demonstrated consequence is kernel denial of service"
+      },
+      "credit": "Original report by Ratnaker Gautam; the maintainer commit contains Reported-by credit",
+      "tags": [
+        "SMB2",
+        "kernel",
+        "integer wrap",
+        "fix queued"
+      ],
+      "links": [
+        {
+          "label": "Maintainer fix 3f392e3",
+          "url": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3f392e333b8b7bc95dff156463fe374ac8e043f6"
+        }
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-190",
+          "name": "Integer Overflow or Wraparound"
+        },
+        "consequences": [],
+        "basis": "Untrusted 32-bit offsets were added to the descriptor base before their range was validated. On 32-bit builds, that arithmetic could wrap the derived pointer outside the security descriptor."
       }
     },
     {
@@ -283,8 +323,8 @@
       "title": "Coordinated disclosures",
       "project": "Private",
       "status": "under-coordination",
-      "date": "2026-10-17",
-      "count": 8,
+      "date": "2026-10-18",
+      "count": 11,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",

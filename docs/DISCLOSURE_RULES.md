@@ -40,6 +40,19 @@ Neither category may expose:
 The public build must never receive those fields. CSS hiding, JavaScript
 filtering, encrypted blobs, and unlinked routes are not disclosure controls.
 
+## Public workflow tracking
+
+The published tracker may name a project only after the corresponding finding
+has a reviewed public upstream source in the evidence ledger. It may display
+public review state, fixing commits, branch promotion, confirmed attribution,
+public identifiers, and a routine next-review date.
+
+The full operational ledger remains in the ignored `private/` directory. The
+local private build is a separate generated tree; the Pages build must not
+contain its source JSON. Automated discovery is restricted to repositories
+already represented by public findings so a monitor configuration cannot
+reveal an embargoed target.
+
 ## Evidence vocabulary
 
 Each public record states three separate things:

@@ -16,16 +16,44 @@ const STATUS_BAR_LABELS = Object.freeze({
   "independent-validation": "Validations"
 });
 
+const TRACKER_STAGE_LABELS = Object.freeze({
+  "patch-review": "Patch review",
+  "public-commit": "Public commit",
+  "fix-queued": "Maintainer tree",
+  integration: "Integration branch",
+  "fixed-upstream": "Fixed upstream",
+  closed: "Closed"
+});
+
+const FOLLOW_UP_LABELS = Object.freeze({
+  none: "No review scheduled",
+  scheduled: "Scheduled",
+  "due-soon": "Due soon",
+  due: "Due today",
+  overdue: "Overdue"
+});
+
 const dateFormat = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
   month: "short",
   day: "2-digit"
 });
 
+const dateTimeFormat = new Intl.DateTimeFormat("en-GB", {
+  year: "numeric",
+  month: "short",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZoneName: "short"
+});
+
 const state = {
   entries: [],
   filter: "all",
-  query: ""
+  query: "",
+  operations: [],
+  operationsFilter: "active"
 };
 
 function text(value) {
@@ -41,6 +69,10 @@ function el(tag, className, content) {
 
 function formatDate(value) {
   return dateFormat.format(new Date(value + "T12:00:00Z"));
+}
+
+function formatDateTime(value) {
+  return dateTimeFormat.format(new Date(value));
 }
 
 function appendTerm(list, term, description) {
@@ -276,6 +308,251 @@ function setTaxonomy(taxonomy) {
   published.textContent = formatDate(taxonomy.published);
 }
 
+function externalLink(label, url, className = "") {
+  const anchor = el("a", className, label);
+  anchor.href = url;
+  anchor.target = "_blank";
+  anchor.rel = "noreferrer noopener";
+  return anchor;
+}
+
+function makeTrackerRecord(record) {
+  const article = el("article", "tracker-row");
+  article.dataset.stage = record.stage;
+
+  const identity = el("div", "tracker-identity");
+  const meta = el("div", "tracker-meta");
+  meta.append(
+    el("span", "tracker-id", record.id),
+    el("span", "", record.project)
+  );
+  identity.append(
+    meta,
+    el("h3", "", record.title),
+    externalLink("Primary source ↗", record.sourceUrl, "tracker-source")
+  );
+
+  const lifecycle = el("div", "tracker-lifecycle");
+  lifecycle.append(el("span", "tracker-cell-label", "Lifecycle"));
+  const stage = el("strong", "tracker-stage", TRACKER_STAGE_LABELS[record.stage] || record.stage);
+  const locations = record.locations.length
+    ? record.locations.join(" · ")
+    : "Public commit; branch promotion not observed in the scanned window";
+  lifecycle.append(stage, el("p", "", locations));
+  const activity = el("time", "", "activity " + formatDate(record.lastPublicActivityOn));
+  activity.dateTime = record.lastPublicActivityOn;
+  lifecycle.append(activity);
+
+  const attribution = el("div", "tracker-attribution");
+  attribution.append(el("span", "tracker-cell-label", "Attribution"));
+  const confirmed = record.creditState === "confirmed";
+  attribution.append(
+    el("strong", confirmed ? "credit-confirmed" : "credit-pending", confirmed ? "✓ Confirmed" : "Review needed"),
+    el("p", "credit-evidence", record.creditEvidence)
+  );
+  if (record.relatedSources.length) {
+    const related = el("div", "related-sources");
+    for (const source of record.relatedSources) {
+      related.append(externalLink("Related fix " + source.commit.slice(0, 7) + " ↗", source.url));
+    }
+    attribution.append(related);
+  }
+
+  const action = el("div", "tracker-action");
+  action.append(el("span", "tracker-cell-label", "Next review"));
+  const due = el("strong", "follow-up-state " + record.followUpState, FOLLOW_UP_LABELS[record.followUpState]);
+  action.append(due);
+  if (record.followUpOn) {
+    const time = el("time", "", formatDate(record.followUpOn));
+    time.dateTime = record.followUpOn;
+    action.append(time);
+  }
+  action.append(el("p", "", record.nextAction));
+  if (record.cves.length) {
+    action.append(el("small", "tracker-cve-list", record.cves.join(" · ")));
+  }
+
+  const sourceState = el("span", "tracker-check-state " + record.checkState);
+  sourceState.textContent = record.checkState === "verified" ? "source verified" : "last verified snapshot";
+  sourceState.title = record.checkDetail;
+  identity.append(sourceState);
+
+  article.append(identity, lifecycle, attribution, action);
+  return article;
+}
+
+function renderDiscoveries(discoveries) {
+  const panel = document.querySelector("#credit-discoveries");
+  const list = document.querySelector("#credit-discovery-list");
+  if (!discoveries.length) {
+    panel.hidden = true;
+    list.replaceChildren();
+    return;
+  }
+  const rows = discoveries.map((item) => {
+    const row = el("article", "credit-discovery");
+    const copy = el("div", "");
+    copy.append(
+      el("strong", "", item.subject),
+      el("p", "", item.creditEvidence + " · " + item.source + " / " + item.location)
+    );
+    row.append(copy, externalLink(item.commit.slice(0, 7) + " ↗", item.url));
+    return row;
+  });
+  list.replaceChildren(...rows);
+  panel.hidden = false;
+}
+
+function renderTracker(data) {
+  const records = [...data.records].sort((left, right) => {
+    const leftDate = left.followUpOn || "9999-12-31";
+    const rightDate = right.followUpOn || "9999-12-31";
+    return leftDate.localeCompare(rightDate) || left.id.localeCompare(right.id);
+  });
+  document.querySelector("#tracker-records").replaceChildren(...records.map(makeTrackerRecord));
+  document.querySelector("#tracker-active").textContent = data.summary.active;
+  document.querySelector("#tracker-credit").textContent = data.summary.creditConfirmed;
+  document.querySelector("#tracker-followup").textContent = data.summary.followUpDue;
+  document.querySelector("#tracker-cves").textContent = data.summary.cves;
+
+  const checked = document.querySelector("#monitor-checked");
+  checked.dateTime = data.generatedAt;
+  checked.textContent = formatDateTime(data.generatedAt);
+  const mode = document.querySelector("#monitor-mode");
+  const dot = document.querySelector("#monitor-state-dot");
+  if (data.summary.checkErrors) {
+    mode.textContent = "Partial source check";
+    dot.className = "partial";
+  } else if (data.mode === "live") {
+    mode.textContent = "Live source check";
+    dot.className = "live";
+  } else {
+    mode.textContent = "Verified source snapshot";
+    dot.className = "snapshot";
+  }
+  renderDiscoveries(data.discoveries);
+  observeReveals(document.querySelector("#tracking"));
+}
+
+async function loadTracker() {
+  const error = document.querySelector("#tracker-error");
+  try {
+    const response = await fetch("data/tracker.json", { cache: "no-store" });
+    if (!response.ok) throw new Error("tracker data returned " + response.status);
+    renderTracker(await response.json());
+  } catch (failure) {
+    error.textContent = "The public attribution monitor could not be loaded: " + failure.message;
+    error.hidden = false;
+  }
+}
+
+function operationsFollowUpState(record) {
+  if (!record.followUpOn) return "none";
+  const today = new Date();
+  const localToday = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0")
+  ].join("-");
+  if (record.followUpOn < localToday) return "overdue";
+  if (record.followUpOn === localToday) return "due";
+  return "scheduled";
+}
+
+function makeOperationsRecord(record) {
+  const article = el("article", "operations-row");
+  article.dataset.state = record.state;
+  const identity = el("div", "operations-identity");
+  const meta = el("div", "operations-meta");
+  meta.append(el("span", "", record.id), el("span", "", record.project));
+  identity.append(meta, el("h3", "", record.title));
+  if (record.publicUrl) {
+    identity.append(externalLink("Public record ↗", record.publicUrl, "operations-source"));
+  } else {
+    identity.append(el("span", "operations-visibility", record.visibility));
+  }
+
+  const status = el("div", "operations-status");
+  status.append(el("strong", "", record.state.replaceAll("-", " ")));
+  const dates = el("dl", "");
+  if (record.reportedOn) appendTerm(dates, "Reported", formatDate(record.reportedOn));
+  appendTerm(dates, "Last activity", formatDate(record.lastActivityOn));
+  status.append(dates);
+
+  const action = el("div", "operations-action");
+  const followState = operationsFollowUpState(record);
+  action.append(el("strong", "operations-follow " + followState, FOLLOW_UP_LABELS[followState]));
+  if (record.followUpOn) {
+    const time = el("time", "", formatDate(record.followUpOn));
+    time.dateTime = record.followUpOn;
+    action.append(time);
+  }
+  action.append(el("p", "", record.nextAction), el("small", "", record.source));
+  article.append(identity, status, action);
+  return article;
+}
+
+function selectedOperations() {
+  const activeStates = new Set(["reported", "patch-review", "fix-queued", "ready-to-report"]);
+  return state.operations.filter((record) => {
+    if (state.operationsFilter === "all") return true;
+    if (state.operationsFilter === "active") return activeStates.has(record.state);
+    if (state.operationsFilter === "reported") return record.state === "reported";
+    if (state.operationsFilter === "follow-up") return Boolean(record.followUpOn);
+    return true;
+  }).sort((left, right) => {
+    const leftDate = left.followUpOn || "9999-12-31";
+    const rightDate = right.followUpOn || "9999-12-31";
+    return leftDate.localeCompare(rightDate) || left.id.localeCompare(right.id);
+  });
+}
+
+function renderOperations() {
+  document.querySelector("#operations-records").replaceChildren(
+    ...selectedOperations().map(makeOperationsRecord)
+  );
+}
+
+function setupOperationsControls() {
+  for (const button of document.querySelectorAll(".operations-filter")) {
+    button.addEventListener("click", () => {
+      state.operationsFilter = button.dataset.operationsFilter;
+      for (const candidate of document.querySelectorAll(".operations-filter")) {
+        const active = candidate === button;
+        candidate.classList.toggle("active", active);
+        candidate.setAttribute("aria-pressed", String(active));
+      }
+      renderOperations();
+    });
+  }
+}
+
+async function loadPrivateTracker() {
+  const path = document.body.dataset.privateTracker;
+  if (!path) return;
+  const response = await fetch(path, { cache: "no-store" });
+  if (!response.ok) throw new Error("private tracker returned " + response.status);
+  const data = await response.json();
+  state.operations = data.records;
+  const followUpsDue = data.records.filter((record) =>
+    ["due", "overdue"].includes(operationsFollowUpState(record))
+  ).length;
+  document.querySelector("#operations-reported").textContent = data.counts.underCoordination;
+  document.querySelector("#operations-due").textContent = followUpsDue;
+  document.querySelector("#operations-ready").textContent = data.records.filter(
+    (record) => record.state === "ready-to-report"
+  ).length;
+  document.querySelector("#operations-public").textContent = data.records.filter(
+    (record) => record.visibility === "public"
+  ).length;
+  const updated = document.querySelector("#operations-updated");
+  updated.dateTime = data.updated;
+  updated.textContent = formatDate(data.updated);
+  document.querySelector("#private-operations").hidden = false;
+  setupOperationsControls();
+  renderOperations();
+}
+
 function setupControls() {
   for (const button of document.querySelectorAll(".filter")) {
     button.addEventListener("click", () => {
@@ -314,6 +591,8 @@ async function start() {
 
   setupControls();
   renderEntries();
+  await loadTracker();
+  await loadPrivateTracker();
   observeReveals();
 }
 

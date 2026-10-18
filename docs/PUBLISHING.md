@@ -9,6 +9,7 @@ Run:
 
 ~~~sh
 python3 scripts/build_site.py
+python3 scripts/validate_public_tracker.py
 git diff --check
 git status --short
 ~~~
@@ -24,6 +25,10 @@ Then inspect public/data/findings.json and the generated dist/ tree. Confirm:
 6. No private project name, issue URL, local path, trigger, version, hash,
    correspondence, or artifact entered the build.
 7. Mobile and desktop layouts remain readable.
+8. The public tracker references only already-public findings and contains no
+   embargoed project, correspondence, or follow-up detail.
+9. `private/report-tracker.json` and `dist-private/` remain ignored and absent
+   from the commit.
 
 ## GitHub Pages
 
@@ -41,8 +46,8 @@ Expected project URL after the first successful workflow:
 1. Create an empty project named security-research-portfolio in the intended
    KU Leuven namespace.
 2. Add its SSH URL as the kuleuven remote and push main.
-3. The included pipeline validates public/data/findings.json before retaining
-   public/ as the Pages artifact.
+3. The included pipeline validates the public findings and tracker before
+   retaining public/ as the Pages artifact.
 4. Read the exact Pages URL from Deploy, Pages after the pipeline succeeds.
 
 The KU Leuven GitLab Pages deployment is canonical. Any private staging

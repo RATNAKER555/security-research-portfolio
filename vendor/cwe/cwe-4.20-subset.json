@@ -25,6 +25,12 @@
       "status": "Draft",
       "mappingUsage": "Allowed"
     },
+    "CWE-190": {
+      "name": "Integer Overflow or Wraparound",
+      "abstraction": "Base",
+      "status": "Stable",
+      "mappingUsage": "Allowed"
+    },
     "CWE-401": {
       "name": "Missing Release of Memory after Effective Lifetime",
       "abstraction": "Variant",

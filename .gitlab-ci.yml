@@ -1,11 +1,31 @@
 stages:
+  - monitor
   - deploy
+
+credit-monitor:
+  stage: monitor
+  image: python:3.13-alpine
+  script:
+    - python3 -m unittest discover -s tests -v
+    - if [ "$CI_PIPELINE_SOURCE" = "schedule" ]; then python3 scripts/monitor_public_credit.py --check-cves; else python3 scripts/monitor_public_credit.py; fi
+    - python3 scripts/validate_public_data.py
+    - python3 scripts/validate_public_tracker.py
+  artifacts:
+    paths:
+      - public/data/tracker.json
+    expire_in: 30 days
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 pages:
   stage: deploy
   image: python:3.13-alpine
+  needs:
+    - job: credit-monitor
+      artifacts: true
   script:
     - python3 scripts/validate_public_data.py
+    - python3 scripts/validate_public_tracker.py
   artifacts:
     paths:
       - public

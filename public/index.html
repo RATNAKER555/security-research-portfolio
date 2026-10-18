@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="assets/styles.css" />
     <script src="assets/app.js" defer></script>
   </head>
-  <body>
+  <body data-private-tracker="">
     <a class="skip-link" href="#research">Skip to research ledger</a>
     <div class="noise" aria-hidden="true"></div>
 
@@ -31,6 +31,7 @@
       </a>
       <nav aria-label="Primary navigation">
         <a href="#research">Research</a>
+        <a href="#tracking">Tracking</a>
         <a href="#programme">Programme</a>
         <a href="#method">Method</a>
       </nav>
@@ -136,9 +137,81 @@
         </div>
       </section>
 
+      <section class="tracker-section" id="tracking" aria-labelledby="tracking-title">
+        <div class="section-kicker"><span>02</span><p>Disclosure tracking</p></div>
+        <div class="tracker-heading">
+          <div>
+            <p class="eyebrow">Public-source monitor</p>
+            <h2 id="tracking-title">From report to upstream credit.</h2>
+          </div>
+          <div class="section-intro">
+            <p>Public contributions are followed through review, maintainer branches, upstream integration, and identifier assignment. Scheduled checks verify attribution against primary upstream records.</p>
+            <p class="monitor-reviewed"><span id="monitor-state-dot" aria-hidden="true"></span><strong id="monitor-mode">Loading monitor</strong> · <time id="monitor-checked">—</time></p>
+          </div>
+        </div>
+
+        <div class="tracker-metrics" aria-label="Public disclosure tracker summary">
+          <article><strong id="tracker-active">—</strong><span>active public records</span></article>
+          <article><strong id="tracker-credit">—</strong><span>credits confirmed</span></article>
+          <article><strong id="tracker-followup">—</strong><span>reviews due now</span></article>
+          <article><strong id="tracker-cves">—</strong><span>public CVE records</span></article>
+        </div>
+
+        <div class="tracker-frame">
+          <div class="tracker-column-head" aria-hidden="true">
+            <span>Record</span><span>Lifecycle</span><span>Attribution</span><span>Next review</span>
+          </div>
+          <div id="tracker-records" class="tracker-records" aria-live="polite"></div>
+          <div id="tracker-error" class="load-error" hidden></div>
+        </div>
+
+        <aside id="credit-discoveries" class="credit-discoveries" hidden aria-labelledby="credit-discoveries-title">
+          <div>
+            <p>Automated review queue</p>
+            <h3 id="credit-discoveries-title">New public attribution detected.</h3>
+          </div>
+          <div id="credit-discovery-list"></div>
+        </aside>
+
+        <div class="tracker-note">
+          <p><strong>Boundary.</strong> This table follows records that already have a public upstream source. Embargoed reports remain absent; only their aggregate count appears below.</p>
+          <div>
+            <a href="data/tracker.json">Monitor dataset ↗</a>
+            <a href="https://gitlab.kuleuven.be/u0190734/security-research-portfolio/-/pipelines" target="_blank" rel="noreferrer noopener">Pipeline history ↗</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="operations-section" id="private-operations" hidden aria-labelledby="operations-title">
+        <div class="section-kicker"><span>OP</span><p>Private research operations</p></div>
+        <div class="operations-heading">
+          <div>
+            <p class="eyebrow">Local build only</p>
+            <h2 id="operations-title">Report and follow-up ledger.</h2>
+          </div>
+          <p>This view is generated from the ignored local tracker. It is never copied into the GitLab Pages artifact.</p>
+        </div>
+        <div class="operations-metrics">
+          <article><strong id="operations-reported">—</strong><span>under coordination</span></article>
+          <article><strong id="operations-due">—</strong><span>follow-ups due</span></article>
+          <article><strong id="operations-ready">—</strong><span>ready to report</span></article>
+          <article><strong id="operations-public">—</strong><span>public records</span></article>
+        </div>
+        <div class="operations-toolbar">
+          <div class="operations-filters" role="group" aria-label="Filter private workflow records">
+            <button class="operations-filter active" data-operations-filter="active" aria-pressed="true">Active</button>
+            <button class="operations-filter" data-operations-filter="follow-up" aria-pressed="false">Follow-up</button>
+            <button class="operations-filter" data-operations-filter="reported" aria-pressed="false">Reported</button>
+            <button class="operations-filter" data-operations-filter="all" aria-pressed="false">All records</button>
+          </div>
+          <p>Updated <time id="operations-updated">—</time></p>
+        </div>
+        <div id="operations-records" class="operations-records"></div>
+      </section>
+
       <section class="private-section" id="private-record" aria-labelledby="private-title">
         <div class="private-topline">
-          <div class="section-kicker light"><span>02</span><p>Ongoing work</p></div>
+          <div class="section-kicker light"><span>03</span><p>Ongoing work</p></div>
           <p class="classification"><i></i> AGGREGATE COUNTS</p>
         </div>
         <div class="private-heading">
@@ -153,7 +226,7 @@
       </section>
 
       <section class="programme-section" id="programme" aria-labelledby="programme-title">
-        <div class="section-kicker"><span>03</span><p>Research programme</p></div>
+        <div class="section-kicker"><span>04</span><p>Research programme</p></div>
         <div class="programme-heading">
           <h2 id="programme-title">Software, protocols, and products.</h2>
           <p>
@@ -183,7 +256,7 @@
       </section>
 
       <section class="method-section" id="method" aria-labelledby="method-title">
-        <div class="section-kicker"><span>04</span><p>Research method</p></div>
+        <div class="section-kicker"><span>05</span><p>Research method</p></div>
         <div class="method-layout">
           <div class="method-lead">
             <h2 id="method-title">From system model to reproducible evidence.</h2>

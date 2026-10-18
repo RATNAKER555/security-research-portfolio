@@ -18,6 +18,8 @@ build the deployment tree with:
 
 ~~~sh
 python3 scripts/validate_public_data.py
+python3 scripts/monitor_public_credit.py --offline
+python3 scripts/validate_public_tracker.py
 python3 scripts/build_site.py
 python3 -m http.server 8080 --directory dist
 ~~~
@@ -39,6 +41,24 @@ The public dataset is public/data/findings.json.
   docs/CWE_CLASSIFICATION.md.
 - assignedCves remains zero until a public CVE record exists.
 
+The public disclosure tracker is generated from `tracker/public-monitor.json`.
+It checks public upstream commits, pull requests, branch promotion, explicit
+credit trailers, and full fixing-commit hashes in public CVE records. Its
+published output is `public/data/tracker.json`. The monitor contains no
+embargoed project names.
+
+The complete report and follow-up ledger is
+`private/report-tracker.json`. Git ignores that file, and the Pages pipeline
+never copies it. To view the same dashboard with the private operations table:
+
+~~~sh
+python3 scripts/build_private_site.py
+python3 -m http.server 8081 --directory dist-private
+~~~
+
+Read `docs/TRACKER.md` before adding a monitored source or changing a workflow
+count.
+
 The private evidence collection lives outside this repository. Client-side
 redaction is not used: undisclosed data is absent from the build.
 
@@ -50,4 +70,5 @@ redaction is not used: undisclosed data is absent from the build.
   is created and Pages is enabled.
 
 Read docs/DISCLOSURE_RULES.md before adding a record and
-docs/PUBLISHING.md before publishing.
+docs/PUBLISHING.md before publishing. The GitLab schedule and tracker workflow
+are documented in docs/TRACKER.md.
