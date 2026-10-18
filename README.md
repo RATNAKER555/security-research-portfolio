@@ -30,6 +30,10 @@ Then open <http://localhost:8080>.
 
 The public dataset is public/data/findings.json.
 
+`main` is the disclosure-safe public source. The KU Leuven deployment is built
+from a separate `private-dashboard` branch whose exact private ledger is never
+merged into `main` or pushed to a public remote.
+
 - publicEntries contains only records supported by public upstream sources.
 - privateEntries contains aggregate counts and generic workflow states. It
   never contains project names, triggers, versions, source locations, issue

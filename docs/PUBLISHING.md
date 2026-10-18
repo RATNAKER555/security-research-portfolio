@@ -50,6 +50,14 @@ Expected project URL after the first successful workflow:
    retaining public/ as the Pages artifact.
 4. Read the exact Pages URL from Deploy, Pages after the pipeline succeeds.
 
-The KU Leuven GitLab Pages deployment is canonical. Any private staging
-preview is for release review only and must not be presented as the public
-portfolio address.
+## Authenticated KU Leuven research dashboard
+
+The `private-dashboard` branch is the only branch allowed to deploy this
+project's KU Leuven Pages site. It carries the private workflow ledger and
+builds `dist-private/`; GitLab Pages access control must remain enabled. The
+`main` branch remains disclosure-safe and is the source for the public GitHub
+Pages portfolio.
+
+Never push `private-dashboard` to a public remote. Merge reviewed public code
+changes from `main` into `private-dashboard`, resolve the ledger separately,
+and verify the Pages endpoint redirects anonymous visitors to KU Leuven OAuth.

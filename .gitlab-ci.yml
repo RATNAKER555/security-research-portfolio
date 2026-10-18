@@ -16,6 +16,7 @@ credit-monitor:
     expire_in: 30 days
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_BRANCH == "private-dashboard"'
 
 pages:
   stage: deploy
@@ -24,10 +25,11 @@ pages:
     - job: credit-monitor
       artifacts: true
   script:
-    - python3 scripts/validate_public_data.py
-    - python3 scripts/validate_public_tracker.py
+    - python3 scripts/build_private_site.py
+    - mv public public-safe-source
+    - mv dist-private public
   artifacts:
     paths:
       - public
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_BRANCH == "private-dashboard"'
