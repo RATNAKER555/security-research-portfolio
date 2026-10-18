@@ -69,13 +69,10 @@ redaction is not used: undisclosed data is absent from the build.
 
 ## Deployment
 
-- The public KU Leuven deployment target is
-  `u0190734/vulnerability-research`; publication starts after that separate
-  public project is created.
-- The authenticated research-operations dashboard is
-  <https://u0190734.pages.gitlab.kuleuven.be/security-research-portfolio/>.
-- GitHub Pages will mirror the public `main` branch after the GitHub repository
-  is created and Pages is enabled.
+- The public site is deployed from `main` to
+  <https://ratnaker555.github.io/security-research-portfolio/>.
+- The authenticated research-operations dashboard is maintained separately
+  and is not linked from the public build.
 
 Read docs/DISCLOSURE_RULES.md before adding a record and
 docs/PUBLISHING.md before publishing. The GitLab schedule and tracker workflow

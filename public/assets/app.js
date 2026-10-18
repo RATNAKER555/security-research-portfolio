@@ -282,9 +282,6 @@ function setProfile(profile) {
   for (const id of ["header-github", "footer-github"]) {
     document.querySelector("#" + id).href = profile.github;
   }
-  for (const id of ["header-gitlab", "footer-gitlab"]) {
-    document.querySelector("#" + id).href = profile.gitlab;
-  }
 }
 
 function setMetrics(summary) {

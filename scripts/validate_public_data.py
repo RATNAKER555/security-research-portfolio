@@ -56,6 +56,7 @@ PUBLIC_REQUIRED_FIELDS = {
 }
 EVIDENCE_FIELDS = {"primitive", "validation", "boundary"}
 TAXONOMY_FIELDS = {"name", "version", "published", "source", "reviewed"}
+PROFILE_FIELDS = {"name", "role", "affiliation", "github"}
 SUMMARY_FIELDS = {
     "assignedCves",
     "publicOriginalContributions",
@@ -356,12 +357,11 @@ def main() -> None:
     if require_date(taxonomy.get("reviewed"), "taxonomy.reviewed") > updated:
         fail("taxonomy.reviewed cannot be later than the dataset update date")
     profile = payload.get("profile")
-    if not isinstance(profile, dict):
-        fail("profile must be an object")
+    if not isinstance(profile, dict) or set(profile) != PROFILE_FIELDS:
+        fail(f"profile must contain exactly {sorted(PROFILE_FIELDS)}")
     for key in ("name", "role", "affiliation"):
         require_nonempty_string(profile.get(key), f"profile.{key}")
-    for key in ("github", "gitlab"):
-        require_https(profile.get(key), f"profile.{key}")
+    require_https(profile.get("github"), "profile.github")
 
     public_entries = payload.get("publicEntries")
     private_entries = payload.get("privateEntries")
