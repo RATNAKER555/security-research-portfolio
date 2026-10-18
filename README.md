@@ -34,7 +34,8 @@ The public dataset is public/data/findings.json.
 - privateEntries contains aggregate counts and generic workflow states. It
   never contains project names, triggers, versions, source locations, issue
   URLs, correspondence, or reproducer material.
-- summary values are derived from the entries and checked by the validator.
+- summary values are derived from the entries and checked by the validator;
+  original findings and independent validations are counted separately.
 - weakness mappings distinguish a primary root cause from any separately
   observed consequence CWE. IDs and official titles are checked against a
   pinned subset of MITRE CWE 4.20; the review method is documented in

@@ -11,10 +11,10 @@
     "assignedCves": 0,
     "publicOriginalContributions": 3,
     "underCoordination": 11,
-    "validatedDistinctFindings": 20,
+    "originalFindings": 19,
     "independentValidations": 5,
-    "researchQueue": 6,
-    "investigatedPackages": 25
+    "researchQueue": 5,
+    "trackedResearchRecords": 24
   },
   "publicEntries": [
     {
@@ -39,11 +39,11 @@
       ],
       "links": [
         {
-          "label": "Upstream fix 8d98cbc",
+          "label": "Credited upstream fix 1 · 8d98cbc",
           "url": "https://github.com/warmcat/libwebsockets/commit/8d98cbc52c3073f85e900ca0bbdcf3c63072c878"
         },
         {
-          "label": "Upstream fix f93a7df",
+          "label": "Credited upstream fix 2 · f93a7df",
           "url": "https://github.com/warmcat/libwebsockets/commit/f93a7df942a66b02f15187c057ed2c0f006e4bca"
         }
       ],
@@ -338,7 +338,7 @@
       "project": "Multiple projects",
       "status": "queued",
       "date": "2026-10-18",
-      "count": 6,
+      "count": 5,
       "summary": "Candidate findings undergoing practical-impact, prior-art, or report-readiness review before any public claim is made.",
       "tags": [
         "impact analysis",

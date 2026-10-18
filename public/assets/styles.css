@@ -215,8 +215,8 @@ h2 { margin: 0; font-family: var(--serif); font-size: clamp(40px, 5vw, 66px); fo
 .tracker-meta { display: flex; flex-wrap: wrap; gap: 8px 14px; color: var(--muted); font: 700 8px var(--mono); text-transform: uppercase; letter-spacing: .07em; }
 .tracker-id { color: var(--blue); }
 .tracker-identity h3 { margin: 10px 0 12px; font-family: var(--serif); font-size: clamp(21px, 2vw, 28px); font-weight: 600; line-height: 1.12; letter-spacing: -.02em; }
-.tracker-source, .related-sources a { color: var(--blue); text-decoration: none; font: 700 8px var(--mono); text-transform: uppercase; letter-spacing: .045em; }
-.tracker-source:hover, .related-sources a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.tracker-source, .credited-source a { color: var(--blue); text-decoration: none; font: 700 8px var(--mono); text-transform: uppercase; letter-spacing: .045em; }
+.tracker-source:hover, .credited-source a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .tracker-check-state { display: block; width: max-content; margin-top: 16px; padding: 4px 6px; border: 1px solid var(--line); color: var(--muted); font: 650 7px var(--mono); text-transform: uppercase; letter-spacing: .07em; }
 .tracker-check-state.verified { border-color: rgba(47,120,95,.35); color: #2f6d59; }
 .tracker-cell-label { display: none; margin-bottom: 9px; color: var(--muted); font: 700 8px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
@@ -229,7 +229,10 @@ h2 { margin: 0; font-family: var(--serif); font-size: clamp(40px, 5vw, 66px); fo
 .credit-confirmed { color: #2f6d59; }
 .credit-pending { color: var(--orange); }
 .credit-evidence { overflow-wrap: anywhere; font-family: var(--mono); font-size: 9px !important; }
-.related-sources { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 12px; }
+.credited-sources { margin-top: 12px; border-top: 1px solid var(--line); }
+.credited-source { padding: 9px 0; border-bottom: 1px solid var(--line); }
+.credited-source:last-child { border-bottom: 0; }
+.credited-source .credit-evidence { margin-top: 4px; }
 .follow-up-state { display: block; color: var(--ink); font: 750 10px var(--mono); text-transform: uppercase; letter-spacing: .04em; }
 .follow-up-state.due-soon { color: var(--gold); }
 .follow-up-state.due, .follow-up-state.overdue { color: var(--orange); }

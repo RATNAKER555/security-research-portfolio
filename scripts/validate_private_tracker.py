@@ -147,10 +147,16 @@ def main() -> None:
             fail(f"{identifier}: reported records need a report date")
 
     reported = sum(record["state"] == "reported" for record in records)
+    queued = sum(record["state"] in {"held", "ready-to-report"} for record in records)
     if reported != data["counts"]["underCoordination"]:
         fail(
             f"underCoordination is {data['counts']['underCoordination']}; "
             f"the ledger contains {reported} reported records"
+        )
+    if queued != data["counts"]["researchQueue"]:
+        fail(
+            f"researchQueue is {data['counts']['researchQueue']}; "
+            f"the ledger contains {queued} held or ready-to-report records"
         )
 
     aggregates = {entry["status"]: entry["count"] for entry in findings["privateEntries"]}

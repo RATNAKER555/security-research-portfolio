@@ -15,14 +15,17 @@ and the credit text expected upstream.
 - FFmpeg Forgejo pull-request and head-commit metadata;
 - Gitiles commit messages and recent maintainer-branch history;
 - explicit `Reported-by`, `Signed-off-by`, or other recognized credit trailers;
-- configured public repositories for newly appearing credit; and
+- configured public repositories for newly appearing credit;
+- GitHub's public commit index for an exact reporter-name trailer, without
+  publishing the names of embargoed target projects; and
 - on scheduled runs, NVD results keyed by the full fixing-commit hash.
 
 The monitor writes `public/data/tracker.json`. A source outage does not erase
 previously verified credit: the row is marked as a check error and retains the
 last reviewed baseline. A newly discovered public credit appears in the
 automated review queue until it is linked to the correct finding. One report
-with two fixing commits remains one finding.
+with two fixing commits remains one finding, while the attribution total counts
+both independently verified public credit sources.
 
 Run a current public check with:
 

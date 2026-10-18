@@ -156,6 +156,12 @@
   ],
   "discoverySources": [
     {
+      "kind": "github-global-search",
+      "label": "GitHub public commit index",
+      "query": "\"Ratnaker Gautam\"",
+      "scanLimit": 100
+    },
+    {
       "kind": "gitiles-log",
       "label": "Linux SMB maintainer branches",
       "repositoryUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb",

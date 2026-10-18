@@ -29,7 +29,12 @@ CHECK_STATES = {"verified", "check-error"}
 CREDIT_STATES = {"confirmed", "missing", "pending"}
 FOLLOW_UP_STATES = {"none", "scheduled", "due-soon", "due", "overdue"}
 MONITOR_KINDS = {"github-commit", "forgejo-pull", "gitiles-commit"}
-DISCOVERY_KINDS = {"github-log", "forgejo-log", "gitiles-log"}
+DISCOVERY_KINDS = {
+    "github-log",
+    "github-global-search",
+    "forgejo-log",
+    "gitiles-log",
+}
 FORBIDDEN = [
     re.compile(r"(?:^|[\s\"'])/home/", re.I),
     re.compile(r"file://", re.I),
@@ -280,6 +285,10 @@ def validate_config(config: dict, public_entries: dict[str, dict]) -> None:
         if source["kind"] == "gitiles-log":
             require_https(source.get("repositoryUrl"), f"{label}.repositoryUrl")
             require_string_list(source.get("branches"), f"{label}.branches")
+        elif source["kind"] == "github-global-search":
+            query = require_string(source.get("query"), f"{label}.query")
+            if reporter["name"].casefold() not in query.casefold():
+                fail(f"{label}.query must identify the reporter")
         else:
             require_string(source.get("repository"), f"{label}.repository")
             require_string(source.get("branch"), f"{label}.branch")
@@ -398,7 +407,12 @@ def validate_output(output: dict, config_ids: set[str]) -> None:
         "tracked": len(records),
         "active": sum(item["stage"] != "closed" for item in records),
         "followUpDue": sum(item["followUpState"] in {"overdue", "due"} for item in records),
-        "creditConfirmed": sum(item["creditState"] == "confirmed" for item in records),
+        "creditConfirmed": sum(item["creditState"] == "confirmed" for item in records)
+        + sum(
+            source["creditState"] == "confirmed"
+            for item in records
+            for source in item.get("relatedSources", [])
+        ),
         "cves": len({cve for item in records for cve in item["cves"]}),
         "checkErrors": sum(item["checkState"] == "check-error" for item in records)
         + len(output["discoveryErrors"]),

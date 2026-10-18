@@ -60,10 +60,10 @@ SUMMARY_FIELDS = {
     "assignedCves",
     "publicOriginalContributions",
     "underCoordination",
-    "validatedDistinctFindings",
+    "originalFindings",
     "independentValidations",
     "researchQueue",
-    "investigatedPackages",
+    "trackedResearchRecords",
 }
 
 FORBIDDEN_GLOBAL_PATTERNS = [
@@ -316,13 +316,13 @@ def validate_summary(
         "independentValidations": status_count({"independent-validation"}),
         "researchQueue": private_count("queued"),
     }
-    expected["validatedDistinctFindings"] = (
+    expected["originalFindings"] = (
         expected["publicOriginalContributions"]
         + expected["underCoordination"]
         + expected["researchQueue"]
     )
-    expected["investigatedPackages"] = (
-        expected["validatedDistinctFindings"] + expected["independentValidations"]
+    expected["trackedResearchRecords"] = (
+        expected["originalFindings"] + expected["independentValidations"]
     )
     for key, value in expected.items():
         if summary.get(key) != value:

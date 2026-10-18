@@ -135,6 +135,7 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(result["checkState"], "check-error")
         self.assertEqual(result["creditState"], "confirmed")
         self.assertEqual(result["followUpState"], "overdue")
+        self.assertEqual(payload["summary"]["creditConfirmed"], 2)
         self.assertEqual(payload["summary"]["checkErrors"], 1)
         self.assertEqual(payload["generatedAt"], "2026-10-18T12:00:00Z")
 
@@ -152,6 +153,46 @@ class MonitorTests(unittest.TestCase):
             ),
             "Tested-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
         )
+
+    def test_global_github_discovery_keeps_only_explicit_credit(self):
+        source = {
+            "kind": "github-global-search",
+            "label": "GitHub public commit index",
+            "query": '"Ratnaker Gautam"',
+            "scanLimit": 100,
+        }
+
+        def respond(url):
+            self.assertIn("api.github.com/search/commits", url)
+            return {
+                "items": [
+                    {
+                        "sha": "a" * 40,
+                        "html_url": "https://github.com/example/project/commit/" + "a" * 40,
+                        "repository": {"full_name": "example/project"},
+                        "commit": {
+                            "message": "fix parser\n\nReported-by: Ratnaker Gautam",
+                            "committer": {"date": "2026-10-18T12:00:00Z"},
+                        },
+                    },
+                    {
+                        "sha": "b" * 40,
+                        "html_url": "https://github.com/example/project/commit/" + "b" * 40,
+                        "repository": {"full_name": "example/project"},
+                        "commit": {
+                            "message": "mention Ratnaker Gautam without a trailer",
+                            "committer": {"date": "2026-10-18T12:00:00Z"},
+                        },
+                    },
+                ]
+            }
+
+        found = monitor.discover_github_global(
+            source, FakeClient(respond), self.config["reporter"]
+        )
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0]["commit"], "a" * 40)
+        self.assertEqual(found[0]["location"], "example/project")
 
 
 if __name__ == "__main__":

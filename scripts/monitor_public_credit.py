@@ -517,6 +517,50 @@ def discover_github(
     return found
 
 
+def discover_github_global(
+    source: dict[str, Any], client: HttpClient, reporter: dict[str, Any]
+) -> list[dict[str, Any]]:
+    """Find public commit trailers without publishing embargoed target names."""
+    query = source.get("query") or f'"{reporter["name"]}"'
+    params = urlencode(
+        {
+            "q": query,
+            "per_page": min(source["scanLimit"], 100),
+        }
+    )
+    payload = client.get_json(
+        f"https://api.github.com/search/commits?{params}",
+        headers={
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+    )
+    items = payload.get("items", [])
+    if not isinstance(items, list):
+        raise MonitorError("GitHub commit search has no items list")
+
+    found: list[dict[str, Any]] = []
+    for item in items:
+        commit = item.get("commit", {})
+        message = str(commit.get("message", ""))
+        line = discovery_line(message, reporter)
+        if not line:
+            continue
+        repository = item.get("repository", {}).get("full_name", "public repository")
+        found.append(
+            {
+                "commit": item.get("sha"),
+                "subject": message.splitlines()[0],
+                "creditEvidence": line,
+                "source": source["label"],
+                "location": repository,
+                "date": parse_source_date(commit.get("committer", {}).get("date")),
+                "url": item.get("html_url"),
+            }
+        )
+    return found
+
+
 def discover_forgejo(
     source: dict[str, Any], client: HttpClient, reporter: dict[str, Any]
 ) -> list[dict[str, Any]]:
@@ -554,6 +598,7 @@ def run_discovery(
     adapters = {
         "gitiles-log": discover_gitiles,
         "github-log": discover_github,
+        "github-global-search": discover_github_global,
         "forgejo-log": discover_forgejo,
     }
     found: dict[str, dict[str, Any]] = {}
@@ -630,6 +675,11 @@ def build_output(
         ),
         "creditConfirmed": sum(
             record["creditState"] == "confirmed" for record in records
+        )
+        + sum(
+            source["creditState"] == "confirmed"
+            for record in records
+            for source in record.get("relatedSources", [])
         ),
         "cves": len({cve for record in records for cve in record["cves"]}),
         "checkErrors": sum(

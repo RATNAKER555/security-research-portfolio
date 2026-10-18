@@ -292,7 +292,7 @@ function setMetrics(summary) {
     "metric-cves": summary.assignedCves,
     "metric-public": summary.publicOriginalContributions,
     "metric-coordinating": summary.underCoordination,
-    "metric-validated": summary.validatedDistinctFindings,
+    "metric-original": summary.originalFindings,
     "metric-validations": summary.independentValidations
   };
   for (const [id, value] of Object.entries(values)) {
@@ -345,18 +345,38 @@ function makeTrackerRecord(record) {
 
   const attribution = el("div", "tracker-attribution");
   attribution.append(el("span", "tracker-cell-label", "Attribution"));
-  const confirmed = record.creditState === "confirmed";
+  const creditSources = [
+    {
+      commit: record.commit,
+      url: record.sourceUrl,
+      creditState: record.creditState,
+      creditEvidence: record.creditEvidence
+    },
+    ...record.relatedSources
+  ];
+  const confirmedCount = creditSources.filter(
+    (source) => source.creditState === "confirmed"
+  ).length;
+  const confirmed = confirmedCount === creditSources.length;
   attribution.append(
-    el("strong", confirmed ? "credit-confirmed" : "credit-pending", confirmed ? "✓ Confirmed" : "Review needed"),
-    el("p", "credit-evidence", record.creditEvidence)
+    el(
+      "strong",
+      confirmed ? "credit-confirmed" : "credit-pending",
+      confirmed
+        ? "✓ " + confirmedCount + " public credit" + (confirmedCount === 1 ? "" : "s") + " verified"
+        : "Attribution review needed"
+    )
   );
-  if (record.relatedSources.length) {
-    const related = el("div", "related-sources");
-    for (const source of record.relatedSources) {
-      related.append(externalLink("Related fix " + source.commit.slice(0, 7) + " ↗", source.url));
-    }
-    attribution.append(related);
+  const creditedSources = el("div", "credited-sources");
+  for (const source of creditSources) {
+    const item = el("div", "credited-source");
+    item.append(
+      externalLink("Credit source " + source.commit.slice(0, 7) + " ↗", source.url),
+      el("p", "credit-evidence", source.creditEvidence)
+    );
+    creditedSources.append(item);
   }
+  attribution.append(creditedSources);
 
   const action = el("div", "tracker-action");
   action.append(el("span", "tracker-cell-label", "Next review"));
