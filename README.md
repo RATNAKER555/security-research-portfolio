@@ -7,8 +7,9 @@ testing of Thread and Matter systems.
 
 The presentation follows an academic lab-record model. Every detailed finding
 includes a public primary source, the observed behaviour, the validation
-method, the tested scope, and an attribution statement. Programme descriptions
-identify research directions and remain separate from evidence-backed results.
+method, the tested scope, a reviewed CWE classification, and an attribution
+statement. Programme descriptions identify research directions and remain
+separate from evidence-backed results.
 
 ## Local validation
 
@@ -32,6 +33,10 @@ The public dataset is public/data/findings.json.
   never contains project names, triggers, versions, source locations, issue
   URLs, correspondence, or reproducer material.
 - summary values are derived from the entries and checked by the validator.
+- weakness mappings distinguish a primary root cause from any separately
+  observed consequence CWE. IDs and official titles are checked against a
+  pinned subset of MITRE CWE 4.20; the review method is documented in
+  docs/CWE_CLASSIFICATION.md.
 - assignedCves remains zero until a public CVE record exists.
 
 The private evidence collection lives outside this repository. Client-side

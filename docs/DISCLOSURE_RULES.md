@@ -53,6 +53,18 @@ Each public record states three separate things:
 Scope statements should describe the tested system and measured effect. Avoid
 generic lists of outcomes that were not part of the experiment.
 
+## CWE classification
+
+Detailed public records follow `docs/CWE_CLASSIFICATION.md`. Each record has
+one primary root-cause mapping, zero or more independently demonstrated
+consequence mappings, or an explicit `pending classification` state. CWE IDs
+and official titles are build-checked against the pinned MITRE CWE 4.20
+catalog subset.
+
+CWE mappings do not stand in for severity, exploitability, or impact. Private
+aggregate cards remain unclassified in the public dataset because they do not
+expose enough evidence for a defensible public mapping.
+
 ## Research-programme descriptions
 
 The site may identify broad, established research directions such as native

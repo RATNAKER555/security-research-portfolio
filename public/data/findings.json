@@ -11,10 +11,10 @@
     "assignedCves": 0,
     "publicOriginalContributions": 2,
     "underCoordination": 8,
-    "validatedDistinctFindings": 15,
+    "validatedDistinctFindings": 16,
     "independentValidations": 5,
-    "researchQueue": 5,
-    "investigatedPackages": 20
+    "researchQueue": 6,
+    "investigatedPackages": 21
   },
   "publicEntries": [
     {
@@ -26,7 +26,7 @@
       "date": "2026-10-16",
       "summary": "A fragmented response on an unsent client stream could alter shared header metadata before the invalid state was rejected. A later request read beyond its allocated-header buffer and transmitted stale client-process heap bytes to the peer. Upstream published the state-ordering fix with Reported-by credit.",
       "evidence": {
-        "primitive": "CWE-125 out-of-bounds read; CWE-200 disclosure",
+        "primitive": "Out-of-bounds read with stale client-heap disclosure",
         "validation": "ASan boundary report plus separate-process 5/5 trigger and 5/5 control",
         "boundary": "Tested on the cleartext HTTP/2 prior-knowledge client path; demonstrated effect is stale client-heap disclosure"
       },
@@ -42,7 +42,21 @@
           "label": "Upstream fix f93a7df",
           "url": "https://github.com/warmcat/libwebsockets/commit/f93a7df942a66b02f15187c057ed2c0f006e4bca"
         }
-      ]
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-696",
+          "name": "Incorrect Behavior Order"
+        },
+        "consequences": [
+          {
+            "id": "CWE-125",
+            "name": "Out-of-bounds Read"
+          }
+        ],
+        "basis": "The protocol-state rejection occurred after header decoding; moving it before decoding corrects the observed behavior order. The later read beyond allocated header storage was reproduced separately."
+      }
     },
     {
       "id": "public-ffmpeg-rtpmap-leak",
@@ -69,7 +83,16 @@
           "label": "FFmpeg pull request 25160",
           "url": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/25160"
         }
-      ]
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-401",
+          "name": "Missing Release of Memory after Effective Lifetime"
+        },
+        "consequences": [],
+        "basis": "A replacement allocation overwrote the only pointer to the prior live allocation, so teardown could no longer release it."
+      }
     },
     {
       "id": "validation-ffmpeg-rfc4175",
@@ -95,7 +118,16 @@
           "label": "Upstream fix 3d6a441",
           "url": "https://github.com/FFmpeg/FFmpeg/commit/3d6a441fd35e5891b0470af8c1bf216965116f31"
         }
-      ]
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-908",
+          "name": "Use of Uninitialized Resource"
+        },
+        "consequences": [],
+        "basis": "Incomplete packets left part of an allocated frame buffer uninitialized; zero-initializing the frame allocation removes the disclosed tail."
+      }
     },
     {
       "id": "validation-lws-cookie-uaf",
@@ -121,7 +153,16 @@
           "label": "Upstream fix 329124ad",
           "url": "https://github.com/warmcat/libwebsockets/commit/329124ad56b6841839d2c507966b5e9e30bc818b"
         }
-      ]
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-416",
+          "name": "Use After Free"
+        },
+        "consequences": [],
+        "basis": "Cache eviction freed the lookup result while the active walk retained and read its stale pointer."
+      }
     },
     {
       "id": "validation-mupdf-linearization",
@@ -147,7 +188,16 @@
           "label": "Upstream fix 21653743",
           "url": "https://github.com/ArtifexSoftware/mupdf/commit/21653743b2117ccb7d333dc901e7705995aeca8f"
         }
-      ]
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-1284",
+          "name": "Improper Validation of Specified Quantity in Input"
+        },
+        "consequences": [],
+        "basis": "The PDF-declared linear page quantity was used without enforcing a positive value; the public fix rejects non-positive counts before allocation."
+      }
     },
     {
       "id": "validation-ksmbd-aapl-overflow",
@@ -174,7 +224,21 @@
           "label": "Upstream fix 4ceeaa7",
           "url": "https://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/smb.git/commit/?id=4ceeaa7b1a1a022ee329c4068339b3f44c1514a2"
         }
-      ]
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-131",
+          "name": "Incorrect Calculation of Buffer Size"
+        },
+        "consequences": [
+          {
+            "id": "CWE-787",
+            "name": "Out-of-bounds Write"
+          }
+        ],
+        "basis": "The CREATE response allocation omitted valid response-context sizes. The resulting write beyond the allocated response buffer was independently reproduced with KASAN."
+      }
     },
     {
       "id": "validation-libsndfile-opus-granule",
@@ -201,7 +265,16 @@
           "label": "Original review discussion",
           "url": "https://github.com/libsndfile/libsndfile/pull/463#discussion_r271205542"
         }
-      ]
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-908",
+          "name": "Use of Uninitialized Resource"
+        },
+        "consequences": [],
+        "basis": "The reader returned samples beyond the decoder-produced frame count from a freshly allocated, uninitialized buffer."
+      }
     }
   ],
   "privateEntries": [
@@ -225,7 +298,7 @@
       "project": "Multiple projects",
       "status": "queued",
       "date": "2026-10-18",
-      "count": 5,
+      "count": 6,
       "summary": "Candidate findings undergoing practical-impact, prior-art, or report-readiness review before any public claim is made.",
       "tags": [
         "impact analysis",
@@ -233,5 +306,12 @@
         "report preparation"
       ]
     }
-  ]
+  ],
+  "taxonomy": {
+    "name": "CWE",
+    "version": "4.20",
+    "published": "2026-04-30",
+    "source": "https://cwe.mitre.org/data/downloads",
+    "reviewed": "2026-10-18"
+  }
 }

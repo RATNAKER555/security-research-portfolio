@@ -45,8 +45,42 @@ function formatDate(value) {
 
 function appendTerm(list, term, description) {
   const group = document.createElement("div");
-  group.append(el("dt", "", term), el("dd", "", description));
+  const definition = el("dd", "");
+  if (description instanceof Node) definition.append(description);
+  else definition.textContent = text(description);
+  group.append(el("dt", "", term), definition);
   list.append(group);
+}
+
+function makeCweLink(reference) {
+  const anchor = el("a", "cwe-link", reference.id + " · " + reference.name);
+  anchor.href = "https://cwe.mitre.org/data/definitions/" +
+    reference.id.slice(4) + ".html";
+  anchor.target = "_blank";
+  anchor.rel = "noreferrer noopener";
+  return anchor;
+}
+
+function appendWeaknessTerms(list, weakness) {
+  if (weakness.status === "pending") {
+    appendTerm(list, "Primary CWE", "Pending classification");
+    appendTerm(list, "Consequence CWE", "Not assigned while primary classification is pending");
+    appendTerm(list, "Mapping basis", weakness.reason);
+    return;
+  }
+
+  appendTerm(list, "Primary CWE", makeCweLink(weakness.primary));
+  if (weakness.consequences.length === 0) {
+    appendTerm(list, "Consequence CWE", "No separate consequence CWE assigned");
+  } else {
+    const references = el("span", "cwe-references");
+    weakness.consequences.forEach((reference, index) => {
+      if (index) references.append(document.createTextNode("; "));
+      references.append(makeCweLink(reference));
+    });
+    appendTerm(list, "Consequence CWE", references);
+  }
+  appendTerm(list, "Mapping basis", weakness.basis);
 }
 
 function makePublicEntry(entry, index) {
@@ -77,6 +111,7 @@ function makePublicEntry(entry, index) {
   appendTerm(evidence, "Observed primitive", entry.evidence.primitive);
   appendTerm(evidence, "Validation", entry.evidence.validation);
   appendTerm(evidence, "Scope", entry.evidence.boundary);
+  appendWeaknessTerms(evidence, entry.weakness);
 
   const credit = el("p", "entry-credit");
   credit.append(
@@ -130,6 +165,11 @@ function searchableText(entry) {
     entry.evidence?.primitive,
     entry.evidence?.validation,
     entry.evidence?.boundary,
+    entry.weakness?.primary?.id,
+    entry.weakness?.primary?.name,
+    entry.weakness?.basis,
+    entry.weakness?.reason,
+    ...(entry.weakness?.consequences ?? []).flatMap((item) => [item.id, item.name]),
     ...(entry.tags ?? [])
   ].join(" ").toLocaleLowerCase("en");
 }
@@ -228,6 +268,14 @@ function setMetrics(summary) {
   }
 }
 
+function setTaxonomy(taxonomy) {
+  document.querySelector("#taxonomy-release").textContent =
+    taxonomy.name + " " + taxonomy.version;
+  const published = document.querySelector("#taxonomy-published");
+  published.dateTime = taxonomy.published;
+  published.textContent = formatDate(taxonomy.published);
+}
+
 function setupControls() {
   for (const button of document.querySelectorAll(".filter")) {
     button.addEventListener("click", () => {
@@ -255,6 +303,7 @@ async function start() {
   state.entries = data.publicEntries;
   setProfile(data.profile);
   setMetrics(data.summary);
+  setTaxonomy(data.taxonomy);
   renderStatusBars(data.publicEntries);
   renderPrivateEntries(data.privateEntries);
 

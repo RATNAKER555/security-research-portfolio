@@ -1,0 +1,59 @@
+{
+  "catalog": {
+    "name": "CWE",
+    "version": "4.20",
+    "published": "2026-04-30",
+    "source": "https://cwe.mitre.org/data/xml/cwec_v4.20.xml.zip",
+    "archiveSha256": "3976f599e5e5200219a3108bb896d06e2a88fbb293369e1883cb423a5e9d7d50"
+  },
+  "weaknesses": {
+    "CWE-125": {
+      "name": "Out-of-bounds Read",
+      "abstraction": "Base",
+      "status": "Draft",
+      "mappingUsage": "Allowed"
+    },
+    "CWE-1284": {
+      "name": "Improper Validation of Specified Quantity in Input",
+      "abstraction": "Base",
+      "status": "Incomplete",
+      "mappingUsage": "Allowed"
+    },
+    "CWE-131": {
+      "name": "Incorrect Calculation of Buffer Size",
+      "abstraction": "Base",
+      "status": "Draft",
+      "mappingUsage": "Allowed"
+    },
+    "CWE-401": {
+      "name": "Missing Release of Memory after Effective Lifetime",
+      "abstraction": "Variant",
+      "status": "Draft",
+      "mappingUsage": "Allowed"
+    },
+    "CWE-416": {
+      "name": "Use After Free",
+      "abstraction": "Variant",
+      "status": "Stable",
+      "mappingUsage": "Allowed"
+    },
+    "CWE-696": {
+      "name": "Incorrect Behavior Order",
+      "abstraction": "Class",
+      "status": "Incomplete",
+      "mappingUsage": "Allowed-with-Review"
+    },
+    "CWE-787": {
+      "name": "Out-of-bounds Write",
+      "abstraction": "Base",
+      "status": "Draft",
+      "mappingUsage": "Allowed-with-Review"
+    },
+    "CWE-908": {
+      "name": "Use of Uninitialized Resource",
+      "abstraction": "Base",
+      "status": "Incomplete",
+      "mappingUsage": "Allowed"
+    }
+  }
+}

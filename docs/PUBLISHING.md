@@ -18,10 +18,12 @@ Then inspect public/data/findings.json and the generated dist/ tree. Confirm:
 1. Every detailed record has a primary public HTTPS source.
 2. Attribution matches that source.
 3. CVE totals include only assigned, publicly verifiable identifiers.
-4. Coordinated and queued work appears only as aggregate counts.
-5. No private project name, issue URL, local path, trigger, version, hash,
+4. CWE IDs and titles pass the pinned-catalog check, and mapping rationales do
+   not exceed the public disclosure boundary.
+5. Coordinated and queued work appears only as aggregate counts.
+6. No private project name, issue URL, local path, trigger, version, hash,
    correspondence, or artifact entered the build.
-6. Mobile and desktop layouts remain readable.
+7. Mobile and desktop layouts remain readable.
 
 ## GitHub Pages
 

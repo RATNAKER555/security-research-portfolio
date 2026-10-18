@@ -200,6 +200,21 @@
             <li><span>05</span><div><h3>Coordinate remediation</h3><p>Report the observed behaviour, conditions, reproducible evidence, and tested fix direction through the project’s chosen route.</p></div><b>disclosure</b></li>
           </ol>
         </div>
+        <aside class="taxonomy-method" aria-labelledby="taxonomy-title">
+          <div class="taxonomy-heading">
+            <div>
+              <p>Taxonomy protocol</p>
+              <h3 id="taxonomy-title">Evidence-led CWE classification.</h3>
+            </div>
+            <span><b id="taxonomy-release">CWE —</b><small>published <time id="taxonomy-published">—</time></small></span>
+          </div>
+          <div class="taxonomy-grid">
+            <div><strong>Primary</strong><p>The earliest demonstrated root cause is mapped to the most specific MITRE entry supported by the public source and retained experiment.</p></div>
+            <div><strong>Consequence</strong><p>A second CWE appears only when a downstream weakness was observed independently; confidentiality and availability effects remain impact statements.</p></div>
+            <div><strong>Uncertainty</strong><p>When the evidence cannot support a specific mapping, the record says <em>pending classification</em>. Private aggregate records are not classified publicly.</p></div>
+          </div>
+          <p class="taxonomy-provenance">IDs, official titles, and mapping eligibility are checked during every build against a locally pinned subset of the MITRE CWE catalog. The source archive, version, publication date, and SHA-256 are retained with the validator. <a href="https://cwe.mitre.org/documents/cwe_usage/guidance.html" target="_blank" rel="noreferrer noopener">MITRE root-cause mapping guidance ↗</a></p>
+        </aside>
       </section>
 
       <section class="principles-section" aria-labelledby="principles-title">
