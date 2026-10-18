@@ -25,11 +25,17 @@ pages:
     - job: credit-monitor
       artifacts: true
   script:
-    - python3 scripts/build_private_site.py
-    - mv public public-safe-source
-    - mv dist-private public
+    - |
+      if [ "$CI_COMMIT_BRANCH" = "private-dashboard" ]; then
+        python3 scripts/build_private_site.py
+        mv public public-safe-source
+        mv dist-private public
+      else
+        test ! -e private/report-tracker.json
+      fi
   artifacts:
     paths:
       - public
   rules:
     - if: '$CI_COMMIT_BRANCH == "private-dashboard"'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PROJECT_PATH == "u0190734/vulnerability-research"'

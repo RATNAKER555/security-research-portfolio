@@ -69,9 +69,11 @@ redaction is not used: undisclosed data is absent from the build.
 
 ## Deployment
 
-- The canonical deployment is KU Leuven GitLab Pages:
+- The public KU Leuven GitLab Pages site is
+  <https://u0190734.pages.gitlab.kuleuven.be/vulnerability-research/>.
+- The authenticated research-operations dashboard is
   <https://u0190734.pages.gitlab.kuleuven.be/security-research-portfolio/>.
-- GitHub Pages will mirror the same reviewed commit after the GitHub repository
+- GitHub Pages will mirror the public `main` branch after the GitHub repository
   is created and Pages is enabled.
 
 Read docs/DISCLOSURE_RULES.md before adding a record and

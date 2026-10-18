@@ -43,11 +43,12 @@ Expected project URL after the first successful workflow:
 
 ## KU Leuven GitLab Pages
 
-1. Create an empty project named security-research-portfolio in the intended
+1. Create an empty public project named vulnerability-research in the intended
    KU Leuven namespace.
 2. Add its SSH URL as the kuleuven remote and push main.
 3. The included pipeline validates the public findings and tracker before
-   retaining public/ as the Pages artifact.
+   retaining public/ as the Pages artifact. The deployment rule is restricted
+   to `u0190734/vulnerability-research`.
 4. Read the exact Pages URL from Deploy, Pages after the pipeline succeeds.
 
 ## Authenticated KU Leuven research dashboard
