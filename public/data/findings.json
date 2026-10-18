@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-17",
+  "updated": "2026-10-18",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Vulnerability researcher",
@@ -11,10 +11,10 @@
     "assignedCves": 0,
     "publicOriginalContributions": 2,
     "underCoordination": 8,
-    "validatedDistinctFindings": 14,
+    "validatedDistinctFindings": 15,
     "independentValidations": 5,
-    "researchQueue": 4,
-    "investigatedPackages": 19
+    "researchQueue": 5,
+    "investigatedPackages": 20
   },
   "publicEntries": [
     {
@@ -31,7 +31,12 @@
         "boundary": "Cleartext HTTP/2 prior knowledge; no write primitive or code execution shown"
       },
       "credit": "Original report by Ratnaker Gautam; upstream commit contains Reported-by credit",
-      "tags": ["HTTP/2", "HPACK", "confidentiality", "fixed upstream"],
+      "tags": [
+        "HTTP/2",
+        "HPACK",
+        "confidentiality",
+        "fixed upstream"
+      ],
       "links": [
         {
           "label": "Upstream fix f93a7df",
@@ -53,7 +58,12 @@
         "boundary": "Resource exhaustion; no memory corruption or code execution observed"
       },
       "credit": "Original public patch authored and signed off by Ratnaker Gautam; maintainer review pending",
-      "tags": ["RTSP", "SDP", "memory leak", "patch submitted"],
+      "tags": [
+        "RTSP",
+        "SDP",
+        "memory leak",
+        "patch submitted"
+      ],
       "links": [
         {
           "label": "FFmpeg pull request 25160",
@@ -75,7 +85,11 @@
         "boundary": "Prior public discovery; no original finder or CVE claim"
       },
       "credit": "Upstream fix credits Joshua Rogers and identifies AISLE-2026-0111-00477",
-      "tags": ["RFC4175", "confidentiality", "duplicate retired"],
+      "tags": [
+        "RFC4175",
+        "confidentiality",
+        "duplicate retired"
+      ],
       "links": [
         {
           "label": "Upstream fix 3d6a441",
@@ -97,7 +111,11 @@
         "boundary": "Prior public fix; retained only as independent validation"
       },
       "credit": "The upstream fix predates this campaign's disclosure review",
-      "tags": ["use after free", "HTTP client", "duplicate retired"],
+      "tags": [
+        "use after free",
+        "HTTP client",
+        "duplicate retired"
+      ],
       "links": [
         {
           "label": "Upstream fix 329124ad",
@@ -119,7 +137,11 @@
         "boundary": "Prior public report; no original finder or CVE claim"
       },
       "credit": "Publicly tracked by Artifex as Bug 709789",
-      "tags": ["PDF", "progressive loading", "duplicate retired"],
+      "tags": [
+        "PDF",
+        "progressive loading",
+        "duplicate retired"
+      ],
       "links": [
         {
           "label": "Upstream fix 21653743",
@@ -141,7 +163,12 @@
         "boundary": "Exact public duplicate; denial of service and corruption proved, no code execution"
       },
       "credit": "Original public patch by Jérémy Jean; Ratnaker Gautam independently reproduced and reported it",
-      "tags": ["SMB3", "kernel", "out-of-bounds write", "duplicate retired"],
+      "tags": [
+        "SMB3",
+        "kernel",
+        "out-of-bounds write",
+        "duplicate retired"
+      ],
       "links": [
         {
           "label": "Upstream fix 4ceeaa7",
@@ -163,7 +190,12 @@
         "boundary": "Exact public prior art; no original-finder or CVE claim"
       },
       "credit": "Arthur Taylor identified the defect and disclosure consequence in the 2019 review; Ratnaker Gautam independently validated current-source reachability",
-      "tags": ["Ogg", "Opus", "uninitialized memory", "duplicate retired"],
+      "tags": [
+        "Ogg",
+        "Opus",
+        "uninitialized memory",
+        "duplicate retired"
+      ],
       "links": [
         {
           "label": "Original review discussion",
@@ -181,17 +213,25 @@
       "date": "2026-10-17",
       "count": 8,
       "summary": "Submitted records with evidence and correspondence retained offline. Names, technical details, identifiers, and timelines remain withheld until each disclosure is public.",
-      "tags": ["details withheld", "offline evidence", "credit pending"]
+      "tags": [
+        "details withheld",
+        "offline evidence",
+        "credit pending"
+      ]
     },
     {
       "id": "queue-aggregate",
       "title": "Research and reporting queue",
       "project": "Multiple projects",
       "status": "queued",
-      "date": "2026-10-17",
-      "count": 4,
+      "date": "2026-10-18",
+      "count": 5,
       "summary": "Validated candidates still below the publication gate. They remain private while practical impact, current-source status, and novelty are reviewed.",
-      "tags": ["impact review", "novelty review", "not yet claimed"]
+      "tags": [
+        "impact review",
+        "novelty review",
+        "not yet claimed"
+      ]
     }
   ]
 }
