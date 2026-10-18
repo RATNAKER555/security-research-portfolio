@@ -43,14 +43,6 @@ Expected project URL after the first successful workflow:
    public/ as the Pages artifact.
 4. Read the exact Pages URL from Deploy, Pages after the pipeline succeeds.
 
-## ChatGPT Sites
-
-The bound Sites project is stored in .openai/hosting.json. Its build command
-is:
-
-~~~sh
-python3 scripts/build_site.py
-~~~
-
-The static directory is dist. Publish it privately first and inspect the live
-result before changing its audience.
+The KU Leuven GitLab Pages deployment is canonical. Any private staging
+preview is for release review only and must not be presented as the public
+portfolio address.

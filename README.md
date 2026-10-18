@@ -39,9 +39,10 @@ redaction is not used: undisclosed data is absent from the build.
 
 ## Deployment
 
-- GitHub Pages deploys public/ with .github/workflows/pages.yml.
-- KU Leuven GitLab Pages deploys public/ with .gitlab-ci.yml.
-- ChatGPT Sites builds dist/ from the same reviewed source.
+- The canonical deployment is KU Leuven GitLab Pages:
+  <https://u0190734.pages.gitlab.kuleuven.be/security-research-portfolio/>.
+- GitHub Pages will mirror the same reviewed commit after the GitHub repository
+  is created and Pages is enabled.
 
 Read docs/DISCLOSURE_RULES.md before adding a record and
 docs/PUBLISHING.md before publishing.
