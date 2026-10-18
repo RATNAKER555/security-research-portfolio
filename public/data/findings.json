@@ -10,10 +10,10 @@
   "summary": {
     "assignedCves": 0,
     "publicOriginalContributions": 3,
-    "underCoordination": 11,
+    "underCoordination": 12,
     "originalFindings": 19,
     "independentValidations": 5,
-    "researchQueue": 5,
+    "researchQueue": 4,
     "trackedResearchRecords": 24
   },
   "publicEntries": [
@@ -324,7 +324,7 @@
       "project": "Private",
       "status": "under-coordination",
       "date": "2026-10-18",
-      "count": 11,
+      "count": 12,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
@@ -338,7 +338,7 @@
       "project": "Multiple projects",
       "status": "queued",
       "date": "2026-10-18",
-      "count": 5,
+      "count": 4,
       "summary": "Candidate findings undergoing practical-impact, prior-art, or report-readiness review before any public claim is made.",
       "tags": [
         "impact analysis",
