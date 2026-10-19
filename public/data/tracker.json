@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-18T15:18:59Z",
-  "dataDate": "2026-10-18",
+  "generatedAt": "2026-10-19T20:47:50Z",
+  "dataDate": "2026-10-19",
   "mode": "live",
   "summary": {
     "tracked": 3,
@@ -53,7 +53,7 @@
       "project": "FFmpeg",
       "title": "Repeated SDP rtpmap handler-context leak",
       "reportedOn": "2026-10-17",
-      "lastPublicActivityOn": "2026-10-17",
+      "lastPublicActivityOn": "2026-10-19",
       "followUpOn": "2026-10-24",
       "nextAction": "Review maintainer feedback and revise the patch if requested.",
       "sourceUrl": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/25160",
