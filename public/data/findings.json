@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-18",
+  "updated": "2026-10-20",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Systems security researcher",
@@ -8,12 +8,12 @@
   },
   "summary": {
     "assignedCves": 0,
-    "publicOriginalContributions": 3,
-    "underCoordination": 13,
-    "originalFindings": 20,
+    "publicOriginalContributions": 4,
+    "underCoordination": 14,
+    "originalFindings": 18,
     "independentValidations": 5,
-    "researchQueue": 4,
-    "trackedResearchRecords": 25
+    "researchQueue": 0,
+    "trackedResearchRecords": 23
   },
   "publicEntries": [
     {
@@ -131,6 +131,42 @@
         },
         "consequences": [],
         "basis": "A replacement allocation overwrote the only pointer to the prior live allocation, so teardown could no longer release it."
+      }
+    },
+    {
+      "id": "public-libarchive-multisource-double-close",
+      "recordId": "RG-2026-21",
+      "title": "Multi-source callback-data double close",
+      "project": "libarchive",
+      "status": "engineering-bug",
+      "date": "2026-10-20",
+      "summary": "When multiple callback-data objects are configured without a switch callback, crossing a source boundary invokes the owning close callback for the old object. Final teardown invokes it again for the same pointer. The public issue is discussing whether libarchive should reject this configuration or define safe fallback semantics.",
+      "evidence": {
+        "primitive": "Repeated owning close callback causing a heap double free",
+        "validation": "Self-contained public-API ASan replay on current master, explicit-switch control, and split-input release reproduction",
+        "boundary": "Requires multiple callback-data objects without a switch callback; maintainers regard that configuration as unsupported and requested public API discussion"
+      },
+      "credit": "Original report and public issue by Ratnaker Gautam; upstream behavior and fix policy remain under discussion",
+      "tags": [
+        "callback lifecycle",
+        "double free",
+        "multi-source input",
+        "public issue"
+      ],
+      "links": [
+        {
+          "label": "libarchive issue 3723",
+          "url": "https://github.com/libarchive/libarchive/issues/3723"
+        }
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-415",
+          "name": "Double Free"
+        },
+        "consequences": [],
+        "basis": "The source-transition fallback and final teardown both pass the same callback-data pointer to an owning close callback, causing the same allocation to be freed twice."
       }
     },
     {
@@ -322,8 +358,8 @@
       "title": "Coordinated disclosures",
       "project": "Private",
       "status": "under-coordination",
-      "date": "2026-10-18",
-      "count": 13,
+      "date": "2026-10-20",
+      "count": 14,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
@@ -336,8 +372,8 @@
       "title": "Candidates under review",
       "project": "Multiple projects",
       "status": "queued",
-      "date": "2026-10-18",
-      "count": 4,
+      "date": "2026-10-20",
+      "count": 0,
       "summary": "Candidate findings undergoing practical-impact, prior-art, or report-readiness review before any public claim is made.",
       "tags": [
         "impact analysis",

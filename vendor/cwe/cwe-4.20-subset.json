@@ -37,6 +37,12 @@
       "status": "Draft",
       "mappingUsage": "Allowed"
     },
+    "CWE-415": {
+      "name": "Double Free",
+      "abstraction": "Variant",
+      "status": "Draft",
+      "mappingUsage": "Allowed"
+    },
     "CWE-416": {
       "name": "Use After Free",
       "abstraction": "Variant",
