@@ -8,8 +8,8 @@
   },
   "summary": {
     "assignedCves": 0,
-    "publicOriginalContributions": 4,
-    "underCoordination": 14,
+    "publicOriginalContributions": 5,
+    "underCoordination": 13,
     "originalFindings": 18,
     "independentValidations": 5,
     "researchQueue": 0,
@@ -167,6 +167,42 @@
         },
         "consequences": [],
         "basis": "The source-transition fallback and final teardown both pass the same callback-data pointer to an owning close callback, causing the same allocation to be freed twice."
+      }
+    },
+    {
+      "id": "public-linux-iscsi-r2t-overflow",
+      "recordId": "RG-2026-25",
+      "title": "iSCSI R2T range-check integer overflow",
+      "project": "Linux iSCSI client",
+      "status": "engineering-bug",
+      "date": "2026-10-19",
+      "summary": "An iSCSI target can choose a 32-bit R2T data offset and length whose sum wraps before the client compares it with the SCSI data-buffer length. The wrapped range passes validation and can exhaust the command scatterlist before a NULL next entry is dereferenced. The public patch replaces the overflowing sum with ordered offset and remaining-length checks.",
+      "evidence": {
+        "primitive": "Unsigned range-check overflow followed by a NULL scatterlist dereference",
+        "validation": "Target-driven i386 kernel-panic replay, matched control, exact patched replay, current-source build, and clean strict checkpatch",
+        "boundary": "Requires a logged-in iSCSI session and a target-controlled R2T; maintainers regard targets as trusted and are handling this through the normal bug-fix process"
+      },
+      "credit": "Public patch authored and signed off by Ratnaker Gautam; Acked-by review received from Chris Leech; upstream application pending",
+      "tags": [
+        "iSCSI",
+        "kernel",
+        "integer overflow",
+        "patch review"
+      ],
+      "links": [
+        {
+          "label": "linux-scsi patch thread",
+          "url": "https://lore.kernel.org/linux-scsi/DB5PR08MB100629CD3750FBF71475B5224FD982@DB5PR08MB10062.eurprd08.prod.outlook.com/"
+        }
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-190",
+          "name": "Integer Overflow or Wraparound"
+        },
+        "consequences": [],
+        "basis": "The validation adds two attacker-controlled 32-bit quantities before comparing the result with the buffer length, allowing modular wraparound to make an out-of-range transfer appear valid."
       }
     },
     {
@@ -359,7 +395,7 @@
       "project": "Private",
       "status": "under-coordination",
       "date": "2026-10-20",
-      "count": 14,
+      "count": 13,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
