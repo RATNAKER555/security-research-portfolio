@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-21T19:27:28Z",
+  "generatedAt": "2026-10-21T19:51:02Z",
   "dataDate": "2026-10-21",
   "mode": "live",
   "summary": {
@@ -10,7 +10,7 @@
     "creditConfirmed": 6,
     "cves": 0,
     "checkErrors": 0,
-    "newCreditDiscoveries": 1
+    "newCreditDiscoveries": 0
   },
   "records": [
     {
@@ -148,16 +148,6 @@
       "followUpState": "due-soon"
     }
   ],
-  "discoveries": [
-    {
-      "commit": "3f392e333b8b7bc95dff156463fe374ac8e043f6",
-      "subject": "ksmbd: validate security descriptor offsets before pointer arithmetic",
-      "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
-      "source": "GitHub public commit index",
-      "location": "kernelorg-mirror/linux_kernel_git_next_linux-next",
-      "date": "2026-10-17",
-      "url": "https://github.com/kernelorg-mirror/linux_kernel_git_next_linux-next/commit/3f392e333b8b7bc95dff156463fe374ac8e043f6"
-    }
-  ],
+  "discoveries": [],
   "discoveryErrors": []
 }

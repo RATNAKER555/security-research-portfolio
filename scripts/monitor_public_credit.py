@@ -664,6 +664,14 @@ def build_output(
         for record in records
         for source in record.get("relatedSources", [])
     )
+    # A maintainer rebase can replace a fixing commit while mirrors keep the old
+    # hash. Superseded hashes stay linked to their finding but are not counted
+    # as a second credit.
+    known_commits.update(
+        commit
+        for record in config["records"]
+        for commit in record["monitor"].get("supersededCommits", [])
+    )
     new_discoveries = [
         item for item in discoveries if item.get("commit") not in known_commits
     ]

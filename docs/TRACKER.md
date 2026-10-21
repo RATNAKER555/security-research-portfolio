@@ -25,7 +25,10 @@ previously verified credit: the row is marked as a check error and retains the
 last reviewed baseline. A newly discovered public credit appears in the
 automated review queue until it is linked to the correct finding. One report
 with two fixing commits remains one finding, while the attribution total counts
-both independently verified public credit sources.
+both independently verified public credit sources. When a maintainer rebase
+replaces a fixing commit, the record monitors the new hash and lists the old
+one in `monitor.supersededCommits`, so mirrors that still carry the old hash
+neither reappear in the review queue nor count as a second credit.
 
 Run a current public check with:
 
