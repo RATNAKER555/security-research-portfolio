@@ -19,6 +19,12 @@
       "status": "Incomplete",
       "mappingUsage": "Allowed"
     },
+    "CWE-129": {
+      "name": "Improper Validation of Array Index",
+      "abstraction": "Variant",
+      "status": "Draft",
+      "mappingUsage": "Allowed"
+    },
     "CWE-131": {
       "name": "Incorrect Calculation of Buffer Size",
       "abstraction": "Base",
@@ -63,6 +69,12 @@
     },
     "CWE-908": {
       "name": "Use of Uninitialized Resource",
+      "abstraction": "Base",
+      "status": "Incomplete",
+      "mappingUsage": "Allowed"
+    },
+    "CWE-911": {
+      "name": "Improper Update of Reference Count",
       "abstraction": "Base",
       "status": "Incomplete",
       "mappingUsage": "Allowed"
