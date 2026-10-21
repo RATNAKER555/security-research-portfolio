@@ -139,6 +139,53 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(payload["summary"]["checkErrors"], 1)
         self.assertEqual(payload["generatedAt"], "2026-10-18T12:00:00Z")
 
+    def test_superseded_commit_is_not_a_new_discovery_or_extra_credit(self):
+        record = self.record("RG-2026-14")
+        superseded = record["monitor"]["supersededCommits"]
+        self.assertTrue(superseded)
+        self.assertNotIn(record["monitor"]["commit"], superseded)
+        config = copy.deepcopy(self.config)
+        config["records"] = [record]
+        config["discoverySources"] = [
+            {
+                "kind": "github-global-search",
+                "label": "GitHub public commit index",
+                "query": '"Ratnaker Gautam"',
+                "scanLimit": 100,
+            }
+        ]
+        unrelated = "c" * 40
+
+        def item(sha):
+            return {
+                "sha": sha,
+                "html_url": "https://github.com/example/mirror/commit/" + sha,
+                "repository": {"full_name": "example/mirror"},
+                "commit": {
+                    "message": (
+                        "fix parser\n\n"
+                        "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>"
+                    ),
+                    "committer": {"date": "2026-10-17T13:01:51Z"},
+                },
+            }
+
+        def respond(url):
+            if "api.github.com/search/commits" in url:
+                return {"items": [item(superseded[0]), item(unrelated)]}
+            raise monitor.MonitorError("fixture: record source unavailable")
+
+        payload = monitor.build_output(
+            config,
+            client=FakeClient(respond),
+            today=date(2026, 10, 21),
+            now=datetime(2026, 10, 21, 12, tzinfo=timezone.utc),
+            check_cves=False,
+        )
+        self.assertEqual([entry["commit"] for entry in payload["discoveries"]], [unrelated])
+        self.assertEqual(payload["summary"]["newCreditDiscoveries"], 1)
+        self.assertEqual(payload["summary"]["creditConfirmed"], 1)
+
     def test_discovery_requires_a_credit_trailer(self):
         reporter = self.config["reporter"]
         self.assertIsNone(

@@ -117,6 +117,9 @@
         "kind": "gitiles-commit",
         "repositoryUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb",
         "commit": "3474e1a304fbf9f7c996b24adcd519e031227a90",
+        "supersededCommits": [
+          "3f392e333b8b7bc95dff156463fe374ac8e043f6"
+        ],
         "branches": [
           "ksmbd-for-next",
           "for-next",

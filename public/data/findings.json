@@ -108,7 +108,7 @@
       "project": "MuPDF",
       "status": "publicly-disclosed",
       "date": "2026-10-21",
-      "summary": "During progressive loading, the hint-repair path used an object number parsed from the PDF as an index into the hint offset table without checking it against the table size, so a crafted linearized PDF could direct an 8-byte heap write outside that table. Upstream's fix, published as an out-of-bounds read fix in hint handling, checks each object number against the table bounds before the table is read or written and abandons the hints when a number is out of range.",
+      "summary": "During progressive loading, the hint-repair path used an object number parsed from the PDF as an index into the hint offset table without checking it against the table bounds, so a crafted linearized PDF could direct an 8-byte heap write outside that table. Upstream's fix, published as an out-of-bounds read fix in hint handling, checks each object number against the table bounds before the table is read or written and abandons the hints when a number is out of range.",
       "evidence": {
         "primitive": "Input-indexed 8-byte heap out-of-bounds write",
         "validation": "ASan replays on then-current master and release 1.28.5 through the documented progressive-loading API, valid controls, 5/5 native guard-overwrite and allocator-abort replays, and patched replay",
@@ -139,7 +139,7 @@
             "name": "Out-of-bounds Write"
           }
         ],
-        "basis": "An object number read from the file was used as a hint-table index without a bounds check. The resulting write outside the allocation was separately observed with AddressSanitizer; the public fix validates each object number against the table size before use."
+        "basis": "An object number read from the file was used as a hint-table index without a bounds check. The resulting write outside the allocation was separately observed with AddressSanitizer; the public fix validates each object number against the table bounds before use."
       }
     },
     {
@@ -261,9 +261,9 @@
       "project": "MuPDF",
       "status": "engineering-bug",
       "date": "2026-10-21",
-      "summary": "When a non-incremental save renumbered objects, it stored owned replacement objects through setters that keep their own references and then discarded the caller's reference without releasing it. Each garbage-collecting save could therefore retain an input-proportional amount of memory until a long-lived process reached its allocation limit. Upstream fixed the leak on master by releasing each replacement after it is stored.",
+      "summary": "When a non-incremental save renumbered objects, it stored owned replacement objects through setters that keep their own references and then discarded the caller's reference without releasing it. Each such save could therefore retain memory in proportion to the input, and repeated saves in a long-lived process accumulated it until the process reached its allocation limit. Upstream fixed the leak on master by releasing each replacement after it is stored.",
       "evidence": {
-        "primitive": "Input-proportional memory retention on every garbage-collecting save",
+        "primitive": "Input-proportional memory retention on each save that renumbers objects (garbage level 2 or 3)",
         "validation": "ASan/LSan and Valgrind replays on then-current master, 1,000-save native RSS and address-space-limit replays, PyMuPDF ez_save replay, garbage-level-1 controls, and patched replay with byte-identical output",
         "boundary": "Requires repeated full saves with garbage collection at level 2 or 3 in a long-lived process; measured consequence is memory growth and eventual allocation failure"
       },
@@ -372,13 +372,13 @@
       "project": "MuPDF",
       "status": "independent-validation",
       "date": "2026-10-16",
-      "summary": "The progressive-loading campaign reproduced the invalid page-count failure and then matched it to public Artifex Bug 709789 and its upstream correction. The result was removed from the new-report queue.",
+      "summary": "The progressive-loading campaign reproduced the invalid page-count failure and then matched it to the public upstream correction for Artifex Bug 709789. The result was removed from the new-report queue.",
       "evidence": {
         "primitive": "Invalid memory access during progressive PDF loading",
-        "validation": "Reproduction matched against public bug and fixing commit",
-        "boundary": "Prior public report; no original finder or CVE claim"
+        "validation": "Reproduction matched against the public fixing commit",
+        "boundary": "Prior public fix; no original finder or CVE claim"
       },
-      "credit": "Publicly tracked by Artifex as Bug 709789",
+      "credit": "The public upstream fix cites Artifex Bug 709789",
       "tags": [
         "PDF",
         "progressive loading",

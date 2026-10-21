@@ -181,6 +181,21 @@ def validate_config(config: dict, public_entries: dict[str, dict]) -> None:
         if not patterns or not all(reporter["name"].casefold() in item.casefold() for item in patterns):
             fail(f"{identifier} credit patterns must identify the reporter")
         require_string_list(monitor.get("cveKeywords"), f"{identifier}.monitor.cveKeywords")
+        superseded = monitor.get("supersededCommits", [])
+        if not isinstance(superseded, list):
+            fail(f"{identifier}.monitor.supersededCommits must be a list")
+        for superseded_index, commit in enumerate(superseded):
+            require_sha(commit, f"{identifier}.monitor.supersededCommits[{superseded_index}]")
+        related_list = monitor.get("relatedCommits", [])
+        related_commits = (
+            {item.get("commit") for item in related_list if isinstance(item, dict)}
+            if isinstance(related_list, list)
+            else set()
+        )
+        if len(set(superseded)) != len(superseded) or set(superseded) & (
+            {monitor["commit"]} | related_commits
+        ):
+            fail(f"{identifier}.monitor.supersededCommits must list distinct replaced commits")
         if monitor["kind"] == "github-commit":
             require_string(monitor.get("repository"), f"{identifier}.monitor.repository")
             related = monitor.get("relatedCommits", [])
