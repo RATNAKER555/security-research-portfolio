@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-21",
+  "updated": "2026-10-22",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Systems security researcher",
@@ -185,13 +185,13 @@
       "project": "libarchive",
       "status": "engineering-bug",
       "date": "2026-10-20",
-      "summary": "When multiple callback-data objects are configured without a switch callback, crossing a source boundary invokes the owning close callback for the old object. Final teardown invokes it again for the same pointer. Two public pull requests propose fixes and reviewers requested changes on both; the open question is whether libarchive should reject this configuration or keep fallback semantics that close each object once.",
+      "summary": "When multiple callback-data objects are configured without a switch callback, crossing a source boundary invokes the owning close callback for the old object. Final teardown invokes it again for the same pointer. After review, pull request 3738 was revised to reject this configuration in archive_read_open1() whenever an open or close callback is set; callers that use only read, skip and seek callbacks keep working. The revision awaits re-review.",
       "evidence": {
         "primitive": "Repeated owning close callback causing a heap double free",
         "validation": "Self-contained public-API ASan replay on current master, explicit-switch control, and split-input release reproduction",
         "boundary": "Requires multiple callback-data objects without a switch callback; maintainers regard that configuration as unsupported and requested public API discussion"
       },
-      "credit": "Original report, public issue, and pull request 3738 by Ratnaker Gautam; reviewers requested changes and the fix approach remains under discussion",
+      "credit": "Original report, public issue, and pull request 3738 by Ratnaker Gautam; the pull request was revised after review and awaits re-review",
       "tags": [
         "callback lifecycle",
         "double free",
