@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-19T20:47:50Z",
-  "dataDate": "2026-10-19",
+  "generatedAt": "2026-10-21T19:27:28Z",
+  "dataDate": "2026-10-21",
   "mode": "live",
   "summary": {
-    "tracked": 3,
-    "active": 3,
+    "tracked": 5,
+    "active": 5,
     "followUpDue": 0,
-    "creditConfirmed": 4,
+    "creditConfirmed": 6,
     "cves": 0,
     "checkErrors": 0,
-    "newCreditDiscoveries": 0
+    "newCreditDiscoveries": 1
   },
   "records": [
     {
@@ -78,12 +78,12 @@
       "project": "Linux ksmbd",
       "title": "Security descriptor offset wrap on 32-bit kernels",
       "reportedOn": "2026-10-17",
-      "lastPublicActivityOn": "2026-10-17",
+      "lastPublicActivityOn": "2026-10-21",
       "followUpOn": "2026-10-25",
-      "nextAction": "Monitor promotion to for-next, mainline, stable branches, and public CVE handling.",
-      "sourceUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3f392e333b8b7bc95dff156463fe374ac8e043f6",
+      "nextAction": "Rebased into ksmbd-for-next as 3474e1a and carried in linux-next; monitor promotion to mainline, stable branches, and public CVE handling.",
+      "sourceUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3474e1a304fbf9f7c996b24adcd519e031227a90",
       "stage": "fix-queued",
-      "commit": "3f392e333b8b7bc95dff156463fe374ac8e043f6",
+      "commit": "3474e1a304fbf9f7c996b24adcd519e031227a90",
       "relatedSources": [],
       "checkState": "verified",
       "checkDetail": "Commit and recent branch history checked (ksmbd-for-next:500, for-next:500, master:500)",
@@ -96,8 +96,68 @@
       "cves": [],
       "cveCheckState": "verified",
       "followUpState": "due-soon"
+    },
+    {
+      "id": "RG-2026-01",
+      "findingId": "public-mupdf-hint-object-bounds",
+      "project": "MuPDF",
+      "title": "Progressive hint object-number heap out-of-bounds write",
+      "reportedOn": "2026-10-15",
+      "lastPublicActivityOn": "2026-10-21",
+      "followUpOn": "2026-10-28",
+      "nextAction": "Monitor the next MuPDF release and the public record for an advisory or CVE assignment.",
+      "sourceUrl": "https://github.com/ArtifexSoftware/mupdf/commit/4d84a591e69a0a567a497b6c3ba25d38d722acda",
+      "stage": "fixed-upstream",
+      "commit": "4d84a591e69a0a567a497b6c3ba25d38d722acda",
+      "relatedSources": [],
+      "checkState": "verified",
+      "checkDetail": "Public commit metadata fetched from GitHub",
+      "creditState": "confirmed",
+      "creditEvidence": "From a report and patch by Ratnaker Gautam. Many thanks!",
+      "upstreamState": "fixed-upstream",
+      "locations": [
+        "master"
+      ],
+      "cves": [],
+      "cveCheckState": "verified",
+      "followUpState": "due-soon"
+    },
+    {
+      "id": "RG-2026-07",
+      "findingId": "public-mupdf-save-renumber-leak",
+      "project": "MuPDF",
+      "title": "Garbage-collecting save object-reference leak",
+      "reportedOn": "2026-10-17",
+      "lastPublicActivityOn": "2026-10-21",
+      "followUpOn": "2026-10-28",
+      "nextAction": "Monitor the next MuPDF release and the public record for an advisory or CVE assignment.",
+      "sourceUrl": "https://github.com/ArtifexSoftware/mupdf/commit/ce44d4cc6b93f9af6dde3a07245305be6e0207d2",
+      "stage": "fixed-upstream",
+      "commit": "ce44d4cc6b93f9af6dde3a07245305be6e0207d2",
+      "relatedSources": [],
+      "checkState": "verified",
+      "checkDetail": "Public commit metadata fetched from GitHub",
+      "creditState": "confirmed",
+      "creditEvidence": "From a report and patch supplied by Ratnaker Gautam. Many thanks!",
+      "upstreamState": "fixed-upstream",
+      "locations": [
+        "master"
+      ],
+      "cves": [],
+      "cveCheckState": "verified",
+      "followUpState": "due-soon"
     }
   ],
-  "discoveries": [],
+  "discoveries": [
+    {
+      "commit": "3f392e333b8b7bc95dff156463fe374ac8e043f6",
+      "subject": "ksmbd: validate security descriptor offsets before pointer arithmetic",
+      "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+      "source": "GitHub public commit index",
+      "location": "kernelorg-mirror/linux_kernel_git_next_linux-next",
+      "date": "2026-10-17",
+      "url": "https://github.com/kernelorg-mirror/linux_kernel_git_next_linux-next/commit/3f392e333b8b7bc95dff156463fe374ac8e043f6"
+    }
+  ],
   "discoveryErrors": []
 }

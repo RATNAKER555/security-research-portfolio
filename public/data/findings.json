@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-20",
+  "updated": "2026-10-21",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Systems security researcher",
@@ -8,8 +8,8 @@
   },
   "summary": {
     "assignedCves": 0,
-    "publicOriginalContributions": 5,
-    "underCoordination": 13,
+    "publicOriginalContributions": 7,
+    "underCoordination": 11,
     "originalFindings": 18,
     "independentValidations": 5,
     "researchQueue": 0,
@@ -74,7 +74,7 @@
         "validation": "Authenticated network replay on i686, valid control, and patched-kernel replay",
         "boundary": "Authenticated SMB client against a 32-bit ksmbd server; demonstrated consequence is kernel denial of service"
       },
-      "credit": "Original report by Ratnaker Gautam; the maintainer commit contains Reported-by credit",
+      "credit": "Original report by Ratnaker Gautam; the maintainer commit contains Reported-by credit and is carried in linux-next",
       "tags": [
         "SMB2",
         "kernel",
@@ -83,8 +83,12 @@
       ],
       "links": [
         {
-          "label": "Maintainer fix 3f392e3",
-          "url": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3f392e333b8b7bc95dff156463fe374ac8e043f6"
+          "label": "Maintainer fix 3474e1a",
+          "url": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3474e1a304fbf9f7c996b24adcd519e031227a90"
+        },
+        {
+          "label": "linux-next commit 3474e1a",
+          "url": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/next/linux-next/+/3474e1a304fbf9f7c996b24adcd519e031227a90"
         }
       ],
       "weakness": {
@@ -95,6 +99,47 @@
         },
         "consequences": [],
         "basis": "Untrusted 32-bit offsets were added to the descriptor base before their range was validated. On 32-bit builds, that arithmetic could wrap the derived pointer outside the security descriptor."
+      }
+    },
+    {
+      "id": "public-mupdf-hint-object-bounds",
+      "recordId": "RG-2026-01",
+      "title": "Progressive hint object-number heap out-of-bounds write",
+      "project": "MuPDF",
+      "status": "publicly-disclosed",
+      "date": "2026-10-21",
+      "summary": "During progressive loading, the hint-repair path used an object number parsed from the PDF as an index into the hint offset table without checking it against the table size, so a crafted linearized PDF could direct an 8-byte heap write outside that table. Upstream's fix, published as an out-of-bounds read fix in hint handling, checks each object number against the table bounds before the table is read or written and abandons the hints when a number is out of range.",
+      "evidence": {
+        "primitive": "Input-indexed 8-byte heap out-of-bounds write",
+        "validation": "ASan replays on then-current master and release 1.28.5 through the documented progressive-loading API, valid controls, 5/5 native guard-overwrite and allocator-abort replays, and patched replay",
+        "boundary": "Requires an application that loads a crafted linearized PDF progressively; demonstrated effect is heap corruption next to the hint offset table"
+      },
+      "credit": "Original report and patch by Ratnaker Gautam; the upstream fixing commit credits his report and patch",
+      "tags": [
+        "PDF",
+        "progressive loading",
+        "out-of-bounds write",
+        "fixed upstream"
+      ],
+      "links": [
+        {
+          "label": "Credited upstream fix 4d84a59",
+          "url": "https://github.com/ArtifexSoftware/mupdf/commit/4d84a591e69a0a567a497b6c3ba25d38d722acda"
+        }
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-129",
+          "name": "Improper Validation of Array Index"
+        },
+        "consequences": [
+          {
+            "id": "CWE-787",
+            "name": "Out-of-bounds Write"
+          }
+        ],
+        "basis": "An object number read from the file was used as a hint-table index without a bounds check. The resulting write outside the allocation was separately observed with AddressSanitizer; the public fix validates each object number against the table size before use."
       }
     },
     {
@@ -140,23 +185,27 @@
       "project": "libarchive",
       "status": "engineering-bug",
       "date": "2026-10-20",
-      "summary": "When multiple callback-data objects are configured without a switch callback, crossing a source boundary invokes the owning close callback for the old object. Final teardown invokes it again for the same pointer. The public issue is discussing whether libarchive should reject this configuration or define safe fallback semantics.",
+      "summary": "When multiple callback-data objects are configured without a switch callback, crossing a source boundary invokes the owning close callback for the old object. Final teardown invokes it again for the same pointer. Two public pull requests propose fixes and reviewers requested changes on both; the open question is whether libarchive should reject this configuration or keep fallback semantics that close each object once.",
       "evidence": {
         "primitive": "Repeated owning close callback causing a heap double free",
         "validation": "Self-contained public-API ASan replay on current master, explicit-switch control, and split-input release reproduction",
         "boundary": "Requires multiple callback-data objects without a switch callback; maintainers regard that configuration as unsupported and requested public API discussion"
       },
-      "credit": "Original report and public issue by Ratnaker Gautam; upstream behavior and fix policy remain under discussion",
+      "credit": "Original report, public issue, and pull request 3738 by Ratnaker Gautam; reviewers requested changes and the fix approach remains under discussion",
       "tags": [
         "callback lifecycle",
         "double free",
         "multi-source input",
-        "public issue"
+        "patch review"
       ],
       "links": [
         {
           "label": "libarchive issue 3723",
           "url": "https://github.com/libarchive/libarchive/issues/3723"
+        },
+        {
+          "label": "libarchive pull request 3738",
+          "url": "https://github.com/libarchive/libarchive/pull/3738"
         }
       ],
       "weakness": {
@@ -203,6 +252,47 @@
         },
         "consequences": [],
         "basis": "The validation adds two attacker-controlled 32-bit quantities before comparing the result with the buffer length, allowing modular wraparound to make an out-of-range transfer appear valid."
+      }
+    },
+    {
+      "id": "public-mupdf-save-renumber-leak",
+      "recordId": "RG-2026-07",
+      "title": "Garbage-collecting save object-reference leak",
+      "project": "MuPDF",
+      "status": "engineering-bug",
+      "date": "2026-10-21",
+      "summary": "When a non-incremental save renumbered objects, it stored owned replacement objects through setters that keep their own references and then discarded the caller's reference without releasing it. Each garbage-collecting save could therefore retain an input-proportional amount of memory until a long-lived process reached its allocation limit. Upstream fixed the leak on master by releasing each replacement after it is stored.",
+      "evidence": {
+        "primitive": "Input-proportional memory retention on every garbage-collecting save",
+        "validation": "ASan/LSan and Valgrind replays on then-current master, 1,000-save native RSS and address-space-limit replays, PyMuPDF ez_save replay, garbage-level-1 controls, and patched replay with byte-identical output",
+        "boundary": "Requires repeated full saves with garbage collection at level 2 or 3 in a long-lived process; measured consequence is memory growth and eventual allocation failure"
+      },
+      "credit": "Original report and patch by Ratnaker Gautam; the upstream fixing commit credits his report and patch",
+      "tags": [
+        "PDF",
+        "save path",
+        "memory leak",
+        "fixed upstream"
+      ],
+      "links": [
+        {
+          "label": "Credited upstream fix ce44d4c",
+          "url": "https://github.com/ArtifexSoftware/mupdf/commit/ce44d4cc6b93f9af6dde3a07245305be6e0207d2"
+        }
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-911",
+          "name": "Improper Update of Reference Count"
+        },
+        "consequences": [
+          {
+            "id": "CWE-401",
+            "name": "Missing Release of Memory after Effective Lifetime"
+          }
+        ],
+        "basis": "Renumbering stored owned replacement objects through reference-keeping setters but never dropped the caller's reference, leaving one extra count per stored replacement. The resulting unreleased memory was separately measured with LeakSanitizer and process RSS; the public fix drops the caller's reference after each store."
       }
     },
     {
@@ -394,8 +484,8 @@
       "title": "Coordinated disclosures",
       "project": "Private",
       "status": "under-coordination",
-      "date": "2026-10-20",
-      "count": 13,
+      "date": "2026-10-21",
+      "count": 11,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
@@ -408,7 +498,7 @@
       "title": "Candidates under review",
       "project": "Multiple projects",
       "status": "queued",
-      "date": "2026-10-20",
+      "date": "2026-10-21",
       "count": 0,
       "summary": "Candidate findings undergoing practical-impact, prior-art, or report-readiness review before any public claim is made.",
       "tags": [
