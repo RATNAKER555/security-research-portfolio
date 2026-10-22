@@ -8,8 +8,8 @@
   },
   "summary": {
     "assignedCves": 0,
-    "publicOriginalContributions": 7,
-    "underCoordination": 11,
+    "publicOriginalContributions": 9,
+    "underCoordination": 9,
     "originalFindings": 18,
     "independentValidations": 5,
     "researchQueue": 0,
@@ -140,6 +140,88 @@
           }
         ],
         "basis": "An object number read from the file was used as a hint-table index without a bounds check. The resulting write outside the allocation was separately observed with AddressSanitizer; the public fix validates each object number against the table bounds before use."
+      }
+    },
+    {
+      "id": "public-cifs-nttransact-offset-wrap",
+      "recordId": "RG-2026-17",
+      "title": "SMB1 NT transaction response-offset wrap",
+      "project": "Linux CIFS client",
+      "status": "publicly-disclosed",
+      "date": "2026-10-22",
+      "summary": "A malicious SMB1 server could send an NT transaction response whose layout or 32-bit parameter and data offsets do not fit the received message. validate_ntransact() turned those offsets into pointers before checking them, so on a 32-bit client a large offset could wrap below the end of the buffer, pass the check, and be dereferenced by the caller. The public fix requires the fixed NT transaction layout and checks every offset and count numerically against the received length before forming pointers.",
+      "evidence": {
+        "primitive": "Out-of-bounds kernel read after 32-bit pointer wrap",
+        "validation": "Malicious-server replay against an i386 client mounting an SMB1 share, valid control, and patched-kernel replay",
+        "boundary": "32-bit client that explicitly mounts an SMB1 (vers=1.0) share from a malicious or compromised server; demonstrated consequence is a kernel panic"
+      },
+      "credit": "Original report and patch by Ratnaker Gautam; the SMB client maintainer applied the patch to cifs-next with Reported-by credit",
+      "tags": [
+        "SMB1",
+        "kernel",
+        "integer wrap",
+        "fix queued"
+      ],
+      "links": [
+        {
+          "label": "cifs-next commit 83d0d5e",
+          "url": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7"
+        }
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-190",
+          "name": "Integer Overflow or Wraparound"
+        },
+        "consequences": [
+          {
+            "id": "CWE-125",
+            "name": "Out-of-bounds Read"
+          }
+        ],
+        "basis": "Untrusted 32-bit offsets were added to the response base before their range was checked. On 32-bit builds that arithmetic could wrap the derived pointer outside the response; the resulting out-of-bounds read was separately observed as a read fault and kernel panic."
+      }
+    },
+    {
+      "id": "public-cifs-posix-lock-heap-read",
+      "recordId": "RG-2026-19",
+      "title": "SMB1 POSIX F_GETLK kernel-heap disclosure",
+      "project": "Linux CIFS client",
+      "status": "publicly-disclosed",
+      "date": "2026-10-22",
+      "summary": "CIFSSMBPosixLock() used the server-provided DataOffset and DataCount of a TRANS2 response without checking that they describe an area inside the response. A malicious SMB1 server could therefore make the client read the returned lock record from kernel heap memory beyond the response and return those bytes to user space through F_GETLK. The public fix computes the full response length after multipart reassembly and rejects data areas that extend past it.",
+      "evidence": {
+        "primitive": "Out-of-bounds kernel heap read returned to user space",
+        "validation": "Malicious-server replay against an i386 client, valid single-part and multipart controls, and patched-kernel replay that returns EIO",
+        "boundary": "Client mounting an SMB1 share from a malicious or compromised server; demonstrated consequence is a server-selected relative kernel heap disclosure through F_GETLK on i386"
+      },
+      "credit": "Original report and patch by Ratnaker Gautam; the SMB client maintainer applied the patch to cifs-next with Reported-by credit",
+      "tags": [
+        "SMB1",
+        "kernel",
+        "information disclosure",
+        "fix queued"
+      ],
+      "links": [
+        {
+          "label": "cifs-next commit 8fc9af6",
+          "url": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=8fc9af68c57156ff64769f30e831553cd03b3000"
+        }
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-130",
+          "name": "Improper Handling of Length Parameter Inconsistency"
+        },
+        "consequences": [
+          {
+            "id": "CWE-125",
+            "name": "Out-of-bounds Read"
+          }
+        ],
+        "basis": "The client trusted the response's data offset and count without checking them against the received response length. The inconsistent length fields led to a read past the response buffer, which was separately observed as kernel heap bytes returned through F_GETLK."
       }
     },
     {
@@ -484,8 +566,8 @@
       "title": "Coordinated disclosures",
       "project": "Private",
       "status": "under-coordination",
-      "date": "2026-10-21",
-      "count": 11,
+      "date": "2026-10-22",
+      "count": 9,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
