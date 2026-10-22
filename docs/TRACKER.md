@@ -14,6 +14,9 @@ and the credit text expected upstream.
 - GitHub commit metadata;
 - FFmpeg Forgejo pull-request and head-commit metadata;
 - Gitiles commit messages and recent maintainer-branch history;
+- cgit commit messages (from the `git format-patch` text that cgit serves at
+  `/patch/`), committer dates, and recent maintainer-branch history, which
+  covers git.kernel.org and other cgit-hosted maintainer trees;
 - explicit `Reported-by`, `Signed-off-by`, or other recognized credit trailers;
 - configured public repositories for newly appearing credit;
 - GitHub's public commit index for an exact reporter-name trailer, without

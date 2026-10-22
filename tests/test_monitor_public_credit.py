@@ -241,6 +241,94 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(found[0]["commit"], "a" * 40)
         self.assertEqual(found[0]["location"], "example/project")
 
+    @staticmethod
+    def cgit_patch(sha: str) -> str:
+        return (
+            f"From {sha} Mon Sep 17 00:00:00 2001\n"
+            "From: =?UTF-8?q?Ratnaker_Gautam?= <ratnaker.gautam@kuleuven.be>\n"
+            "Date: Sun, 18 Oct 2026 00:49:33 +0200\n"
+            "Subject: smb: client: a long subject that the mail header\n"
+            " folds onto a second line\n"
+            "\n"
+            "Body text.\n"
+            "\n"
+            "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>\n"
+            "Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>\n"
+            "---\n"
+            " fs/smb/client/cifssmb.c | 2 +-\n"
+        )
+
+    @staticmethod
+    def cgit_log_page(*shas: str) -> str:
+        return "".join(
+            f"<tr><td><a href='/linux.git/commit/?h=cifs-next&amp;id={sha}'>x</a></td></tr>"
+            for sha in shas
+        )
+
+    def test_parse_format_patch_unfolds_headers_and_decodes_author(self):
+        sha = "c" * 40
+        message, author = monitor.parse_format_patch(self.cgit_patch(sha), sha)
+        self.assertTrue(
+            message.startswith(
+                "smb: client: a long subject that the mail header folds onto a second line\n\n"
+            )
+        )
+        self.assertIn("Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>", message)
+        self.assertNotIn("cifssmb.c", message)
+        self.assertEqual(author, {"name": "Ratnaker Gautam", "email": "ratnaker.gautam@kuleuven.be"})
+
+    def test_cgit_check_confirms_credit_across_paginated_branch_history(self):
+        record = self.record("RG-2026-19")
+        sha = record["monitor"]["commit"]
+        record["monitor"]["scanLimit"] = 10
+        record["monitor"]["branchProbe"] = {"path": "fs/smb/client/cifssmb.c", "contains": ["fixed"]}
+        older = ["d" * 40, "e" * 40]
+
+        def respond(url):
+            if "/patch/?id=" + sha in url:
+                return self.cgit_patch(sha)
+            if "/log/?h=cifs-next&ofs=2" in url:
+                return self.cgit_log_page(sha)
+            if "/log/?h=cifs-next&ofs=3" in url:
+                return self.cgit_log_page()
+            if "/log/?h=cifs-next" in url:
+                return self.cgit_log_page(*older)
+            if "/log/?h=for-next" in url:
+                return self.cgit_log_page(older[0])
+            if "/plain/fs/smb/client/cifssmb.c?h=for-next" in url:
+                return "source that already contains the fixed check"
+            if "/log/?h=master" in url:
+                return self.cgit_log_page(older[1])
+            if "/plain/fs/smb/client/cifssmb.c?h=master" in url:
+                return "source without the change"
+            if "/commit/?id=" + sha in url:
+                return (
+                    "<tr><th>committer</th><td>Paulo &lt;p@example.org&gt;</td>"
+                    "<td class='right'>2026-10-21 21:06:48 -0300</td></tr>"
+                )
+            self.fail(f"unexpected URL {url}")
+
+        result = monitor.check_record(record, FakeClient(respond), self.config["reporter"])
+        self.assertEqual(result["checkState"], "verified")
+        self.assertEqual(result["creditState"], "confirmed")
+        self.assertEqual(result["locations"], ["cifs-next", "for-next"])
+        self.assertEqual(result["stage"], "integration")
+        self.assertEqual(result["lastPublicActivityOn"], "2026-10-22")
+        self.assertIn("cifs-next:3", result["checkDetail"])
+
+    def test_cgit_patch_for_another_commit_is_a_check_error(self):
+        record = self.record("RG-2026-17")
+
+        def respond(url):
+            if "/patch/?id=" in url:
+                return self.cgit_patch("f" * 40)
+            self.fail(f"unexpected URL {url}")
+
+        result = monitor.check_record(record, FakeClient(respond), self.config["reporter"])
+        self.assertEqual(result["checkState"], "check-error")
+        self.assertEqual(result["creditState"], record["baseline"]["creditState"])
+        self.assertEqual(result["locations"], record["baseline"]["locations"])
+
 
 if __name__ == "__main__":
     unittest.main()
