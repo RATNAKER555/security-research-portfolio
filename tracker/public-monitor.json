@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-21",
+  "updated": "2026-10-22",
   "reporter": {
     "name": "Ratnaker Gautam",
     "emails": [
@@ -226,6 +226,92 @@
         "upstreamState": "fixed-upstream",
         "locations": [
           "master"
+        ],
+        "cves": []
+      }
+    },
+    {
+      "id": "RG-2026-17",
+      "findingId": "public-cifs-nttransact-offset-wrap",
+      "project": "Linux CIFS client",
+      "title": "SMB1 NT transaction response-offset wrap",
+      "reportedOn": "2026-10-18",
+      "lastPublicActivityOn": "2026-10-22",
+      "followUpOn": "2026-10-29",
+      "nextAction": "Applied to the SMB client maintainer's cifs-next branch as 83d0d5e; monitor linux-next, the mainline merge, stable backports, and public CVE handling.",
+      "sourceUrl": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7",
+      "stage": "fix-queued",
+      "monitor": {
+        "kind": "cgit-commit",
+        "repositoryUrl": "https://git.manguebit.org/linux.git",
+        "commit": "83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7",
+        "branches": [
+          "cifs-next",
+          "for-next",
+          "master"
+        ],
+        "scanLimit": 300,
+        "expectedCredit": {
+          "kind": "reported-by",
+          "patterns": [
+            "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>"
+          ]
+        },
+        "cveKeywords": [
+          "83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7"
+        ]
+      },
+      "baseline": {
+        "checkedOn": "2026-10-22",
+        "checkState": "verified",
+        "creditState": "confirmed",
+        "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+        "upstreamState": "fix-queued",
+        "locations": [
+          "cifs-next"
+        ],
+        "cves": []
+      }
+    },
+    {
+      "id": "RG-2026-19",
+      "findingId": "public-cifs-posix-lock-heap-read",
+      "project": "Linux CIFS client",
+      "title": "SMB1 POSIX F_GETLK kernel-heap disclosure",
+      "reportedOn": "2026-10-18",
+      "lastPublicActivityOn": "2026-10-22",
+      "followUpOn": "2026-10-29",
+      "nextAction": "Applied to the SMB client maintainer's cifs-next branch as 8fc9af6; monitor linux-next, the mainline merge, stable backports, and public CVE handling.",
+      "sourceUrl": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=8fc9af68c57156ff64769f30e831553cd03b3000",
+      "stage": "fix-queued",
+      "monitor": {
+        "kind": "cgit-commit",
+        "repositoryUrl": "https://git.manguebit.org/linux.git",
+        "commit": "8fc9af68c57156ff64769f30e831553cd03b3000",
+        "branches": [
+          "cifs-next",
+          "for-next",
+          "master"
+        ],
+        "scanLimit": 300,
+        "expectedCredit": {
+          "kind": "reported-by",
+          "patterns": [
+            "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>"
+          ]
+        },
+        "cveKeywords": [
+          "8fc9af68c57156ff64769f30e831553cd03b3000"
+        ]
+      },
+      "baseline": {
+        "checkedOn": "2026-10-22",
+        "checkState": "verified",
+        "creditState": "confirmed",
+        "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+        "upstreamState": "fix-queued",
+        "locations": [
+          "cifs-next"
         ],
         "cves": []
       }

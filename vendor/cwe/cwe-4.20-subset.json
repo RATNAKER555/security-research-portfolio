@@ -25,6 +25,12 @@
       "status": "Draft",
       "mappingUsage": "Allowed"
     },
+    "CWE-130": {
+      "name": "Improper Handling of Length Parameter Inconsistency",
+      "abstraction": "Base",
+      "status": "Incomplete",
+      "mappingUsage": "Allowed"
+    },
     "CWE-131": {
       "name": "Incorrect Calculation of Buffer Size",
       "abstraction": "Base",
