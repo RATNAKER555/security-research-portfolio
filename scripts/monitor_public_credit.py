@@ -15,6 +15,8 @@ import os
 import re
 import time
 from datetime import date, datetime, timezone
+from email.header import decode_header, make_header
+from email.utils import parseaddr
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -384,14 +386,7 @@ def check_gitiles_commit(
         if exact_commit or content_match:
             locations.append(branch)
 
-    if "master" in locations:
-        upstream = stage = "fixed-upstream"
-    elif "for-next" in locations:
-        upstream = stage = "integration"
-    elif locations:
-        upstream = stage = "fix-queued"
-    else:
-        upstream = stage = "public-commit"
+    upstream = stage = branch_stage(locations)
 
     result = baseline_result(record)
     result.update(
@@ -412,6 +407,140 @@ def check_gitiles_commit(
     return result
 
 
+def branch_stage(locations: list[str]) -> str:
+    """Map the maintainer branches that carry a fix to its upstream stage."""
+    if "master" in locations:
+        return "fixed-upstream"
+    if "for-next" in locations:
+        return "integration"
+    if locations:
+        return "fix-queued"
+    return "public-commit"
+
+
+# cgit serves kernel.org and many maintainer trees. Its /patch/ endpoint returns
+# `git format-patch` text, which carries the commit message and author without
+# HTML scraping; only branch history and the committer date come from HTML.
+CGIT_COMMIT_LINK = re.compile(r"href='[^']*/commit/\?(?:[^'&]*&amp;)*id=([0-9a-f]{40})'")
+CGIT_COMMITTER_DATE = re.compile(
+    r"<th>committer</th><td>[^<]*</td><td class='right'>([^<]+)</td>"
+)
+
+
+def cgit_endpoint(repository_url: str, endpoint: str, query: dict[str, Any]) -> str:
+    return f"{repository_url.rstrip('/')}/{endpoint}/?{urlencode(query)}"
+
+
+def parse_format_patch(text: str, commit: str) -> tuple[str, dict[str, str]]:
+    """Return the commit message and author from a cgit /patch/ response."""
+    lines = text.splitlines()
+    if not lines or not lines[0].startswith(f"From {commit} "):
+        raise MonitorError("cgit patch does not start with the requested commit")
+    headers: dict[str, str] = {}
+    current: str | None = None
+    index = 1
+    while index < len(lines) and lines[index]:
+        line = lines[index]
+        if line[:1] in {" ", "\t"} and current:
+            headers[current] += " " + line.strip()
+        else:
+            name, separator, value = line.partition(":")
+            if not separator:
+                raise MonitorError("cgit patch has a malformed header line")
+            current = name.strip().casefold()
+            headers[current] = value.strip()
+        index += 1
+    body: list[str] = []
+    for line in lines[index + 1 :]:
+        if line == "---":
+            break
+        body.append(line)
+    subject = str(make_header(decode_header(headers.get("subject", ""))))
+    subject = re.sub(r"^\[PATCH[^\]]*\]\s*", "", subject)
+    message = subject + "\n\n" + "\n".join(body).strip("\n") + "\n"
+    name, email = parseaddr(str(make_header(decode_header(headers.get("from", "")))))
+    return message, {"name": name, "email": email}
+
+
+def cgit_log(
+    client: HttpClient, repository_url: str, branch: str, limit: int
+) -> list[str]:
+    """Commit IDs on the first ``limit`` entries of a branch's cgit log."""
+    commits: list[str] = []
+    offset = 0
+    while len(commits) < limit:
+        query: dict[str, Any] = {"h": branch}
+        if offset:
+            query["ofs"] = offset
+        page = list(dict.fromkeys(CGIT_COMMIT_LINK.findall(
+            client.get_text(cgit_endpoint(repository_url, "log", query))
+        )))
+        fresh = [commit for commit in page if commit not in commits]
+        if not fresh:
+            break
+        commits.extend(fresh)
+        offset += len(page)
+    return commits[:limit]
+
+
+def check_cgit_commit(
+    record: dict[str, Any], client: HttpClient, reporter: dict[str, Any]
+) -> dict[str, Any]:
+    monitor = record["monitor"]
+    repository = monitor["repositoryUrl"].rstrip("/")
+    commit = monitor["commit"]
+    patch = client.get_text(cgit_endpoint(repository, "patch", {"id": commit}))
+    message, author = parse_format_patch(patch, commit)
+    state, evidence = evaluate_credit(message, monitor["expectedCredit"], reporter, author)
+    locations: list[str] = []
+    coverage: list[str] = []
+    for branch in monitor["branches"]:
+        commits = cgit_log(client, repository, branch, monitor["scanLimit"])
+        coverage.append(f"{branch}:{len(commits)}")
+        content_match = False
+        probe = monitor.get("branchProbe")
+        if commit not in commits and probe:
+            source = client.get_text(
+                f"{repository}/plain/{probe['path']}?{urlencode({'h': branch})}"
+            )
+            content_match = all(pattern in source for pattern in probe["contains"])
+        if commit in commits or content_match:
+            locations.append(branch)
+
+    upstream = stage = branch_stage(locations)
+    result = baseline_result(record)
+    result.update(
+        {
+            "checkState": "verified",
+            "checkDetail": "Commit and recent cgit branch history checked ("
+            + ", ".join(coverage)
+            + ")",
+            "creditState": state,
+            "creditEvidence": evidence,
+            "upstreamState": upstream,
+            "stage": stage,
+            "locations": locations,
+            "commit": commit,
+        }
+    )
+    page = client.get_text(cgit_endpoint(repository, "commit", {"id": commit}))
+    match = CGIT_COMMITTER_DATE.search(page)
+    activity = None
+    if match:
+        try:
+            activity = (
+                datetime.strptime(match.group(1).strip(), "%Y-%m-%d %H:%M:%S %z")
+                .astimezone(timezone.utc)
+                .date()
+                .isoformat()
+            )
+        except ValueError:
+            activity = None
+    if activity:
+        result["lastPublicActivityOn"] = activity
+    return result
+
+
 def check_record(
     record: dict[str, Any], client: HttpClient, reporter: dict[str, Any]
 ) -> dict[str, Any]:
@@ -420,6 +549,7 @@ def check_record(
         "github-commit": check_github_commit,
         "forgejo-pull": check_forgejo_pull,
         "gitiles-commit": check_gitiles_commit,
+        "cgit-commit": check_cgit_commit,
     }
     try:
         return checks[kind](record, client, reporter)

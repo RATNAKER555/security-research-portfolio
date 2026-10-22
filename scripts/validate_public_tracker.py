@@ -28,7 +28,7 @@ STAGES = {
 CHECK_STATES = {"verified", "check-error"}
 CREDIT_STATES = {"confirmed", "missing", "pending"}
 FOLLOW_UP_STATES = {"none", "scheduled", "due-soon", "due", "overdue"}
-MONITOR_KINDS = {"github-commit", "forgejo-pull", "gitiles-commit"}
+MONITOR_KINDS = {"github-commit", "forgejo-pull", "gitiles-commit", "cgit-commit"}
 DISCOVERY_KINDS = {
     "github-log",
     "github-global-search",
