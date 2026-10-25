@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-22",
+  "updated": "2026-10-25",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Systems security researcher",
@@ -8,8 +8,8 @@
   },
   "summary": {
     "assignedCves": 0,
-    "publicOriginalContributions": 9,
-    "underCoordination": 9,
+    "publicOriginalContributions": 10,
+    "underCoordination": 8,
     "originalFindings": 18,
     "independentValidations": 5,
     "researchQueue": 0,
@@ -147,13 +147,13 @@
       "recordId": "RG-2026-17",
       "title": "SMB1 NT transaction response-offset wrap",
       "project": "Linux CIFS client",
-      "status": "publicly-disclosed",
+      "status": "engineering-bug",
       "date": "2026-10-22",
       "summary": "A malicious SMB1 server could send an NT transaction response whose layout or 32-bit parameter and data offsets do not fit the received message. validate_ntransact() turned those offsets into pointers before checking them, so on a 32-bit client a large offset could wrap below the end of the buffer, pass the check, and be dereferenced by the caller. The public fix requires the fixed NT transaction layout and checks every offset and count numerically against the received length before forming pointers.",
       "evidence": {
         "primitive": "Out-of-bounds kernel read after 32-bit pointer wrap",
         "validation": "Malicious-server replay against an i386 client mounting an SMB1 share, valid control, and patched-kernel replay",
-        "boundary": "32-bit client that explicitly mounts an SMB1 (vers=1.0) share from a malicious or compromised server; demonstrated consequence is a kernel panic"
+        "boundary": "32-bit client that explicitly mounts an SMB1 (vers=1.0) share from a malicious or non-compliant server; demonstrated consequence is a kernel panic; handled as a normal fix in the SMB client tree"
       },
       "credit": "Original report and patch by Ratnaker Gautam; the SMB client maintainer applied the patch to cifs-next with Reported-by credit",
       "tags": [
@@ -188,13 +188,13 @@
       "recordId": "RG-2026-19",
       "title": "SMB1 POSIX F_GETLK kernel-heap disclosure",
       "project": "Linux CIFS client",
-      "status": "publicly-disclosed",
+      "status": "engineering-bug",
       "date": "2026-10-22",
       "summary": "CIFSSMBPosixLock() used the server-provided DataOffset and DataCount of a TRANS2 response without checking that they describe an area inside the response. A malicious SMB1 server could therefore make the client read the returned lock record from kernel heap memory beyond the response and return those bytes to user space through F_GETLK. The public fix computes the full response length after multipart reassembly and rejects data areas that extend past it.",
       "evidence": {
         "primitive": "Out-of-bounds kernel heap read returned to user space",
         "validation": "Malicious-server replay against an i386 client, valid single-part and multipart controls, and patched-kernel replay that returns EIO",
-        "boundary": "Client mounting an SMB1 share from a malicious or compromised server; demonstrated consequence is a server-selected relative kernel heap disclosure through F_GETLK on i386"
+        "boundary": "Client mounting an SMB1 share from a malicious or non-compliant server; demonstrated consequence is a server-selected relative kernel heap disclosure through F_GETLK on i386; handled as a normal fix in the SMB client tree"
       },
       "credit": "Original report and patch by Ratnaker Gautam; the SMB client maintainer applied the patch to cifs-next with Reported-by credit",
       "tags": [
@@ -222,6 +222,47 @@
           }
         ],
         "basis": "The client trusted the response's data offset and count without checking them against the received response length. The inconsistent length fields led to a read past the response buffer, which was separately observed as kernel heap bytes returned through F_GETLK."
+      }
+    },
+    {
+      "id": "public-cifs-qalleas-ea-list-wrap",
+      "recordId": "RG-2026-18",
+      "title": "SMB1 QueryAllEAs list-length wrap",
+      "project": "Linux CIFS client",
+      "status": "engineering-bug",
+      "date": "2026-10-24",
+      "summary": "CIFSSMBQAllEAs() checked the server-provided EA-list length by adding it to the response pointer. On a 32-bit client a positive length can wrap the pointer and pass the comparison, so an unprivileged listxattr() on an SMB1 mount makes the client parse FEA headers outside the received response. The posted patch checks that the list starts inside the response and compares its unsigned length with the remaining bytes without pointer addition.",
+      "evidence": {
+        "primitive": "Out-of-bounds kernel read after 32-bit pointer wrap",
+        "validation": "Malicious-server replay against an i386 client mounting an SMB1 share, matched control, and patched-kernel replay",
+        "boundary": "32-bit client that explicitly mounts an SMB1 (vers=1.0) share from a malicious or non-compliant server; demonstrated consequence is a kernel panic; handled as a normal fix on the linux-cifs list"
+      },
+      "credit": "Original report and patch by Ratnaker Gautam; the patch is posted on linux-cifs for the SMB client maintainers",
+      "tags": [
+        "SMB1",
+        "kernel",
+        "integer wrap",
+        "patch review"
+      ],
+      "links": [
+        {
+          "label": "linux-cifs patch on patchwork",
+          "url": "https://patchwork.kernel.org/project/cifs-client/patch/DB5PR08MB100624D4B388FF7946505BFDEFD632@DB5PR08MB10062.eurprd08.prod.outlook.com/"
+        }
+      ],
+      "weakness": {
+        "status": "mapped",
+        "primary": {
+          "id": "CWE-190",
+          "name": "Integer Overflow or Wraparound"
+        },
+        "consequences": [
+          {
+            "id": "CWE-125",
+            "name": "Out-of-bounds Read"
+          }
+        ],
+        "basis": "A server-supplied length was added to the response pointer before its range was checked. On 32-bit builds the sum wraps and passes the comparison; the resulting read outside the response was separately observed as a page fault and kernel panic."
       }
     },
     {
@@ -566,8 +607,8 @@
       "title": "Coordinated disclosures",
       "project": "Private",
       "status": "under-coordination",
-      "date": "2026-10-22",
-      "count": 9,
+      "date": "2026-10-25",
+      "count": 8,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
