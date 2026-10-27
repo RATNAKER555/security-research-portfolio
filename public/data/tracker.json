@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T05:03:24Z",
-  "dataDate": "2026-10-22",
+  "generatedAt": "2026-10-27T21:01:40Z",
+  "dataDate": "2026-10-27",
   "mode": "live",
   "summary": {
-    "tracked": 7,
-    "active": 7,
-    "followUpDue": 0,
-    "creditConfirmed": 8,
+    "tracked": 9,
+    "active": 9,
+    "followUpDue": 2,
+    "creditConfirmed": 10,
     "cves": 0,
     "checkErrors": 0,
     "newCreditDiscoveries": 0
@@ -45,7 +45,7 @@
       ],
       "cves": [],
       "cveCheckState": "verified",
-      "followUpState": "due-soon"
+      "followUpState": "overdue"
     },
     {
       "id": "RG-2026-09",
@@ -53,7 +53,7 @@
       "project": "FFmpeg",
       "title": "Repeated SDP rtpmap handler-context leak",
       "reportedOn": "2026-10-17",
-      "lastPublicActivityOn": "2026-10-19",
+      "lastPublicActivityOn": "2026-10-26",
       "followUpOn": "2026-10-24",
       "nextAction": "Review maintainer feedback and revise the patch if requested.",
       "sourceUrl": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/25160",
@@ -70,7 +70,7 @@
       ],
       "cves": [],
       "cveCheckState": "verified",
-      "followUpState": "due-soon"
+      "followUpState": "overdue"
     },
     {
       "id": "RG-2026-14",
@@ -79,23 +79,24 @@
       "title": "Security descriptor offset wrap on 32-bit kernels",
       "reportedOn": "2026-10-17",
       "lastPublicActivityOn": "2026-10-21",
-      "followUpOn": "2026-10-25",
-      "nextAction": "Rebased into ksmbd-for-next as 3474e1a and carried in linux-next; monitor promotion to mainline, stable branches, and public CVE handling.",
+      "followUpOn": "2026-11-09",
+      "nextAction": "Merged into mainline with the ksmbd-for-7.4-rc1 tag (merge 4e1b4fd); monitor stable backports and public CVE handling.",
       "sourceUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3474e1a304fbf9f7c996b24adcd519e031227a90",
-      "stage": "fix-queued",
+      "stage": "fixed-upstream",
       "commit": "3474e1a304fbf9f7c996b24adcd519e031227a90",
       "relatedSources": [],
       "checkState": "verified",
       "checkDetail": "Commit and recent branch history checked (ksmbd-for-next:500, for-next:500, master:500)",
       "creditState": "confirmed",
       "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
-      "upstreamState": "fix-queued",
+      "upstreamState": "fixed-upstream",
       "locations": [
-        "ksmbd-for-next"
+        "ksmbd-for-next",
+        "master"
       ],
       "cves": [],
       "cveCheckState": "verified",
-      "followUpState": "due-soon"
+      "followUpState": "scheduled"
     },
     {
       "id": "RG-2026-01",
@@ -192,6 +193,57 @@
       "upstreamState": "fix-queued",
       "locations": [
         "cifs-next"
+      ],
+      "cves": [],
+      "cveCheckState": "verified",
+      "followUpState": "due-soon"
+    },
+    {
+      "id": "RG-2026-18",
+      "findingId": "public-cifs-qalleas-ea-list-wrap",
+      "project": "Linux CIFS client",
+      "title": "SMB1 QueryAllEAs list-length wrap",
+      "reportedOn": "2026-10-22",
+      "lastPublicActivityOn": "2026-10-27",
+      "followUpOn": "2026-11-03",
+      "nextAction": "Applied to the SMB client maintainer's cifs-next branch as ddc7a7e; monitor linux-next, the mainline merge, stable backports, and public CVE handling.",
+      "sourceUrl": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d",
+      "stage": "fix-queued",
+      "commit": "ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d",
+      "relatedSources": [],
+      "checkState": "verified",
+      "checkDetail": "Commit and recent cgit branch history checked (cifs-next:300, for-next:300, master:300)",
+      "creditState": "confirmed",
+      "creditEvidence": "Author: Ratnaker Gautam; Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+      "upstreamState": "fix-queued",
+      "locations": [
+        "cifs-next"
+      ],
+      "cves": [],
+      "cveCheckState": "verified",
+      "followUpState": "due-soon"
+    },
+    {
+      "id": "RG-2026-25",
+      "findingId": "public-linux-iscsi-r2t-overflow",
+      "project": "Linux iSCSI client",
+      "title": "iSCSI R2T range-check integer overflow",
+      "reportedOn": "2026-10-19",
+      "lastPublicActivityOn": "2026-10-24",
+      "followUpOn": "2026-11-03",
+      "nextAction": "Applied by the SCSI maintainer (7.4/scsi-staging, for-next) and carried in linux-next; monitor the mainline merge, stable backports, and public CVE handling.",
+      "sourceUrl": "https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?id=eb7aa7fd673fdc1582223cd133bcc5f54e7af19f",
+      "stage": "integration",
+      "commit": "eb7aa7fd673fdc1582223cd133bcc5f54e7af19f",
+      "relatedSources": [],
+      "checkState": "verified",
+      "checkDetail": "Commit and recent cgit branch history checked (7.4/scsi-queue:300, 7.4/scsi-staging:300, for-next:300)",
+      "creditState": "confirmed",
+      "creditEvidence": "Author: Ratnaker Gautam; Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+      "upstreamState": "integration",
+      "locations": [
+        "7.4/scsi-staging",
+        "for-next"
       ],
       "cves": [],
       "cveCheckState": "verified",

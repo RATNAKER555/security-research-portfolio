@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-22",
+  "updated": "2026-10-27",
   "reporter": {
     "name": "Ratnaker Gautam",
     "emails": [
@@ -108,17 +108,18 @@
       "project": "Linux ksmbd",
       "title": "Security descriptor offset wrap on 32-bit kernels",
       "reportedOn": "2026-10-17",
-      "lastPublicActivityOn": "2026-10-21",
-      "followUpOn": "2026-10-25",
-      "nextAction": "Rebased into ksmbd-for-next as 3474e1a and carried in linux-next; monitor promotion to mainline, stable branches, and public CVE handling.",
+      "lastPublicActivityOn": "2026-10-26",
+      "followUpOn": "2026-11-09",
+      "nextAction": "Merged into mainline with the ksmbd-for-7.4-rc1 tag (merge 4e1b4fd); monitor stable backports and public CVE handling.",
       "sourceUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3474e1a304fbf9f7c996b24adcd519e031227a90",
-      "stage": "fix-queued",
+      "stage": "fixed-upstream",
       "monitor": {
         "kind": "gitiles-commit",
         "repositoryUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb",
         "commit": "3474e1a304fbf9f7c996b24adcd519e031227a90",
         "supersededCommits": [
-          "3f392e333b8b7bc95dff156463fe374ac8e043f6"
+          "3f392e333b8b7bc95dff156463fe374ac8e043f6",
+          "58ee798ae798efb43b980bcb9bc3178257fb1708"
         ],
         "branches": [
           "ksmbd-for-next",
@@ -145,13 +146,14 @@
         ]
       },
       "baseline": {
-        "checkedOn": "2026-10-21",
+        "checkedOn": "2026-10-27",
         "checkState": "verified",
         "creditState": "confirmed",
         "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
-        "upstreamState": "fix-queued",
+        "upstreamState": "fixed-upstream",
         "locations": [
-          "ksmbd-for-next"
+          "ksmbd-for-next",
+          "master"
         ],
         "cves": []
       }
@@ -312,6 +314,93 @@
         "upstreamState": "fix-queued",
         "locations": [
           "cifs-next"
+        ],
+        "cves": []
+      }
+    },
+    {
+      "id": "RG-2026-18",
+      "findingId": "public-cifs-qalleas-ea-list-wrap",
+      "project": "Linux CIFS client",
+      "title": "SMB1 QueryAllEAs list-length wrap",
+      "reportedOn": "2026-10-22",
+      "lastPublicActivityOn": "2026-10-27",
+      "followUpOn": "2026-11-03",
+      "nextAction": "Applied to the SMB client maintainer's cifs-next branch as ddc7a7e; monitor linux-next, the mainline merge, stable backports, and public CVE handling.",
+      "sourceUrl": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d",
+      "stage": "fix-queued",
+      "monitor": {
+        "kind": "cgit-commit",
+        "repositoryUrl": "https://git.manguebit.org/linux.git",
+        "commit": "ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d",
+        "branches": [
+          "cifs-next",
+          "for-next",
+          "master"
+        ],
+        "scanLimit": 300,
+        "expectedCredit": {
+          "kind": "authored-and-signed-off",
+          "patterns": [
+            "Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>"
+          ]
+        },
+        "cveKeywords": [
+          "ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d"
+        ]
+      },
+      "baseline": {
+        "checkedOn": "2026-10-27",
+        "checkState": "verified",
+        "creditState": "confirmed",
+        "creditEvidence": "Author: Ratnaker Gautam; Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+        "upstreamState": "fix-queued",
+        "locations": [
+          "cifs-next"
+        ],
+        "cves": []
+      }
+    },
+    {
+      "id": "RG-2026-25",
+      "findingId": "public-linux-iscsi-r2t-overflow",
+      "project": "Linux iSCSI client",
+      "title": "iSCSI R2T range-check integer overflow",
+      "reportedOn": "2026-10-19",
+      "lastPublicActivityOn": "2026-10-24",
+      "followUpOn": "2026-11-03",
+      "nextAction": "Applied by the SCSI maintainer (7.4/scsi-staging, for-next) and carried in linux-next; monitor the mainline merge, stable backports, and public CVE handling.",
+      "sourceUrl": "https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?id=eb7aa7fd673fdc1582223cd133bcc5f54e7af19f",
+      "stage": "integration",
+      "monitor": {
+        "kind": "cgit-commit",
+        "repositoryUrl": "https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git",
+        "commit": "eb7aa7fd673fdc1582223cd133bcc5f54e7af19f",
+        "branches": [
+          "7.4/scsi-queue",
+          "7.4/scsi-staging",
+          "for-next"
+        ],
+        "scanLimit": 300,
+        "expectedCredit": {
+          "kind": "authored-and-signed-off",
+          "patterns": [
+            "Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>"
+          ]
+        },
+        "cveKeywords": [
+          "eb7aa7fd673fdc1582223cd133bcc5f54e7af19f"
+        ]
+      },
+      "baseline": {
+        "checkedOn": "2026-10-27",
+        "checkState": "verified",
+        "creditState": "confirmed",
+        "creditEvidence": "Author: Ratnaker Gautam; Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
+        "upstreamState": "integration",
+        "locations": [
+          "7.4/scsi-staging",
+          "for-next"
         ],
         "cves": []
       }

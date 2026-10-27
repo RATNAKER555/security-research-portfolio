@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-25",
+  "updated": "2026-10-27",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Systems security researcher",
@@ -74,14 +74,18 @@
         "validation": "Authenticated network replay on i686, valid control, and patched-kernel replay",
         "boundary": "Authenticated SMB client against a 32-bit ksmbd server; demonstrated consequence is kernel denial of service"
       },
-      "credit": "Original report by Ratnaker Gautam; the maintainer commit contains Reported-by credit and is carried in linux-next",
+      "credit": "Original report by Ratnaker Gautam; the maintainer commit carries Reported-by credit and was merged into mainline for Linux 7.4-rc1",
       "tags": [
         "SMB2",
         "kernel",
         "integer wrap",
-        "fix queued"
+        "fixed upstream"
       ],
       "links": [
+        {
+          "label": "Mainline commit 3474e1a (Linux 7.4-rc1)",
+          "url": "https://github.com/torvalds/linux/commit/3474e1a304fbf9f7c996b24adcd519e031227a90"
+        },
         {
           "label": "Maintainer fix 3474e1a",
           "url": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3474e1a304fbf9f7c996b24adcd519e031227a90"
@@ -235,16 +239,20 @@
       "evidence": {
         "primitive": "Out-of-bounds kernel read after 32-bit pointer wrap",
         "validation": "Malicious-server replay against an i386 client mounting an SMB1 share, matched control, and patched-kernel replay",
-        "boundary": "32-bit client that explicitly mounts an SMB1 (vers=1.0) share from a malicious or non-compliant server; demonstrated consequence is a kernel panic; handled as a normal fix on the linux-cifs list"
+        "boundary": "32-bit client that explicitly mounts an SMB1 (vers=1.0) share from a malicious or non-compliant server; demonstrated consequence is a kernel panic; handled as a normal fix in the SMB client tree"
       },
-      "credit": "Original report and patch by Ratnaker Gautam; the patch is posted on linux-cifs for the SMB client maintainers",
+      "credit": "Original report and patch by Ratnaker Gautam; the SMB client maintainer applied the patch to cifs-next",
       "tags": [
         "SMB1",
         "kernel",
         "integer wrap",
-        "patch review"
+        "fix queued"
       ],
       "links": [
+        {
+          "label": "cifs-next commit ddc7a7e",
+          "url": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d"
+        },
         {
           "label": "linux-cifs patch on patchwork",
           "url": "https://patchwork.kernel.org/project/cifs-client/patch/DB5PR08MB100624D4B388FF7946505BFDEFD632@DB5PR08MB10062.eurprd08.prod.outlook.com/"
@@ -354,14 +362,18 @@
         "validation": "Target-driven i386 kernel-panic replay, matched control, exact patched replay, current-source build, and clean strict checkpatch",
         "boundary": "Requires a logged-in iSCSI session and a target-controlled R2T; maintainers regard targets as trusted and are handling this through the normal bug-fix process"
       },
-      "credit": "Public patch authored and signed off by Ratnaker Gautam; Acked-by review received from Chris Leech; upstream application pending",
+      "credit": "Original report and patch by Ratnaker Gautam; the SCSI maintainer applied the patch with Chris Leech's Acked-by, and it is carried in linux-next",
       "tags": [
         "iSCSI",
         "kernel",
         "integer overflow",
-        "patch review"
+        "fix queued"
       ],
       "links": [
+        {
+          "label": "SCSI maintainer commit eb7aa7f",
+          "url": "https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?id=eb7aa7fd673fdc1582223cd133bcc5f54e7af19f"
+        },
         {
           "label": "linux-scsi patch thread",
           "url": "https://lore.kernel.org/linux-scsi/DB5PR08MB100629CD3750FBF71475B5224FD982@DB5PR08MB10062.eurprd08.prod.outlook.com/"
