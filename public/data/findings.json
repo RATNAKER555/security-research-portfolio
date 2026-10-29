@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27",
+  "updated": "2026-10-29",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Systems security researcher",
@@ -9,11 +9,11 @@
   "summary": {
     "assignedCves": 0,
     "publicOriginalContributions": 10,
-    "underCoordination": 8,
-    "originalFindings": 18,
+    "underCoordination": 7,
+    "originalFindings": 17,
     "independentValidations": 5,
     "researchQueue": 0,
-    "trackedResearchRecords": 23
+    "trackedResearchRecords": 22
   },
   "publicEntries": [
     {
@@ -619,8 +619,8 @@
       "title": "Coordinated disclosures",
       "project": "Private",
       "status": "under-coordination",
-      "date": "2026-10-25",
-      "count": 8,
+      "date": "2026-10-29",
+      "count": 7,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
