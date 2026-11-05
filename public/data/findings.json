@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29",
+  "updated": "2026-11-05",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Systems security researcher",
@@ -8,8 +8,8 @@
   },
   "summary": {
     "assignedCves": 0,
-    "publicOriginalContributions": 10,
-    "underCoordination": 7,
+    "publicOriginalContributions": 11,
+    "underCoordination": 6,
     "originalFindings": 17,
     "independentValidations": 5,
     "researchQueue": 0,
@@ -611,6 +611,38 @@
         "consequences": [],
         "basis": "The reader returned samples beyond the decoder-produced frame count from a freshly allocated, uninitialized buffer."
       }
+    },
+    {
+      "id": "public-poppler-widget-null-form",
+      "recordId": "RG-2026-08",
+      "title": "Widget annotation null-Form dereference on save",
+      "project": "Poppler",
+      "status": "publicly-disclosed",
+      "date": "2026-11-04",
+      "summary": "When a Qt6 client edits the text field of a standalone page-level Widget in a valid PDF that has no /AcroForm and saves the document with changes, AnnotWidget::subsetFonts() reads the form-level NeedAppearances flag through a null Form pointer and the process crashes. The upstream fix guards that read with a null check.",
+      "evidence": {
+        "primitive": "Null pointer dereference (crash)",
+        "validation": "SIGSEGV in 5/5 fresh processes on then-current master 2516ba21 through the public Qt6 save API with a 691-byte valid PDF; an ASan/UBSan build reports a member call on a null Form pointer; release 26.09.0 also crashes, and 26.08.0, which predates the introducing commit, saves the input",
+        "boundary": "Requires an application that edits a text field of such a PDF and saves it with changes; the demonstrated effect is a crash"
+      },
+      "credit": "Original report by Ratnaker Gautam in confidential Poppler issue #1821 on 17 October 2026, with the root cause and the null-Form guard as the proposed fix. Public issue #1832 followed on 25 October, and the same guard was merged through MR !2415 (commit 6c65d124, 4 November 2026), which does not credit the earlier report.",
+      "tags": [
+        "PDF",
+        "Qt6",
+        "form fields",
+        "null pointer dereference",
+        "fixed upstream"
+      ],
+      "links": [
+        {
+          "label": "Upstream fix 6c65d124 (MR !2415)",
+          "url": "https://gitlab.freedesktop.org/poppler/poppler/-/commit/6c65d124d74f13cf832c52f4e96d6f072718142f"
+        }
+      ],
+      "weakness": {
+        "status": "pending",
+        "reason": "CWE-476 (NULL Pointer Dereference) is not in the pinned CWE 4.20 catalog subset yet."
+      }
     }
   ],
   "privateEntries": [
@@ -619,8 +651,8 @@
       "title": "Coordinated disclosures",
       "project": "Private",
       "status": "under-coordination",
-      "date": "2026-10-29",
-      "count": 7,
+      "date": "2026-11-05",
+      "count": 6,
       "summary": "Reports currently under maintainer review. Evidence, correspondence, and project-specific timelines are retained in the offline research record.",
       "tags": [
         "maintainer review",
