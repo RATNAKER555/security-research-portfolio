@@ -802,6 +802,14 @@ def build_output(
         for record in config["records"]
         for commit in record["monitor"].get("supersededCommits", [])
     )
+    # Stable and downstream trees carry backports of a fixing commit under new
+    # hashes with the same credit trailers. They stay linked to their finding
+    # but are not counted as additional credits.
+    known_commits.update(
+        commit
+        for record in config["records"]
+        for commit in record["monitor"].get("backportCommits", [])
+    )
     new_discoveries = [
         item for item in discoveries if item.get("commit") not in known_commits
     ]

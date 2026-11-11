@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-27T21:01:40Z",
-  "dataDate": "2026-10-27",
+  "generatedAt": "2026-11-11T20:21:09Z",
+  "dataDate": "2026-11-11",
   "mode": "live",
   "summary": {
     "tracked": 9,
     "active": 9,
-    "followUpDue": 2,
+    "followUpDue": 4,
     "creditConfirmed": 10,
     "cves": 0,
     "checkErrors": 0,
@@ -44,7 +44,7 @@
         "main-dev"
       ],
       "cves": [],
-      "cveCheckState": "verified",
+      "cveCheckState": "not-run",
       "followUpState": "overdue"
     },
     {
@@ -53,7 +53,7 @@
       "project": "FFmpeg",
       "title": "Repeated SDP rtpmap handler-context leak",
       "reportedOn": "2026-10-17",
-      "lastPublicActivityOn": "2026-10-26",
+      "lastPublicActivityOn": "2026-10-28",
       "followUpOn": "2026-10-24",
       "nextAction": "Review maintainer feedback and revise the patch if requested.",
       "sourceUrl": "https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/25160",
@@ -69,7 +69,7 @@
         "pull request 25160"
       ],
       "cves": [],
-      "cveCheckState": "verified",
+      "cveCheckState": "not-run",
       "followUpState": "overdue"
     },
     {
@@ -79,8 +79,8 @@
       "title": "Security descriptor offset wrap on 32-bit kernels",
       "reportedOn": "2026-10-17",
       "lastPublicActivityOn": "2026-10-21",
-      "followUpOn": "2026-11-09",
-      "nextAction": "Merged into mainline with the ksmbd-for-7.4-rc1 tag (merge 4e1b4fd); monitor stable backports and public CVE handling.",
+      "followUpOn": "2026-11-18",
+      "nextAction": "Merged for Linux 7.4-rc1 and released in 7.3.2, 6.18.61, and 6.12.117. The 6.6 copy and the reporter's 6.1 and 5.15 backports are queued; watch those stable releases and public CVE handling.",
       "sourceUrl": "https://kernel.googlesource.com/pub/scm/linux/kernel/git/linkinjeon/smb/+/3474e1a304fbf9f7c996b24adcd519e031227a90",
       "stage": "fixed-upstream",
       "commit": "3474e1a304fbf9f7c996b24adcd519e031227a90",
@@ -95,8 +95,8 @@
         "master"
       ],
       "cves": [],
-      "cveCheckState": "verified",
-      "followUpState": "scheduled"
+      "cveCheckState": "not-run",
+      "followUpState": "due-soon"
     },
     {
       "id": "RG-2026-01",
@@ -120,8 +120,8 @@
         "master"
       ],
       "cves": [],
-      "cveCheckState": "verified",
-      "followUpState": "due-soon"
+      "cveCheckState": "not-run",
+      "followUpState": "overdue"
     },
     {
       "id": "RG-2026-07",
@@ -145,8 +145,8 @@
         "master"
       ],
       "cves": [],
-      "cveCheckState": "verified",
-      "followUpState": "due-soon"
+      "cveCheckState": "not-run",
+      "followUpState": "overdue"
     },
     {
       "id": "RG-2026-17",
@@ -155,22 +155,24 @@
       "title": "SMB1 NT transaction response-offset wrap",
       "reportedOn": "2026-10-18",
       "lastPublicActivityOn": "2026-10-22",
-      "followUpOn": "2026-10-29",
-      "nextAction": "Applied to the SMB client maintainer's cifs-next branch as 83d0d5e; monitor linux-next, the mainline merge, stable backports, and public CVE handling.",
-      "sourceUrl": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7",
-      "stage": "fix-queued",
+      "followUpOn": "2026-11-18",
+      "nextAction": "Merged for Linux 7.4-rc1 and released in 7.3.2 and 6.18.61. On 8 November the stable maintainers dropped the queued 6.12, 6.6, and 6.1 copies, because struct smb_hdr in 6.18 and older trees still starts with the 4-byte length field. Backports for 5.15 and 5.10 were posted on 5 November and are not queued; watch their review and public CVE handling.",
+      "sourceUrl": "https://github.com/torvalds/linux/commit/83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7",
+      "stage": "fixed-upstream",
       "commit": "83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7",
       "relatedSources": [],
       "checkState": "verified",
-      "checkDetail": "Commit and recent cgit branch history checked (cifs-next:300, for-next:300, master:300)",
+      "checkDetail": "Public commit metadata fetched from GitHub",
       "creditState": "confirmed",
       "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
-      "upstreamState": "fix-queued",
+      "upstreamState": "fixed-upstream",
       "locations": [
-        "cifs-next"
+        "master",
+        "linux-7.3.y",
+        "linux-6.18.y"
       ],
       "cves": [],
-      "cveCheckState": "verified",
+      "cveCheckState": "not-run",
       "followUpState": "due-soon"
     },
     {
@@ -180,22 +182,23 @@
       "title": "SMB1 POSIX F_GETLK kernel-heap disclosure",
       "reportedOn": "2026-10-18",
       "lastPublicActivityOn": "2026-10-22",
-      "followUpOn": "2026-10-29",
-      "nextAction": "Applied to the SMB client maintainer's cifs-next branch as 8fc9af6; monitor linux-next, the mainline merge, stable backports, and public CVE handling.",
-      "sourceUrl": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=8fc9af68c57156ff64769f30e831553cd03b3000",
-      "stage": "fix-queued",
+      "followUpOn": "2026-11-18",
+      "nextAction": "Merged for Linux 7.4-rc1 and released in 7.3.2. Backports for 6.18, 6.12, 6.6, 6.1, 5.15, and 5.10 were posted on 5 November and are in the stable queues; watch their review and public CVE handling.",
+      "sourceUrl": "https://github.com/torvalds/linux/commit/8fc9af68c57156ff64769f30e831553cd03b3000",
+      "stage": "fixed-upstream",
       "commit": "8fc9af68c57156ff64769f30e831553cd03b3000",
       "relatedSources": [],
       "checkState": "verified",
-      "checkDetail": "Commit and recent cgit branch history checked (cifs-next:300, for-next:300, master:300)",
+      "checkDetail": "Public commit metadata fetched from GitHub",
       "creditState": "confirmed",
       "creditEvidence": "Reported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
-      "upstreamState": "fix-queued",
+      "upstreamState": "fixed-upstream",
       "locations": [
-        "cifs-next"
+        "master",
+        "linux-7.3.y"
       ],
       "cves": [],
-      "cveCheckState": "verified",
+      "cveCheckState": "not-run",
       "followUpState": "due-soon"
     },
     {
@@ -205,22 +208,23 @@
       "title": "SMB1 QueryAllEAs list-length wrap",
       "reportedOn": "2026-10-22",
       "lastPublicActivityOn": "2026-10-27",
-      "followUpOn": "2026-11-03",
-      "nextAction": "Applied to the SMB client maintainer's cifs-next branch as ddc7a7e; monitor linux-next, the mainline merge, stable backports, and public CVE handling.",
-      "sourceUrl": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d",
-      "stage": "fix-queued",
+      "followUpOn": "2026-11-18",
+      "nextAction": "Merged for Linux 7.4-rc1 and released in 7.3.2. Backports for 6.18, 6.12, 6.6, 6.1, 5.15, and 5.10 were posted on 5 November and are in the stable queues; watch their review and public CVE handling.",
+      "sourceUrl": "https://github.com/torvalds/linux/commit/ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d",
+      "stage": "fixed-upstream",
       "commit": "ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d",
       "relatedSources": [],
       "checkState": "verified",
-      "checkDetail": "Commit and recent cgit branch history checked (cifs-next:300, for-next:300, master:300)",
+      "checkDetail": "Public commit metadata fetched from GitHub",
       "creditState": "confirmed",
       "creditEvidence": "Author: Ratnaker Gautam; Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
-      "upstreamState": "fix-queued",
+      "upstreamState": "fixed-upstream",
       "locations": [
-        "cifs-next"
+        "master",
+        "linux-7.3.y"
       ],
       "cves": [],
-      "cveCheckState": "verified",
+      "cveCheckState": "not-run",
       "followUpState": "due-soon"
     },
     {
@@ -230,23 +234,25 @@
       "title": "iSCSI R2T range-check integer overflow",
       "reportedOn": "2026-10-19",
       "lastPublicActivityOn": "2026-10-24",
-      "followUpOn": "2026-11-03",
-      "nextAction": "Applied by the SCSI maintainer (7.4/scsi-staging, for-next) and carried in linux-next; monitor the mainline merge, stable backports, and public CVE handling.",
-      "sourceUrl": "https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?id=eb7aa7fd673fdc1582223cd133bcc5f54e7af19f",
-      "stage": "integration",
+      "followUpOn": "2026-11-18",
+      "nextAction": "Merged for Linux 7.4-rc1 and released in 7.3.4, 6.18.63, and 6.12.117. Queued for 6.6, 6.1, 5.15, and 5.10; watch those stable releases and public CVE handling.",
+      "sourceUrl": "https://github.com/torvalds/linux/commit/eb7aa7fd673fdc1582223cd133bcc5f54e7af19f",
+      "stage": "fixed-upstream",
       "commit": "eb7aa7fd673fdc1582223cd133bcc5f54e7af19f",
       "relatedSources": [],
       "checkState": "verified",
-      "checkDetail": "Commit and recent cgit branch history checked (7.4/scsi-queue:300, 7.4/scsi-staging:300, for-next:300)",
+      "checkDetail": "Public commit metadata fetched from GitHub",
       "creditState": "confirmed",
       "creditEvidence": "Author: Ratnaker Gautam; Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>",
-      "upstreamState": "integration",
+      "upstreamState": "fixed-upstream",
       "locations": [
-        "7.4/scsi-staging",
-        "for-next"
+        "master",
+        "linux-7.3.y",
+        "linux-6.18.y",
+        "linux-6.12.y"
       ],
       "cves": [],
-      "cveCheckState": "verified",
+      "cveCheckState": "not-run",
       "followUpState": "due-soon"
     }
   ],

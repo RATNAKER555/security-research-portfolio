@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-05",
+  "updated": "2026-11-11",
   "profile": {
     "name": "Ratnaker Gautam",
     "role": "Systems security researcher",
@@ -74,7 +74,7 @@
         "validation": "Authenticated network replay on i686, valid control, and patched-kernel replay",
         "boundary": "Authenticated SMB client against a 32-bit ksmbd server; demonstrated consequence is kernel denial of service"
       },
-      "credit": "Original report by Ratnaker Gautam; the maintainer commit carries Reported-by credit and was merged into mainline for Linux 7.4-rc1",
+      "credit": "Original report by Ratnaker Gautam; the maintainer commit carries Reported-by credit, was merged into mainline for Linux 7.4-rc1, and is in the 7.3.2, 6.18.61, and 6.12.117 stable releases",
       "tags": [
         "SMB2",
         "kernel",
@@ -159,14 +159,18 @@
         "validation": "Malicious-server replay against an i386 client mounting an SMB1 share, valid control, and patched-kernel replay",
         "boundary": "32-bit client that explicitly mounts an SMB1 (vers=1.0) share from a malicious or non-compliant server; demonstrated consequence is a kernel panic; handled as a normal fix in the SMB client tree"
       },
-      "credit": "Original report and patch by Ratnaker Gautam; the SMB client maintainer applied the patch to cifs-next with Reported-by credit",
+      "credit": "Original report and patch by Ratnaker Gautam with Reported-by credit; applied by the SMB client maintainer, merged into mainline for Linux 7.4-rc1, and included in the 7.3.2 and 6.18.61 stable releases",
       "tags": [
         "SMB1",
         "kernel",
         "integer wrap",
-        "fix queued"
+        "fixed upstream"
       ],
       "links": [
+        {
+          "label": "Mainline commit 83d0d5e (Linux 7.4-rc1)",
+          "url": "https://github.com/torvalds/linux/commit/83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7"
+        },
         {
           "label": "cifs-next commit 83d0d5e",
           "url": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=83d0d5e0ca22233c75daf139ec0063b9d2ff1ac7"
@@ -200,14 +204,18 @@
         "validation": "Malicious-server replay against an i386 client, valid single-part and multipart controls, and patched-kernel replay that returns EIO",
         "boundary": "Client mounting an SMB1 share from a malicious or non-compliant server; demonstrated consequence is a server-selected relative kernel heap disclosure through F_GETLK on i386; handled as a normal fix in the SMB client tree"
       },
-      "credit": "Original report and patch by Ratnaker Gautam; the SMB client maintainer applied the patch to cifs-next with Reported-by credit",
+      "credit": "Original report and patch by Ratnaker Gautam with Reported-by credit; applied by the SMB client maintainer, merged into mainline for Linux 7.4-rc1, and included in the 7.3.2 stable release",
       "tags": [
         "SMB1",
         "kernel",
         "information disclosure",
-        "fix queued"
+        "fixed upstream"
       ],
       "links": [
+        {
+          "label": "Mainline commit 8fc9af6 (Linux 7.4-rc1)",
+          "url": "https://github.com/torvalds/linux/commit/8fc9af68c57156ff64769f30e831553cd03b3000"
+        },
         {
           "label": "cifs-next commit 8fc9af6",
           "url": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=8fc9af68c57156ff64769f30e831553cd03b3000"
@@ -235,20 +243,24 @@
       "project": "Linux CIFS client",
       "status": "engineering-bug",
       "date": "2026-10-24",
-      "summary": "CIFSSMBQAllEAs() checked the server-provided EA-list length by adding it to the response pointer. On a 32-bit client a positive length can wrap the pointer and pass the comparison, so an unprivileged listxattr() on an SMB1 mount makes the client parse FEA headers outside the received response. The posted patch checks that the list starts inside the response and compares its unsigned length with the remaining bytes without pointer addition.",
+      "summary": "CIFSSMBQAllEAs() checked the server-provided EA-list length by adding it to the response pointer. On a 32-bit client a positive length can wrap the pointer and pass the comparison, so an unprivileged listxattr() on an SMB1 mount makes the client parse FEA headers outside the received response. The fix checks that the list starts inside the response and compares its unsigned length with the remaining bytes without pointer addition.",
       "evidence": {
         "primitive": "Out-of-bounds kernel read after 32-bit pointer wrap",
         "validation": "Malicious-server replay against an i386 client mounting an SMB1 share, matched control, and patched-kernel replay",
         "boundary": "32-bit client that explicitly mounts an SMB1 (vers=1.0) share from a malicious or non-compliant server; demonstrated consequence is a kernel panic; handled as a normal fix in the SMB client tree"
       },
-      "credit": "Original report and patch by Ratnaker Gautam; the SMB client maintainer applied the patch to cifs-next",
+      "credit": "Original report and patch by Ratnaker Gautam; applied by the SMB client maintainer, merged into mainline for Linux 7.4-rc1, and included in the 7.3.2 stable release",
       "tags": [
         "SMB1",
         "kernel",
         "integer wrap",
-        "fix queued"
+        "fixed upstream"
       ],
       "links": [
+        {
+          "label": "Mainline commit ddc7a7e (Linux 7.4-rc1)",
+          "url": "https://github.com/torvalds/linux/commit/ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d"
+        },
         {
           "label": "cifs-next commit ddc7a7e",
           "url": "https://git.manguebit.org/linux.git/commit/?h=cifs-next&id=ddc7a7e1eeb116ccaf010a6f1fb6ab927f3f888d"
@@ -362,14 +374,18 @@
         "validation": "Target-driven i386 kernel-panic replay, matched control, exact patched replay, current-source build, and clean strict checkpatch",
         "boundary": "Requires a logged-in iSCSI session and a target-controlled R2T; maintainers regard targets as trusted and are handling this through the normal bug-fix process"
       },
-      "credit": "Original report and patch by Ratnaker Gautam; the SCSI maintainer applied the patch with Chris Leech's Acked-by, and it is carried in linux-next",
+      "credit": "Original report and patch by Ratnaker Gautam; the SCSI maintainer applied the patch with Chris Leech's Acked-by, and it was merged into mainline for Linux 7.4-rc1 and included in the 7.3.4, 6.18.63, and 6.12.117 stable releases",
       "tags": [
         "iSCSI",
         "kernel",
         "integer overflow",
-        "fix queued"
+        "fixed upstream"
       ],
       "links": [
+        {
+          "label": "Mainline commit eb7aa7f (Linux 7.4-rc1)",
+          "url": "https://github.com/torvalds/linux/commit/eb7aa7fd673fdc1582223cd133bcc5f54e7af19f"
+        },
         {
           "label": "SCSI maintainer commit eb7aa7f",
           "url": "https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git/commit/?id=eb7aa7fd673fdc1582223cd133bcc5f54e7af19f"

@@ -39,6 +39,20 @@ class MonitorTests(unittest.TestCase):
             next(item for item in self.config["records"] if item["id"] == identifier)
         )
 
+    def cgit_record(self, identifier: str):
+        """A tracked record pointed at a cgit maintainer branch, independent of the live config."""
+        record = self.record(identifier)
+        record["monitor"] = {
+            "kind": "cgit-commit",
+            "repositoryUrl": "https://git.manguebit.org/linux.git",
+            "commit": record["monitor"]["commit"],
+            "branches": ["cifs-next", "for-next", "master"],
+            "scanLimit": 300,
+            "expectedCredit": record["monitor"]["expectedCredit"],
+            "cveKeywords": record["monitor"]["cveKeywords"],
+        }
+        return record
+
     def test_exact_credit_line_is_case_insensitive_but_returns_source_text(self):
         message = "subject\n\nReported-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>\n"
         self.assertEqual(
@@ -186,6 +200,53 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(payload["summary"]["newCreditDiscoveries"], 1)
         self.assertEqual(payload["summary"]["creditConfirmed"], 1)
 
+    def test_backport_commit_is_not_a_new_discovery_or_extra_credit(self):
+        record = self.record("RG-2026-25")
+        backports = record["monitor"]["backportCommits"]
+        self.assertTrue(backports)
+        self.assertNotIn(record["monitor"]["commit"], backports)
+        config = copy.deepcopy(self.config)
+        config["records"] = [record]
+        config["discoverySources"] = [
+            {
+                "kind": "github-global-search",
+                "label": "GitHub public commit index",
+                "query": '"Ratnaker Gautam"',
+                "scanLimit": 100,
+            }
+        ]
+        unrelated = "c" * 40
+
+        def item(sha):
+            return {
+                "sha": sha,
+                "html_url": "https://github.com/example/stable-mirror/commit/" + sha,
+                "repository": {"full_name": "example/stable-mirror"},
+                "commit": {
+                    "message": (
+                        "fix range check\n\n"
+                        "Signed-off-by: Ratnaker Gautam <ratnaker.gautam@kuleuven.be>"
+                    ),
+                    "committer": {"date": "2026-11-10T18:00:00Z"},
+                },
+            }
+
+        def respond(url):
+            if "api.github.com/search/commits" in url:
+                return {"items": [item(sha) for sha in backports] + [item(unrelated)]}
+            raise monitor.MonitorError("fixture: record source unavailable")
+
+        payload = monitor.build_output(
+            config,
+            client=FakeClient(respond),
+            today=date(2026, 11, 11),
+            now=datetime(2026, 11, 11, 12, tzinfo=timezone.utc),
+            check_cves=False,
+        )
+        self.assertEqual([entry["commit"] for entry in payload["discoveries"]], [unrelated])
+        self.assertEqual(payload["summary"]["newCreditDiscoveries"], 1)
+        self.assertEqual(payload["summary"]["creditConfirmed"], 1)
+
     def test_discovery_requires_a_credit_trailer(self):
         reporter = self.config["reporter"]
         self.assertIsNone(
@@ -278,7 +339,7 @@ class MonitorTests(unittest.TestCase):
         self.assertEqual(author, {"name": "Ratnaker Gautam", "email": "ratnaker.gautam@kuleuven.be"})
 
     def test_cgit_check_confirms_credit_across_paginated_branch_history(self):
-        record = self.record("RG-2026-19")
+        record = self.cgit_record("RG-2026-19")
         sha = record["monitor"]["commit"]
         record["monitor"]["scanLimit"] = 10
         record["monitor"]["branchProbe"] = {"path": "fs/smb/client/cifssmb.c", "contains": ["fixed"]}
@@ -317,7 +378,7 @@ class MonitorTests(unittest.TestCase):
         self.assertIn("cifs-next:3", result["checkDetail"])
 
     def test_cgit_patch_for_another_commit_is_a_check_error(self):
-        record = self.record("RG-2026-17")
+        record = self.cgit_record("RG-2026-17")
 
         def respond(url):
             if "/patch/?id=" in url:

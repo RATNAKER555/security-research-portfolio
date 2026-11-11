@@ -196,6 +196,15 @@ def validate_config(config: dict, public_entries: dict[str, dict]) -> None:
             {monitor["commit"]} | related_commits
         ):
             fail(f"{identifier}.monitor.supersededCommits must list distinct replaced commits")
+        backports = monitor.get("backportCommits", [])
+        if not isinstance(backports, list):
+            fail(f"{identifier}.monitor.backportCommits must be a list")
+        for backport_index, commit in enumerate(backports):
+            require_sha(commit, f"{identifier}.monitor.backportCommits[{backport_index}]")
+        if len(set(backports)) != len(backports) or set(backports) & (
+            {monitor["commit"]} | related_commits | set(superseded)
+        ):
+            fail(f"{identifier}.monitor.backportCommits must list distinct backport commits")
         if monitor["kind"] == "github-commit":
             require_string(monitor.get("repository"), f"{identifier}.monitor.repository")
             related = monitor.get("relatedCommits", [])

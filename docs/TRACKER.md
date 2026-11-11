@@ -31,7 +31,10 @@ with two fixing commits remains one finding, while the attribution total counts
 both independently verified public credit sources. When a maintainer rebase
 replaces a fixing commit, the record monitors the new hash and lists the old
 one in `monitor.supersededCommits`, so mirrors that still carry the old hash
-neither reappear in the review queue nor count as a second credit.
+neither reappear in the review queue nor count as a second credit. Stable or
+downstream backports of a fixing commit carry the same credit under new hashes;
+list each verified backport in `monitor.backportCommits`, which has the same
+effect.
 
 Run a current public check with:
 
